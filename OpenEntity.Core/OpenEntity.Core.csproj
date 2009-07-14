@@ -1,0 +1,157 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F4A46ED8-DD9C-42EC-AD3C-408739E93C06}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenEntity</RootNamespace>
+    <AssemblyName>OpenEntity.Core</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CodeDom\ProxyFactory.cs" />
+    <Compile Include="DataProviders\BaseDataProvider.cs" />
+    <Compile Include="DataProviders\CommandExecutionException.cs" />
+    <Compile Include="DataProviders\DataProviderFactory.cs" />
+    <Compile Include="DataProviders\SqlServerDataProvider.cs" />
+    <Compile Include="Entities\IEntityCreator.cs" />
+    <Compile Include="Helpers\ReflectionHelper.cs" />
+    <Compile Include="Joins\Join.cs" />
+    <Compile Include="Joins\JoinSet.cs" />
+    <Compile Include="Joins\RelationshipType.cs" />
+    <Compile Include="Mapping\ClassMapping.cs" />
+    <Compile Include="Mapping\MappingConfig.cs" />
+    <Compile Include="Mapping\IClassMapping.cs" />
+    <Compile Include="Mapping\PropertyMapping.cs" />
+    <Compile Include="Repository\AggregateFunction.cs" />
+    <Compile Include="CodeDom\BaseGenerator.cs" />
+    <Compile Include="CodeDom\ProxyGenerator.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="DataProviders\IDataProvider.cs" />
+    <Compile Include="Entities\EntityDataObject.cs" />
+    <Compile Include="Entities\EntityField.cs" />
+    <Compile Include="Entities\EntityFieldsCollection.cs" />
+    <Compile Include="Entities\EntityIsDeletedException.cs" />
+    <Compile Include="Entities\EntityOutOfSyncException.cs" />
+    <Compile Include="Entities\EntityState.cs" />
+    <Compile Include="Entities\FieldIndex.cs" />
+    <Compile Include="Entities\FieldIsReadonlyException.cs" />
+    <Compile Include="Entities\FieldUtilities.cs" />
+    <Compile Include="Entities\IEntity.cs" />
+    <Compile Include="Entities\IEntityField.cs" />
+    <Compile Include="Entities\IEntityFields.cs" />
+    <Compile Include="Entities\InvalidFieldReadException.cs" />
+    <Compile Include="Entities\IProxyEntity.cs" />
+    <Compile Include="Entities\ValueTypeMismatchException.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="Helpers\ContractUtils.cs" />
+    <Compile Include="Extensions\Assemblies.cs" />
+    <Compile Include="Extensions\Attributes.cs" />
+    <Compile Include="Extensions\Crypto.cs" />
+    <Compile Include="Extensions\Strings.cs" />
+    <Compile Include="Extensions\Versions.cs" />
+    <Compile Include="Helpers\PreconditionViolationException.cs" />
+    <Compile Include="Helpers\Serializer.cs" />
+    <Compile Include="Logging\Log.cs" />
+    <Compile Include="Logging\LogFileTraceListener.cs" />
+    <Compile Include="Logging\LogTraceListenerCollection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\Implementation\ColumnConstraint.cs" />
+    <Compile Include="Query\Implementation\PredicateExpression.cs" />
+    <Compile Include="Query\IPredicate.cs" />
+    <Compile Include="Query\IPredicateExpression.cs" />
+    <Compile Include="Query\QueryGenerationException.cs" />
+    <Compile Include="Repository\BaseRepository.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="SchemaException.cs" />
+    <Compile Include="Schema\BaseSchema.cs" />
+    <Compile Include="Schema\DatabaseColumn.cs" />
+    <Compile Include="Schema\DatabaseTable.cs" />
+    <Compile Include="Schema\EmptySchema.cs" />
+    <Compile Include="Schema\IColumn.cs" />
+    <Compile Include="Schema\IDatabaseObject.cs" />
+    <Compile Include="Schema\IDatabaseSchema.cs" />
+    <Compile Include="Schema\ISchemaProvider.cs" />
+    <Compile Include="Schema\ITable.cs" />
+    <Compile Include="SqlDbClientTypeName.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Northwind_Schema_Data_SQLServer.sql" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

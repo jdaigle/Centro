@@ -1,0 +1,83 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{482465A0-748E-4A5B-921F-049F9DB10BAD}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OpenEntity.Tests</RootNamespace>
+    <AssemblyName>OpenEntity.Tests</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CodeDom\ProxyFactoryTests.cs" />
+    <Compile Include="CodeDom\ProxyGeneratorTests.cs" />
+    <Compile Include="DataProviders\DataProviderFactoryTests.cs" />
+    <Compile Include="Joins\JoinSetTests.cs" />
+    <Compile Include="Joins\JoinTests.cs" />
+    <Compile Include="TestEnvironment.cs" />
+    <Compile Include="Mock\Northwind\Category.cs" />
+    <Compile Include="Mock\Northwind\CategoryMap.cs" />
+    <Compile Include="Mock\Northwind\OrderInfo.cs" />
+    <Compile Include="Mock\Northwind\OrderInfoMap.cs" />
+    <Compile Include="Mock\Northwind\Product.cs" />
+    <Compile Include="Mock\Northwind\ProductMap.cs" />
+    <Compile Include="Mock\Northwind\Order.cs" />
+    <Compile Include="Mock\Northwind\OrderMap.cs" />
+    <Compile Include="Mock\Northwind\Supplier.cs" />
+    <Compile Include="Mock\Northwind\SupplierMap.cs" />
+    <Compile Include="Mock\Northwind\Shipper.cs" />
+    <Compile Include="Mock\Northwind\ShipperMap.cs" />
+    <Compile Include="Mock\Northwind\CustomerMap.cs" />
+    <Compile Include="Mock\Northwind\Customer.cs" />
+    <Compile Include="Mock\Northwind\Employee.cs" />
+    <Compile Include="Mock\Northwind\EmployeeMap.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Mapping\MappingConfigTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenEntity.Core\OpenEntity.Core.csproj">
+      <Project>{F4A46ED8-DD9C-42EC-AD3C-408739E93C06}</Project>
+      <Name>OpenEntity.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

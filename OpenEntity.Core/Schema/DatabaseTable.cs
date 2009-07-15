@@ -7,7 +7,7 @@ using OpenEntity.Extensions;
 
 namespace OpenEntity.Schema
 {
-    public class DatabaseTable : ITable
+    internal class DatabaseTable : ITable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseTable"/> class.

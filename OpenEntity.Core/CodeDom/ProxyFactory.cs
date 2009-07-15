@@ -34,6 +34,7 @@ namespace OpenEntity.CodeDom
             {
                 var gen = new ProxyGenerator(classMapping);
                 proxyType = gen.Build();
+                proxyTypes.Add(targetClass, proxyType);
             }
             return proxyType;            
         }

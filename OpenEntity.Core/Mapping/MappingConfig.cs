@@ -11,6 +11,12 @@ namespace OpenEntity.Mapping
         private static Dictionary<Type, IClassMapping> foundMappings = new Dictionary<Type, IClassMapping>();
         private static IList<Assembly> searchAssemblies = new List<Assembly>();
 
+        public static void Clear()
+        {
+            foundMappings.Clear();
+            searchAssemblies.Clear();
+        }
+
         /// <summary>
         /// Adds a mapping assembly to this config. This assembly will be included in the
         /// search for IClassMapping implementations.

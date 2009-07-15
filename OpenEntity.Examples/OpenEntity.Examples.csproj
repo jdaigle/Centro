@@ -61,6 +61,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Northwind\Entities\Category.cs" />
     <Compile Include="Northwind\Entities\Employee.cs" />
     <Compile Include="Northwind\Mapping\EmployeeMap.cs" />
     <Compile Include="Program.cs" />

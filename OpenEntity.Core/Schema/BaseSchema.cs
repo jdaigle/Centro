@@ -12,7 +12,7 @@ namespace OpenEntity.Schema
     /// <summary>
     /// A base abstract implementation of an ISchema.
     /// </summary>
-    public abstract class BaseSchema : IDatabaseSchema
+    internal abstract class BaseSchema : IDatabaseSchema
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseSchema"/> class.

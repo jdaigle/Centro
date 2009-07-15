@@ -13,7 +13,7 @@ namespace OpenEntity.Schema
         /// <summary>
         /// Initializes a new instance of the <see cref="EmptySchema"/> class.
         /// </summary>
-        public EmptySchema()
+        protected internal EmptySchema()
         {
         }
 

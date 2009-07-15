@@ -11,7 +11,7 @@ namespace OpenEntity.Schema
     /// General container class for static column information which is readonly at runtime and which is equal for all instances of a 
     /// given field. This information is shared among all instances of an entity, and therefore saves a lot of memory at runtime.
     /// </summary>
-    public class DatabaseColumn : IColumn
+    internal class DatabaseColumn : IColumn
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseColumn"/> class.

@@ -25,6 +25,7 @@ namespace OpenEntity.Examples
     public class Bar
     {
         //Something in the test branch
+        //Some other change in test branch
     }
 
     class Program

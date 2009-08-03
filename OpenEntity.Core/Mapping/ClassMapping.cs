@@ -5,6 +5,7 @@ using System.Text;
 using System.Linq.Expressions;
 using OpenEntity.Helpers;
 using System.Reflection;
+using OpenEntity.Extensions;
 
 namespace OpenEntity.Mapping
 {

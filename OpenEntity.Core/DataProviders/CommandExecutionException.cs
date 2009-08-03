@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections;
 using System.Data;
 using OpenEntity.Entities;
@@ -11,22 +8,8 @@ namespace OpenEntity.DataProviders
     [Serializable]
     public class CommandExecutionException : DataException
     {
-        /// <summary>
-        /// Gets the query executed.
-        /// </summary>
-        /// <value>The query executed.</value>
         public string QueryExecuted { get; private set; }
-
-        /// <summary>
-        /// Gets the parameters.
-        /// </summary>
-        /// <value>The parameters.</value>
         public IList Parameters { get; private set; }
-
-        /// <summary>
-        /// Gets or sets the entity involved.
-        /// </summary>
-        /// <value>The entity involved.</value>
         public IEntity EntityInvolved { get; set; }
 
         /// <summary>
@@ -43,7 +26,6 @@ namespace OpenEntity.DataProviders
 			this.QueryExecuted = queryExecuted;
 			this.Parameters = parameters;
 		}
-
         /// <summary>
         /// Initializes a new instance of the <see cref="CommandExecutionException"/> class.
         /// </summary>

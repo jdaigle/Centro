@@ -2,12 +2,13 @@
 using OpenEntity.DataProviders;
 using OpenEntity.Mapping;
 using OpenEntity.Repository;
+using OpenEntity.Model;
 
 namespace OpenEntity.Specs.Repository
 {
-    public abstract class RepositoryTestBase<TEntity>
+    public abstract class RepositoryTestBase<TModelType> where TModelType : IDomainObject
     {
-        protected IRepository<TEntity> Repository { get; private set; }
+        protected IRepository<TModelType> Repository { get; private set; }
 
         [TestFixtureSetUp]
         public void SetupRepository()
@@ -15,7 +16,7 @@ namespace OpenEntity.Specs.Repository
             MappingConfig.Clear();
             MappingConfig.AddAssembly(typeof(TestEnvironment).Assembly);
 
-            Repository = new BaseRepository<TEntity>(GetDataProvider());
+            Repository = new BaseRepository<TModelType>(GetDataProvider());
         }
 
         protected abstract IDataProvider GetDataProvider();

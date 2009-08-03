@@ -11,7 +11,9 @@ namespace OpenEntity.Tests.Mock.Northwind
         public ProductMap()
         {
             this.ForTable("Products");
+            this.Map(x => x.Id, "ProductId");
             this.Map(x => x.Name, "ProductName");
+            this.Map(x => x.Discontinued);
         }
     }
 }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using OpenEntity.Query;
 
 namespace OpenEntity.Entities
@@ -12,7 +9,6 @@ namespace OpenEntity.Entities
         /// A value indicated whether the entity has been initialized with an IEntityFields collection.
         /// </summary>
         bool Initialized { get; }
-
         /// <summary>
         /// Initializes with a set of IEntityFields, which can be empty.
         /// The fields collection generally represents the "row" from a database.
@@ -20,7 +16,6 @@ namespace OpenEntity.Entities
         /// <param name="fields">The fields for the entity.</param>
         /// <exception cref="NotSupportedException">Thrown if the entity is already initialized.</exception>
         void Initialize(IEntityFields fields);
-
         /// <summary>
         /// Gets an IPredicateExpression that represents the primary keys for this entity.
         /// </summary>

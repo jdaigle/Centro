@@ -1,37 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using OpenEntity.Entities;
-using OpenEntity.DataProviders;
 using OpenEntity.CodeDom;
-using OpenEntity.Mapping;
-using OpenEntity.Schema;
-using System.Globalization;
-using System.Data;
-using OpenEntity.Query;
+using OpenEntity.DataProviders;
+using OpenEntity.Entities;
 using OpenEntity.Joins;
-using System.Diagnostics;
+using OpenEntity.Mapping;
+using OpenEntity.Model;
+using OpenEntity.Query;
+using OpenEntity.Schema;
+using System.Linq.Expressions;
+using OpenEntity.Helpers;
 
 namespace OpenEntity.Repository
 {
-    public class BaseRepository<TEntity> : IRepository<TEntity>, IEntityCreator
+    public class BaseRepository<TModelType> : IRepository<TModelType>, IEntityCreator where TModelType : IDomainObject
     {
         private IDataProvider dataProvider;
         private Type entityType;
         private ITable table;
-        protected string TableName { get; private set; }
-        private bool initialized;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BaseRepository&lt;TEntity&gt;"/> class.
-        /// </summary>
-        /// <param name="dataProvider">The data provider.</param>
         public BaseRepository(IDataProvider dataProvider)
         {
             this.dataProvider = dataProvider;
-            this.entityType = ProxyFactory.GetProxyClass(typeof(TEntity));
-            this.TableName = MappingConfig.FindClassMapping(typeof(TEntity)).Table;
+            this.entityType = ProxyFactory.GetProxyClass(typeof(TModelType));
+            this.TableName = MappingConfig.FindClassMapping(typeof(TModelType)).Table;
         }
 
         public BaseRepository(IDataProvider dataProvider, string tableName)
@@ -44,36 +41,39 @@ namespace OpenEntity.Repository
         public BaseRepository(IDataProvider dataProvider, ITable table)
         {
             this.dataProvider = dataProvider;
-            this.table = table;
+            this.Table = table;
             this.TableName = table.Name;
             this.entityType = typeof(EntityDataObject);
         }
 
-        public void Initialize()
+        protected string TableName { get; private set; }
+        
+        protected ITable Table
         {
-            if (this.table == null)
+            get
             {
-                if (string.IsNullOrEmpty(this.TableName))
-                    throw new SchemaException(string.Format(CultureInfo.InvariantCulture, "Could not determine table name for entity type [{0}]", typeof(TEntity).FullName));
-                this.table = this.dataProvider.Schema.FindTable(this.TableName);
                 if (this.table == null)
-                    throw new SchemaException(string.Format(CultureInfo.InvariantCulture, "Failed to find database schema for table [{0}]", this.TableName));
+                {
+                    if (string.IsNullOrEmpty(this.TableName))
+                        throw new SchemaException(string.Format(CultureInfo.InvariantCulture, "Could not determine table name for entity type [{0}]", typeof(TModelType).FullName));
+                    this.table = this.dataProvider.Schema.FindTable(this.TableName);
+                    if (this.table == null)
+                        throw new SchemaException(string.Format(CultureInfo.InvariantCulture, "Failed to find database schema for table [{0}]", this.TableName));
+                }
+                return this.table;
             }
-            this.initialized = true;
-        }
-
-        public void EnsureInititalized()
-        {
-            if (!this.initialized)
-                this.Initialize();
+            private set
+            {
+                this.table = value;
+            }
         }
 
         protected IEntityFields CreateEntityFields()
         {
-            IEntityField[] fieldsArray = new IEntityField[this.table.Columns.Count];
+            IEntityField[] fieldsArray = new IEntityField[this.Table.Columns.Count];
             for (int i = 0; i < fieldsArray.Length; i++)
             {
-                fieldsArray[i] = new EntityField(this.table.Columns[i]);
+                fieldsArray[i] = new EntityField(this.Table.Columns[i]);
             }
             EntityFieldsCollection fields = new EntityFieldsCollection(fieldsArray);
             return fields;
@@ -95,17 +95,16 @@ namespace OpenEntity.Repository
             }
         }
 
-        #region IRepository<TEntity> Members
+        #region IRepository<TModelType> Members
 
-        public TEntity Create()
+        public TModelType Create()
         {
-            this.EnsureInititalized();
-            var entity = (IProxyEntity)Activator.CreateInstance(this.entityType, new object[] { this.table });
+            var entity = (IProxyEntity)Activator.CreateInstance(this.entityType, new object[] { this.Table });
             IEntityFields fields = this.CreateEntityFields();
             if (fields == null)
-                return default(TEntity);
+                return default(TModelType);
             entity.Initialize(fields);
-            return (TEntity)entity;
+            return (TModelType)entity;
         }
 
         IProxyEntity IEntityCreator.Create()
@@ -113,12 +112,11 @@ namespace OpenEntity.Repository
             return (IProxyEntity)this.Create();
         }
 
-        public bool Reload(TEntity entityToFetch)
+        public bool Reload(TModelType objectToFetch)
         {
-            this.EnsureInititalized();
-            var proxyEntity = entityToFetch as IProxyEntity;
+            var proxyEntity = objectToFetch as IProxyEntity;
             if (proxyEntity == null)
-                throw new ArgumentNullException("entityToFetch");
+                throw new ArgumentNullException("objectToFetch");
             bool keepConnectionOpenSave = this.dataProvider.KeepConnectionOpen;
             if (proxyEntity.IsNew)
                 return false;
@@ -139,18 +137,17 @@ namespace OpenEntity.Repository
             }
         }
 
-        public bool Save(TEntity entityToSave)
+        public bool Save(TModelType objectToSave)
         {
             // Overload
-            return this.Save(entityToSave, false);
+            return this.Save(objectToSave, false);
         }
 
-        public bool Save(TEntity entityToSave, bool refetchAfterSave)
+        public bool Save(TModelType objectToSave, bool refetchAfterSave)
         {
-            this.EnsureInititalized();
-            var proxyEntity = entityToSave as IProxyEntity;
+            var proxyEntity = objectToSave as IProxyEntity;
             if (proxyEntity == null)
-                throw new ArgumentNullException("entityToSave");
+                throw new ArgumentNullException("objectToSave");
             if (proxyEntity.Fields.State == EntityState.Deleted)
             {
                 return true; // entity to save is already deleted. Return.
@@ -205,7 +202,7 @@ namespace OpenEntity.Repository
                         proxyEntity.IsNew = false;
                         if (refetchAfterSave)
                         {
-                            saveSucceeded &= this.Reload(entityToSave);
+                            saveSucceeded &= this.Reload(objectToSave);
                         }
                     }
                 }
@@ -228,12 +225,11 @@ namespace OpenEntity.Repository
             return saveSucceeded;
         }
 
-        public bool Delete(TEntity entityToDelete)
+        public bool Delete(TModelType objectToDelete)
         {
-            this.EnsureInititalized();
-            var proxyEntity = entityToDelete as IProxyEntity;
+            var proxyEntity = objectToDelete as IProxyEntity;
             if (proxyEntity == null)
-                throw new ArgumentNullException("entityToDelete");
+                throw new ArgumentNullException("objectToDelete");
             if (proxyEntity.IsNew)
             {
                 // not changed or new, no fields to update, skip
@@ -268,16 +264,15 @@ namespace OpenEntity.Repository
             }
         }
 
-        public TEntity Fetch(IPredicateExpression queryPredicate)
+        public TModelType Fetch(IPredicateExpression queryPredicate)
         {
             // Overload
             return this.Fetch(queryPredicate, null);
         }
 
-        public TEntity Fetch(IPredicateExpression queryPredicate, JoinSet joinSet)
+        public TModelType Fetch(IPredicateExpression queryPredicate, JoinSet joinSet)
         {
-            this.EnsureInititalized();
-            TEntity fetchedEntity = default(TEntity);
+            TModelType fetchedEntity = default(TModelType);
             bool keepConnectionOpenSave = this.dataProvider.KeepConnectionOpen;
             try
             {
@@ -294,30 +289,29 @@ namespace OpenEntity.Repository
             return fetchedEntity;
         }
 
-        public IList<TEntity> FetchAll(IPredicateExpression queryPredicate)
+        public IList<TModelType> FetchAll(IPredicateExpression queryPredicate)
         {
             // Overload
             return this.FetchAll(queryPredicate, null, -1);
         }
 
-        public IList<TEntity> FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet)
+        public IList<TModelType> FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet)
         {
             // Overload
             return this.FetchAll(queryPredicate, joinSet, -1);
         }
 
-        public IList<TEntity> FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet, int maxNumberOfItemsToReturn)
+        public IList<TModelType> FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet, int maxNumberOfItemsToReturn)
         {
-            this.EnsureInititalized();
             bool keepConnectionOpenSave = this.dataProvider.KeepConnectionOpen;
-            List<TEntity> entities = new List<TEntity>();
+            List<TModelType> entities = new List<TModelType>();
             // Create the command
-            IDbCommand selectCommand = this.CreateSelectCommand(table, table.Columns, queryPredicate, joinSet, maxNumberOfItemsToReturn);
+            IDbCommand selectCommand = this.CreateSelectCommand(Table, Table.Columns, queryPredicate, joinSet, maxNumberOfItemsToReturn);
             try
             {
                 this.dataProvider.KeepConnectionOpen = true;
                 // Execute the retrieval
-                entities = this.dataProvider.ExecuteMultiRowRetrievalQuery(selectCommand, this, false).Cast<TEntity>().ToList();
+                entities = this.dataProvider.ExecuteMultiRowRetrievalQuery(selectCommand, this, false).Cast<TModelType>().ToList();
             }
             finally
             {
@@ -342,13 +336,12 @@ namespace OpenEntity.Repository
 
         public object FetchScalar(IColumn field, AggregateFunction aggregateFunction, IPredicateExpression queryPredicate, JoinSet joinSet)
         {
-            this.EnsureInititalized();
             if (field == null)
                 throw new ArgumentNullException("field");
             if (aggregateFunction == AggregateFunction.None)
                 return 0;
             bool keepConnectionOpenSave = this.dataProvider.KeepConnectionOpen;
-            IDbCommand aggregateCommand = this.CreateAggregateCommand(table, field, aggregateFunction, queryPredicate, joinSet);
+            IDbCommand aggregateCommand = this.CreateAggregateCommand(Table, field, aggregateFunction, queryPredicate, joinSet);
             try
             {
                 this.dataProvider.KeepConnectionOpen = true;
@@ -360,6 +353,25 @@ namespace OpenEntity.Repository
                 this.dataProvider.KeepConnectionOpen = keepConnectionOpenSave;
                 this.CloseConnectionIfPossible();
             }
+        }
+
+        public object FetchScalar(Expression<Func<TModelType, object>> columnExpression, AggregateFunction aggregateFunction)
+        {
+            // Overload
+            return FetchScalar(columnExpression, aggregateFunction, null, null);
+        }
+
+        public object FetchScalar(Expression<Func<TModelType, object>> columnExpression, AggregateFunction aggregateFunction, IPredicateExpression queryPredicate)
+        {
+            // Overload
+            return FetchScalar(columnExpression, aggregateFunction, queryPredicate, null);
+        }
+        public object FetchScalar(Expression<Func<TModelType, object>> columnExpression, AggregateFunction aggregateFunction, IPredicateExpression queryPredicate, JoinSet joinSet)
+        {
+            var classMapping = MappingConfig.FindClassMapping(typeof(TModelType));
+            var columnName = classMapping.GetColumnName(columnExpression);
+            var column = this.dataProvider.Schema.FindColumn(this.TableName, columnName);
+            return FetchScalar(column, aggregateFunction, queryPredicate, joinSet);
         }
 
         #endregion

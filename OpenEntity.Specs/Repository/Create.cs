@@ -2,10 +2,11 @@
 using OpenEntity.Entities;
 using OpenEntity.Tests.Mock.Northwind;
 using OpenEntity.DataProviders;
+using OpenEntity.Model;
 
 namespace OpenEntity.Specs.Repository
-{    
-    public abstract class Create<TEntity> : RepositoryTestBase<TEntity>
+{
+    public abstract class Create<TModelType> : RepositoryTestBase<TModelType> where TModelType : IDomainObject
     {
         [Test]
         public void ShouldReturnIEntity()
@@ -15,10 +16,10 @@ namespace OpenEntity.Specs.Repository
         }
 
         [Test]
-        public void ShouldReturnTEntity()
+        public void ShouldReturnTModelType()
         {
             var entity = Repository.Create();
-            Assert.IsInstanceOf(typeof(TEntity), entity);
+            Assert.IsInstanceOf(typeof(TModelType), entity);
         }
 
         [Test]
@@ -59,7 +60,16 @@ namespace OpenEntity.Specs.Repository
     }
 
     [TestFixture]
-    public class SqlCreate : Create<Product>
+    public class SqlCreate1 : Create<Product>
+    {
+        protected override IDataProvider GetDataProvider()
+        {
+            return TestEnvironment.GetSqlServerDataProvider();
+        }
+    }
+
+    [TestFixture]
+    public class SqlCreate2 : Create<Category>
     {
         protected override IDataProvider GetDataProvider()
         {

@@ -14,10 +14,6 @@ namespace OpenEntity.DataProviders
 {
     public abstract class BaseDataProvider : IDataProvider, ISchemaProvider
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="BaseDataProvider"/> class.
-        /// </summary>
-        /// <param name="connectionString">The connection string.</param>
         protected BaseDataProvider(string connectionString)
         {
             this.ConnectionString = connectionString;

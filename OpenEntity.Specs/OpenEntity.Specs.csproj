@@ -76,6 +76,7 @@
     <Compile Include="Repository\Create.cs" />
     <Compile Include="Repository\Fetch.cs" />
     <Compile Include="Repository\RepositoryTestBase.cs" />
+    <Compile Include="Repository\Save.cs" />
     <Compile Include="TestEnvironment.cs" />
   </ItemGroup>
   <ItemGroup>

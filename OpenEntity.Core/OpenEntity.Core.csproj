@@ -87,9 +87,12 @@
     <Compile Include="Joins\JoinSet.cs" />
     <Compile Include="Joins\RelationshipType.cs" />
     <Compile Include="Mapping\ClassMapping.cs" />
+    <Compile Include="Mapping\ClassMappingExtensions.cs" />
     <Compile Include="Mapping\MappingConfig.cs" />
     <Compile Include="Mapping\IClassMapping.cs" />
     <Compile Include="Mapping\PropertyMapping.cs" />
+    <Compile Include="Model\IDomainObject.cs" />
+    <Compile Include="Model\IValidatable.cs" />
     <Compile Include="Query\Constraint.cs" />
     <Compile Include="Query\IConstraint.cs" />
     <Compile Include="Repository\AggregateFunction.cs" />
@@ -103,7 +106,6 @@
     <Compile Include="Entities\EntityIsDeletedException.cs" />
     <Compile Include="Entities\EntityOutOfSyncException.cs" />
     <Compile Include="Entities\EntityState.cs" />
-    <Compile Include="Entities\FieldIndex.cs" />
     <Compile Include="Entities\FieldIsReadonlyException.cs" />
     <Compile Include="Entities\FieldUtilities.cs" />
     <Compile Include="Entities\IEntity.cs" />

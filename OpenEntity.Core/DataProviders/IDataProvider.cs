@@ -25,7 +25,6 @@ namespace OpenEntity.DataProviders
         void CloseConnection();
         /// <summary>
         /// Gets / sets the timeout value to use with the command object(s) created by the repository.
-        /// Default is 30 seconds
         /// Set this prior to calling a method which executes database logic.
         /// </summary>
         int CommandTimeout { get; set; }

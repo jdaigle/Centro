@@ -9,17 +9,10 @@ using OpenEntity.Schema;
 
 namespace OpenEntity.Entities
 {
-    /// <summary>
-    /// Implementation of IEntityField
-    /// </summary>
     internal class EntityField : IEntityField
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EntityField"/> class.
-        /// </summary>
-        /// <param name="schema">The schema.</param>
         public EntityField(IColumn schema)
-        {            
+        {
             this.schema = schema;
             this.IsNull = true;
         }
@@ -90,109 +83,37 @@ namespace OpenEntity.Entities
 
         #region IFieldSchema Members
 
-        public DbType DbDataType
-        {
-            get
-            {
-                return this.schema.DbDataType;
-            }
-        }
+        public DbType DbDataType { get { return this.schema.DbDataType; } }
 
-        public Type DataType
-        {
-            get
-            {
-                return this.schema.DataType;
-            }
-        }
+        public Type DataType { get { return this.schema.DataType; } }
 
-        public bool IsIdentity
-        {
-            get
-            {
-                return this.schema.IsIdentity;
-            }
-        }
+        public bool IsIdentity { get { return this.schema.IsIdentity; } }
 
-        public bool IsPrimaryKey
-        {
-            get
-            {
-                return this.schema.IsPrimaryKey;
-            }
-        }
+        public bool IsPrimaryKey { get { return this.schema.IsPrimaryKey; } }
 
-        public bool IsNullable
-        {
-            get
-            {
-                return this.schema.IsNullable;
-            }
-        }
+        public bool IsNullable { get { return this.schema.IsNullable; } }
 
-        public int ColumnIndex
-        {
-            get
-            {
-                return this.schema.ColumnIndex;
-            }
-        }
+        public int ColumnIndex { get { return this.schema.ColumnIndex; } }
 
-        public bool IsForeignKey
-        {
-            get
-            {
-                return this.schema.IsForeignKey;
-            }
-        }
+        public bool IsForeignKey { get { return this.schema.IsForeignKey; } }
 
-        public bool IsReadOnly
-        {
-            get
-            {
-                return this.schema.IsReadOnly;
-            }
-        }
+        public bool IsReadOnly { get { return this.schema.IsReadOnly; } }
 
-        public int MaxLength
-        {
-            get { return this.schema.MaxLength; }
-        }
+        public int MaxLength { get { return this.schema.MaxLength; } }
 
-        public short Scale
-        {
-            get { return this.schema.Scale; }
-        }
+        public short Scale { get { return this.schema.Scale; } }
 
-        public short Precision
-        {
-            get { return this.schema.Precision; }
-        }
+        public short Precision { get { return this.schema.Precision; } }
 
-        public ITable Table
-        {
-            get { return this.schema.Table; }
-        }
+        public ITable Table { get { return this.schema.Table; } }
 
         #endregion
 
         #region IDatabaseObject Members
 
-        public string Name
-        {
-            get
-            {
-                return this.schema.Name;
-            }
-        }
+        public string Name { get { return this.schema.Name; } }
 
-        public string SchemaName
-        {
-            get
-            {
-                return this.schema.SchemaName;
-            }
-        }
+        public string SchemaName { get { return this.schema.SchemaName; } }
 
         #endregion
 
@@ -216,7 +137,7 @@ namespace OpenEntity.Entities
         public void CancelEdit()
         {
             this.currentValue = this.originalValue;
-            this.IsChanged = this.wasChanged;            
+            this.IsChanged = this.wasChanged;
         }
 
         /// <summary>
@@ -225,7 +146,7 @@ namespace OpenEntity.Entities
         /// </summary>
         public void EndEdit()
         {
-            
+
         }
 
         /// <summary>
@@ -253,6 +174,5 @@ namespace OpenEntity.Entities
             this.originalValue = null;
             this.IsChanged = false;
         }
-
     }
 }

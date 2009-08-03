@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OpenEntity.Tests.Mock.Northwind
 {
-    public class OrderInfo
+    public class OrderInfo : OpenEntity.Model.IDomainObject
     {
         public virtual decimal UnitPrice { get; set; }
         public virtual int Quantity { get; set; }

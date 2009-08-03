@@ -9,7 +9,7 @@ namespace OpenEntity.Specs
 {
     public static class TestEnvironment
     {
-        public const string SqlServerConnectionString = "data source=localhost;Integrated Security=True;Initial Catalog=Northwind";
+        public const string SqlServerConnectionString = "data source=.\\SQLEXPRESS;Integrated Security=True;Initial Catalog=Northwind";
         public const string SqlServerProviderName = SqlDbClientTypeName.MSSQL;
 
         public static readonly Type[] EntityTypes = new Type[] { typeof(Category), 

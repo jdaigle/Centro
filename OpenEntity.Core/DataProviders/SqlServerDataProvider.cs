@@ -282,7 +282,7 @@ namespace OpenEntity.DataProviders
                 {
                     // Get the default schema from the configuration
                     string schemaName = this.GetDefaultSchemaName();
-                    string fullyQualifiedTableName = schemaName + "." + tableName;
+                    string fullyQualifiedTableName = schemaName + ".[" + tableName+"]";
                     using (OleDbCommand command = new OleDbCommand(fullyQualifiedTableName, connection))
                     {
                         command.CommandType = CommandType.TableDirect;

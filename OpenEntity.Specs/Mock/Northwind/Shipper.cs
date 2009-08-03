@@ -5,7 +5,7 @@ using System.Text;
 
 namespace OpenEntity.Tests.Mock.Northwind
 {
-    public class Shipper
+    public class Shipper : OpenEntity.Model.IDomainObject
     {
         public virtual string Name { get; set; }
     }

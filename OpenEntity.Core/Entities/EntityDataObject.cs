@@ -173,11 +173,6 @@ namespace OpenEntity.Entities
             return this.SetValue(fieldIndex, value);
         }
 
-        public object GetCurrentFieldValue(int fieldIndex)
-        {
-            return this.GetValue(fieldIndex);
-        }
-
         public object GetCurrentFieldValue(string fieldName)
         {
             IEntityField field = this.Fields[fieldName];
@@ -186,6 +181,11 @@ namespace OpenEntity.Entities
                 throw new InvalidFieldReadException("The field {" + fieldName + "} is not known on this entity.");
             }
             return this.GetCurrentFieldValue(field.ColumnIndex);
+        }
+
+        public object GetCurrentFieldValue(int fieldIndex)
+        {
+            return this.GetValue(fieldIndex);
         }
 
         public bool IsNew
@@ -245,30 +245,19 @@ namespace OpenEntity.Entities
             }
         }
 
-        //public RelationshipGraphNode RelationshipGraph
-        //{
-        //    get
-        //    {                
-        //        return this.relationshipGraph;
-        //    }
-        //    internal set
-        //    {
-        //        this.relationshipGraph = value;
-        //    }
-        //}
+        public IPredicateExpression GetPrimaryKeyPredicateExpression()
+        {
+            if (this.PrimaryKeyFields.Count == 0)
+                return null;
+            IPredicateExpression pkPredicateExpression = new PredicateExpression();
 
-        //public void FetchRelatedEntities(IDataProvider dataProvider)
-        //{
-        //    this.FetchRelatedEntities(dataProvider, false);
-        //}
+            foreach (IEntityField field in this.PrimaryKeyFields)
+            {
+                pkPredicateExpression.AddWithAnd(new ColumnConstraint(this.Table.Name, field.Name).IsEqualTo(field.CurrentValue));
+            }
 
-        //public void FetchRelatedEntities(IDataProvider dataProvider, bool recursive)
-        //{
-        //    foreach (var relationship in this.RelationshipGraph)
-        //    {
-        //        relationship.FetchEntities(this, dataProvider, recursive);
-        //    }
-        //}
+            return pkPredicateExpression;
+        }
 
         #endregion        
 
@@ -313,24 +302,5 @@ namespace OpenEntity.Entities
         }
 
         #endregion
-
-        /// <summary>
-        /// Gets an IPredicateExpression that represents the primary keys for this entity.
-        /// </summary>
-        public IPredicateExpression GetPrimaryKeyPredicateExpression()
-        {
-            if (this.PrimaryKeyFields.Count == 0)
-                return null;
-            IPredicateExpression pkPredicateExpression = new PredicateExpression();
-
-            foreach (IEntityField field in this.PrimaryKeyFields)
-            {
-                pkPredicateExpression.AddWithAnd(new ColumnConstraint(this.Table.Name, field.Name).IsEqualTo(field.CurrentValue));
-            }
-
-            return pkPredicateExpression;
-        }
-
-        
     }
 }

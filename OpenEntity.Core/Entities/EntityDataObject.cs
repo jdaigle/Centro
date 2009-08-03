@@ -183,15 +183,24 @@ namespace OpenEntity.Entities
             IEntityField field = this.Fields[fieldName];
             if (field == null)
             {
-                return null;
+                throw new InvalidFieldReadException("The field {" + fieldName + "} is not known on this entity.");
             }
             return this.GetCurrentFieldValue(field.ColumnIndex);
         }
 
         public bool IsNew
         {
-            get;
-            set;
+            get
+            {
+                if (this.Fields == null)
+                    return false;
+                return this.Fields.State == EntityState.New;
+            }
+            set
+            {
+                if (this.Fields == null)
+                    this.Fields.State = EntityState.New;
+            }
         }
 
         public virtual bool IsDirty

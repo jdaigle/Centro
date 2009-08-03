@@ -2,27 +2,22 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenEntity.Joins;
+using NUnit.Framework;
 
-namespace OpenEntity.Tests.Joins
+namespace OpenEntity.Specs.Joins
 {
-    [TestClass]
+    [TestFixture]
     public class JoinSetTests
     {
-        public JoinSetTests()
-        {
-        }
-        public TestContext TestContext { get; set; }
-
-        [TestMethod]
+        [Test]
         public void OriginTablePropertyShouldBeSet()
         {
             var joinSet = new JoinSet("OriginTable");
             Assert.AreEqual("OriginTable".ToUpper(), joinSet.OriginTable);
         }
 
-        [TestMethod]
+        [Test]
         public void AddOneToManyShouldAdd()
         {
             var joinSet = new JoinSet("OriginTable");
@@ -32,7 +27,7 @@ namespace OpenEntity.Tests.Joins
             Assert.IsNotNull(joinSet.Any(j => j == join));
         }
 
-        [TestMethod]
+        [Test]
         public void AddDuplicateOneToManyShouldFail()
         {
             var joinSet = new JoinSet("OriginTable");
@@ -51,7 +46,7 @@ namespace OpenEntity.Tests.Joins
             }
         }
 
-        [TestMethod]
+        [Test]
         public void AddOneToOneShouldAdd()
         {
             var joinSet = new JoinSet("OriginTable");
@@ -61,7 +56,7 @@ namespace OpenEntity.Tests.Joins
             Assert.IsNotNull(joinSet.Any(j => j == join));
         }
 
-        [TestMethod]
+        [Test]
         public void AddDuplicateOneToOneShouldFail()
         {
             var joinSet = new JoinSet("OriginTable");
@@ -80,7 +75,7 @@ namespace OpenEntity.Tests.Joins
             }
         }
 
-        [TestMethod]
+        [Test]
         public void CountPropertyShouldIncrement()
         {
             var joinSet = new JoinSet("OriginTable");

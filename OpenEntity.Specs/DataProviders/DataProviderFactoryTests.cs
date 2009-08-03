@@ -2,50 +2,48 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using OpenEntity.DataProviders;
 using System.Configuration;
 
-namespace OpenEntity.Tests.DataProviders
+namespace OpenEntity.Specs.DataProviders
 {
-    [TestClass]
+    [TestFixture]
     public class DataProviderFactoryTests
     {
-        public DataProviderFactoryTests()
+        [TestFixtureSetUp]
+        public static void SetupNamedConnectionString()
         {
-        }
-        public TestContext TestContext { get; set; }
-
-        [ClassInitialize]
-        public static void SetupNamedConnectionString(TestContext context)
-        {
-            var settings = new ConnectionStringSettings("default", TestEnvironment.ConnectionString, TestEnvironment.ProviderName);
-            var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);            
-            configuration.ConnectionStrings.ConnectionStrings.Add(settings);
+            var settings1 = new ConnectionStringSettings("default", TestEnvironment.SqlServerConnectionString, TestEnvironment.SqlServerProviderName);
+            var settings2 = new ConnectionStringSettings("noprovidername", TestEnvironment.SqlServerConnectionString, string.Empty);
+            var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            configuration.ConnectionStrings.ConnectionStrings.Add(settings1);
+            configuration.ConnectionStrings.ConnectionStrings.Add(settings2);
             configuration.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("ConnectionStrings");
         }
 
-        [ClassCleanup]
+        [TestFixtureTearDown]
         public static void RemoveNamedConnectionString()
         {
             var configuration = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             configuration.ConnectionStrings.ConnectionStrings.Remove("default");
+            configuration.ConnectionStrings.ConnectionStrings.Remove("noprovidername");
             configuration.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("ConnectionStrings");
         }
 
-        [TestMethod]
+        [Test]
         public void CreateWithConnectionStringShouldReturnCorrectProvider()
         {
-            var provider = DataProviderFactory.CreateNewProvider(TestEnvironment.ConnectionString, TestEnvironment.ProviderName, null);
+            var provider = DataProviderFactory.CreateNewProvider(TestEnvironment.SqlServerConnectionString, TestEnvironment.SqlServerProviderName, null);
             Assert.IsNotNull(provider);
             Assert.IsTrue(provider is SqlServerDataProvider);
         }
 
-        [TestMethod]
+        [Test]
         public void CreateWithConnectionStringNameShouldReturnCorrectProvider()
-        {            
+        {
             var provider = DataProviderFactory.CreateNewProvider("default");
             Assert.IsNotNull(provider);
             Assert.IsTrue(provider is SqlServerDataProvider);

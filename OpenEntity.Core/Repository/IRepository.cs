@@ -13,8 +13,6 @@ namespace OpenEntity.Repository
     {
         /// <summary>
         /// Creates an instance of the typed entity. It will be populated with information from the schema this data provider is related to.
-        /// If the entity is unsupported or the schema does not exist, or the entity couldn't be created, null is returned.,
-        /// </summary>
         /// <returns></returns>
         TEntity Create();
         /// <summary>
@@ -23,8 +21,10 @@ namespace OpenEntity.Repository
         /// from the persistent storage into the passed in object)
         /// </summary>
         /// <param name="entityToFetch">The entity object in which the fetched entity data will be stored. The primary key fields have to have a value.</param>
-        /// <remarks>Will use a current transaction if a transaction is in progress, so MVCC or other concurrency scheme used by the database can be
-        /// utilized</remarks>
+        /// <remarks>
+        /// Will use a current transaction if a transaction is in progress, so MVCC or other concurrency scheme used by the database can be
+        /// utilized
+        /// </remarks>
         /// <returns>true if the Fetch was succesful, false otherwise</returns>
         bool Reload(TEntity entityToFetch);
         /// <summary>

@@ -20,7 +20,7 @@ namespace OpenEntity.Repository
         private IDataProvider dataProvider;
         private Type entityType;
         private ITable table;
-        private string tableName;
+        protected string TableName { get; private set; }
         private bool initialized;
 
         /// <summary>
@@ -31,13 +31,13 @@ namespace OpenEntity.Repository
         {
             this.dataProvider = dataProvider;
             this.entityType = ProxyFactory.GetProxyClass(typeof(TEntity));
-            this.tableName = MappingConfig.FindClassMapping(typeof(TEntity)).Table;
+            this.TableName = MappingConfig.FindClassMapping(typeof(TEntity)).Table;
         }
 
         public BaseRepository(IDataProvider dataProvider, string tableName)
         {
             this.dataProvider = dataProvider;
-            this.tableName = tableName;
+            this.TableName = tableName;
             this.entityType = typeof(EntityDataObject);
         }
 
@@ -45,6 +45,7 @@ namespace OpenEntity.Repository
         {
             this.dataProvider = dataProvider;
             this.table = table;
+            this.TableName = table.Name;
             this.entityType = typeof(EntityDataObject);
         }
 
@@ -52,11 +53,11 @@ namespace OpenEntity.Repository
         {
             if (this.table == null)
             {
-                if (string.IsNullOrEmpty(this.tableName))
+                if (string.IsNullOrEmpty(this.TableName))
                     throw new SchemaException(string.Format(CultureInfo.InvariantCulture, "Could not determine table name for entity type [{0}]", typeof(TEntity).FullName));
-                this.table = this.dataProvider.Schema.FindTable(this.tableName);
+                this.table = this.dataProvider.Schema.FindTable(this.TableName);
                 if (this.table == null)
-                    throw new SchemaException(string.Format(CultureInfo.InvariantCulture, "Failed to find database schema for table [{0}]", this.tableName));
+                    throw new SchemaException(string.Format(CultureInfo.InvariantCulture, "Failed to find database schema for table [{0}]", this.TableName));
             }
             this.initialized = true;
         }

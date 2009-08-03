@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenEntity.Tests.Mock.Northwind;
+using OpenEntity.DataProviders;
 
-namespace OpenEntity.Tests
+namespace OpenEntity.Specs
 {
     public static class TestEnvironment
     {
-        public const string ConnectionString = "data source=localhost;Integrated Security=True;Initial Catalog=Northwind";
-        public const string ProviderName = SqlDbClientTypeName.MSSQL;
+        public const string SqlServerConnectionString = "data source=localhost;Integrated Security=True;Initial Catalog=Northwind";
+        public const string SqlServerProviderName = SqlDbClientTypeName.MSSQL;
 
         public static readonly Type[] EntityTypes = new Type[] { typeof(Category), 
                                                                  typeof(Customer), 
@@ -18,6 +19,11 @@ namespace OpenEntity.Tests
                                                                  typeof(Product), 
                                                                  typeof(Shipper), 
                                                                  typeof(Supplier) };
+
+        public static IDataProvider GetSqlServerDataProvider()
+        {
+            return DataProviderFactory.CreateNewProvider(SqlServerConnectionString, SqlServerProviderName, "dbo");
+        }
 
     }
 }

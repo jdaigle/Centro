@@ -36,6 +36,7 @@
       <HintPath>..\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -49,30 +50,33 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CodeDom\ProxyFactoryTests.cs" />
-    <None Include="CodeDom\ProxyGeneratorTests.cs" />
-    <None Include="DataProviders\DataProviderFactoryTests.cs" />
-    <None Include="Joins\JoinSetTests.cs" />
-    <None Include="Joins\JoinTests.cs" />
-    <None Include="Mapping\MappingConfigTests.cs" />
-    <None Include="Mock\Northwind\Category.cs" />
-    <None Include="Mock\Northwind\CategoryMap.cs" />
-    <None Include="Mock\Northwind\Customer.cs" />
-    <None Include="Mock\Northwind\CustomerMap.cs" />
-    <None Include="Mock\Northwind\Employee.cs" />
-    <None Include="Mock\Northwind\EmployeeMap.cs" />
-    <None Include="Mock\Northwind\Order.cs" />
-    <None Include="Mock\Northwind\OrderInfo.cs" />
-    <None Include="Mock\Northwind\OrderInfoMap.cs" />
-    <None Include="Mock\Northwind\OrderMap.cs" />
-    <None Include="Mock\Northwind\Product.cs" />
-    <None Include="Mock\Northwind\ProductMap.cs" />
-    <None Include="Mock\Northwind\Shipper.cs" />
-    <None Include="Mock\Northwind\ShipperMap.cs" />
-    <None Include="Mock\Northwind\Supplier.cs" />
-    <None Include="Mock\Northwind\SupplierMap.cs" />
+    <Compile Include="CodeDom\ProxyFactoryTests.cs" />
+    <Compile Include="CodeDom\ProxyGeneratorTests.cs" />
+    <Compile Include="DataProviders\DataProviderFactoryTests.cs" />
+    <Compile Include="Joins\JoinSetTests.cs" />
+    <Compile Include="Joins\JoinTests.cs" />
+    <Compile Include="Mapping\MappingConfigTests.cs" />
+    <Compile Include="Mock\Northwind\Category.cs" />
+    <Compile Include="Mock\Northwind\CategoryMap.cs" />
+    <Compile Include="Mock\Northwind\Customer.cs" />
+    <Compile Include="Mock\Northwind\CustomerMap.cs" />
+    <Compile Include="Mock\Northwind\Employee.cs" />
+    <Compile Include="Mock\Northwind\EmployeeMap.cs" />
+    <Compile Include="Mock\Northwind\Order.cs" />
+    <Compile Include="Mock\Northwind\OrderInfo.cs" />
+    <Compile Include="Mock\Northwind\OrderInfoMap.cs" />
+    <Compile Include="Mock\Northwind\OrderMap.cs" />
+    <Compile Include="Mock\Northwind\Product.cs" />
+    <Compile Include="Mock\Northwind\ProductMap.cs" />
+    <Compile Include="Mock\Northwind\Shipper.cs" />
+    <Compile Include="Mock\Northwind\ShipperMap.cs" />
+    <Compile Include="Mock\Northwind\Supplier.cs" />
+    <Compile Include="Mock\Northwind\SupplierMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <None Include="TestEnvironment.cs" />
+    <Compile Include="Repository\Create.cs" />
+    <Compile Include="Repository\Fetch.cs" />
+    <Compile Include="Repository\RepositoryTestBase.cs" />
+    <Compile Include="TestEnvironment.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenEntity.Core\OpenEntity.Core.csproj">

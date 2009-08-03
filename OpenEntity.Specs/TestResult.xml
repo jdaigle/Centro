@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="C:\src\OpenEntity\OpenEntity.Specs\OpenEntity.Specs.csproj" total="29" errors="2" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2009-08-02" time="18:59:01">
+  <environment nunit-version="2.5.1.9189" clr-version="2.0.50727.4016" os-version="Microsoft Windows NT 6.0.6002 Service Pack 2" platform="Win32NT" cwd="C:\src\OpenEntity\OpenEntity.Specs" machine-name="PERSEUS" user="jdaigle" user-domain="Perseus" />
+  <culture-info current-culture="en-US" current-uiculture="en-US" />
+  <test-suite name="C:\src\OpenEntity\OpenEntity.Specs\OpenEntity.Specs.csproj" executed="True" success="False" time="2.073" asserts="0">
+    <results>
+      <test-suite name="C:\src\OpenEntity\OpenEntity.Specs\bin\Debug\OpenEntity.Specs.dll" executed="True" success="False" time="2.073" asserts="0">
+        <results>
+          <test-suite name="OpenEntity" executed="True" success="False" time="2.069" asserts="0">
+            <results>
+              <test-suite name="Specs" executed="True" success="False" time="2.066" asserts="0">
+                <results>
+                  <test-suite name="CodeDom" executed="True" success="True" time="0.939" asserts="0">
+                    <results>
+                      <test-suite name="ProxyFactoryTests" executed="True" success="True" time="0.502" asserts="0">
+                        <results>
+                          <test-case name="OpenEntity.Specs.CodeDom.ProxyFactoryTests.ShouldGetCachedProxyTypeForMappedClass" executed="True" success="True" time="0.498" asserts="8" />
+                          <test-case name="OpenEntity.Specs.CodeDom.ProxyFactoryTests.ShouldGetProxyTypeForMappedClass" executed="True" success="True" time="0.001" asserts="8" />
+                          <test-case name="OpenEntity.Specs.CodeDom.ProxyFactoryTests.ShouldThrowExceptionForUnmappedClass" executed="True" success="True" time="0.001" asserts="0" />
+                        </results>
+                      </test-suite>
+                      <test-suite name="ProxyGeneratorTests" executed="True" success="True" time="0.427" asserts="0">
+                        <results>
+                          <test-case name="OpenEntity.Specs.CodeDom.ProxyGeneratorTests.ShouldReturnProxyObject" executed="True" success="True" time="0.427" asserts="28" />
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                  <test-suite name="DataProviders" executed="True" success="False" time="0.023" asserts="0">
+                    <results>
+                      <test-suite name="DataProviderFactoryTests" executed="True" success="False" time="0.023" asserts="0">
+                        <results>
+                          <test-case name="OpenEntity.Specs.DataProviders.DataProviderFactoryTests.CreateWithConnectionStringNameShouldReturnCorrectProvider" executed="True" success="False" time="0.000" asserts="0">
+                            <failure>
+                              <message><![CDATA[System.Configuration.ConfigurationErrorsException : Missing connection string named [default]]]></message>
+                              <stack-trace><![CDATA[at OpenEntity.DataProviders.DataProviderFactory.CreateNewProvider(String connectionStringName) in C:\src\OpenEntity\OpenEntity.Core\DataProviders\DataProviderFactory.cs:line 53
+at OpenEntity.Specs.DataProviders.DataProviderFactoryTests.CreateWithConnectionStringNameShouldReturnCorrectProvider() in C:\src\OpenEntity\OpenEntity.Specs\DataProviders\DataProviderFactoryTests.cs:line 47
+]]></stack-trace>
+                            </failure>
+                          </test-case>
+                          <test-case name="OpenEntity.Specs.DataProviders.DataProviderFactoryTests.CreateWithConnectionStringNameShouldUseADefaultProvider" executed="True" success="False" time="0.000" asserts="0">
+                            <failure>
+                              <message><![CDATA[System.Configuration.ConfigurationErrorsException : Missing connection string named [noprovidername]]]></message>
+                              <stack-trace><![CDATA[at OpenEntity.DataProviders.DataProviderFactory.CreateNewProvider(String connectionStringName) in C:\src\OpenEntity\OpenEntity.Core\DataProviders\DataProviderFactory.cs:line 53
+at OpenEntity.Specs.DataProviders.DataProviderFactoryTests.CreateWithConnectionStringNameShouldUseADefaultProvider() in C:\src\OpenEntity\OpenEntity.Specs\DataProviders\DataProviderFactoryTests.cs:line 55
+]]></stack-trace>
+                            </failure>
+                          </test-case>
+                          <test-case name="OpenEntity.Specs.DataProviders.DataProviderFactoryTests.CreateWithConnectionStringShouldReturnCorrectProvider" executed="True" success="True" time="0.001" asserts="2" />
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                  <test-suite name="Joins" executed="True" success="True" time="0.027" asserts="0">
+                    <results>
+                      <test-suite name="JoinSetTests" executed="True" success="True" time="0.022" asserts="0">
+                        <results>
+                          <test-case name="OpenEntity.Specs.Joins.JoinSetTests.AddDuplicateOneToManyShouldFail" executed="True" success="True" time="0.004" asserts="0" />
+                          <test-case name="OpenEntity.Specs.Joins.JoinSetTests.AddDuplicateOneToOneShouldFail" executed="True" success="True" time="0.002" asserts="0" />
+                          <test-case name="OpenEntity.Specs.Joins.JoinSetTests.AddOneToManyShouldAdd" executed="True" success="True" time="0.003" asserts="3" />
+                          <test-case name="OpenEntity.Specs.Joins.JoinSetTests.AddOneToOneShouldAdd" executed="True" success="True" time="0.001" asserts="3" />
+                          <test-case name="OpenEntity.Specs.Joins.JoinSetTests.CountPropertyShouldIncrement" executed="True" success="True" time="0.005" asserts="3" />
+                          <test-case name="OpenEntity.Specs.Joins.JoinSetTests.OriginTablePropertyShouldBeSet" executed="True" success="True" time="0.001" asserts="1" />
+                        </results>
+                      </test-suite>
+                      <test-suite name="JoinTests" executed="True" success="True" time="0.002" asserts="0">
+                        <results>
+                          <test-case name="OpenEntity.Specs.Joins.JoinTests.PropertiesShouldBeSetOnNewOneToManyJoin" executed="True" success="True" time="0.001" asserts="5" />
+                          <test-case name="OpenEntity.Specs.Joins.JoinTests.PropertiesShouldBeSetOnNewOneToOneJoin" executed="True" success="True" time="0.000" asserts="5" />
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                  <test-suite name="Mapping" executed="True" success="True" time="0.005" asserts="0">
+                    <results>
+                      <test-suite name="MappingConfigTests" executed="True" success="True" time="0.003" asserts="0">
+                        <results>
+                          <test-case name="OpenEntity.Specs.Mapping.MappingConfigTests.AddingAssemblyShouldFindAllClassMappings" executed="True" success="True" time="0.001" asserts="7" />
+                          <test-case name="OpenEntity.Specs.Mapping.MappingConfigTests.ClearShouldClearSearchedAssemblies" executed="True" success="True" time="0.000" asserts="14" />
+                          <test-case name="OpenEntity.Specs.Mapping.MappingConfigTests.DefaultMappingConfigShouldNotFindAnyClassMappings" executed="True" success="True" time="0.001" asserts="7" />
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                  <test-suite name="Repository" executed="True" success="True" time="1.061" asserts="0">
+                    <results>
+                      <test-suite name="SqlCreate" executed="True" success="True" time="0.684" asserts="0">
+                        <results>
+                          <test-case name="OpenEntity.Specs.Repository.SqlCreate.ShouldBeNew" executed="True" success="True" time="0.669" asserts="1" />
+                          <test-case name="OpenEntity.Specs.Repository.SqlCreate.ShouldHaveEntityStateBeNew" executed="True" success="True" time="0.001" asserts="1" />
+                          <test-case name="OpenEntity.Specs.Repository.SqlCreate.ShouldHaveEntityTable" executed="True" success="True" time="0.002" asserts="2" />
+                          <test-case name="OpenEntity.Specs.Repository.SqlCreate.ShouldHaveFields" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="OpenEntity.Specs.Repository.SqlCreate.ShouldNotBeDirty" executed="True" success="True" time="0.002" asserts="1" />
+                          <test-case name="OpenEntity.Specs.Repository.SqlCreate.ShouldReturnIEntity" executed="True" success="True" time="0.003" asserts="1" />
+                          <test-case name="OpenEntity.Specs.Repository.SqlCreate.ShouldReturnTEntity" executed="True" success="True" time="0.001" asserts="1" />
+                        </results>
+                      </test-suite>
+                      <test-suite name="SqlFetch" executed="True" success="True" time="0.371" asserts="0">
+                        <results>
+                          <test-case name="OpenEntity.Specs.Repository.SqlFetch.EntityShouldBeFetched" executed="True" success="True" time="0.361" asserts="1" />
+                          <test-case name="OpenEntity.Specs.Repository.SqlFetch.EntityShouldNotBeDirty" executed="True" success="True" time="0.005" asserts="1" />
+                          <test-case name="OpenEntity.Specs.Repository.SqlFetch.EntityShouldNotBeNull" executed="True" success="True" time="0.000" asserts="1" />
+                          <test-case name="OpenEntity.Specs.Repository.SqlFetch.ShouldReturnEntity" executed="True" success="True" time="0.001" asserts="3" />
+                        </results>
+                      </test-suite>
+                    </results>
+                  </test-suite>
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

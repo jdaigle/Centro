@@ -3,27 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenEntity.Mapping;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using OpenEntity.CodeDom;
 using OpenEntity.Tests.Mock.Northwind;
 
-namespace OpenEntity.Tests.CodeDom
+namespace OpenEntity.Specs.CodeDom
 {
-    [TestClass]
+    [TestFixture]
     public class ProxyFactoryTests
     {
-        public ProxyFactoryTests()
-        {
-        }
-        public TestContext TestContext { get; set; }
-
-        [ClassInitialize]
-        public static void SetupMappings(TestContext testContext)
+        [TestFixtureSetUp]
+        public static void SetupMappings()
         {
             MappingConfig.AddAssembly(typeof(TestEnvironment).Assembly);
         }
 
-        [TestMethod]
+        [Test]
         public void ShouldThrowExceptionForUnmappedClass()
         {
             try
@@ -40,7 +35,7 @@ namespace OpenEntity.Tests.CodeDom
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ShouldGetProxyTypeForMappedClass()
         {
             Assert.IsNotNull(ProxyFactory.GetProxyClass(typeof(Category)));
@@ -53,7 +48,7 @@ namespace OpenEntity.Tests.CodeDom
             Assert.IsNotNull(ProxyFactory.GetProxyClass(typeof(Supplier)));
         }
 
-        [TestMethod]
+        [Test]
         public void ShouldGetCachedProxyTypeForMappedClass()
         {
             var proxyType = ProxyFactory.GetProxyClass(typeof(Category));

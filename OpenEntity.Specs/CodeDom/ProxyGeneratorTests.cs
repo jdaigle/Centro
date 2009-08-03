@@ -2,29 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using OpenEntity.Mapping;
 using OpenEntity.Tests.Mock.Northwind;
 using OpenEntity.CodeDom;
 using OpenEntity.Entities;
 
-namespace OpenEntity.Tests.CodeDom
+namespace OpenEntity.Specs.CodeDom
 {
-    [TestClass]
+    [TestFixture]
     public class ProxyGeneratorTests
     {
-        public ProxyGeneratorTests()
-        {
-        }
-        public TestContext TestContext { get; set; }
-
-        [ClassInitialize]
-        public static void SetupMappings(TestContext testContext)
+        [TestFixtureSetUp]
+        public static void SetupMappings()
         {
             MappingConfig.AddAssembly(typeof(TestEnvironment).Assembly);
         }
 
-        [TestMethod]
+        [Test]
         public void ShouldReturnProxyObject()
         {
             foreach (var type in TestEnvironment.EntityTypes)

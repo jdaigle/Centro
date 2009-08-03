@@ -39,22 +39,4 @@ namespace OpenEntity
         /// </summary>
         Or
     }
-
-    /// <summary>
-    /// Enum definition for the type of a predicate instance.
-    /// This enum is stored in Predicate as an int and is used in DataAccessAdapterBase derived classes.
-    /// </summary>
-    internal enum PredicateType : int
-    {
-        Undefined = 0,
-        Between,
-        Empty,
-        Equals,
-        Like,
-        PredicateExpression,
-        In,
-        FieldFullTextSearchPredicate,
-        FieldCompareExpressionPredicate,
-        FieldCompareSetPredicate
-    }
 }

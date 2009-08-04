@@ -63,6 +63,7 @@
   <ItemGroup>
     <Compile Include="Northwind\Entities\Category.cs" />
     <Compile Include="Northwind\Entities\Employee.cs" />
+    <Compile Include="Northwind\Mapping\CategoryMap.cs" />
     <Compile Include="Northwind\Mapping\EmployeeMap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

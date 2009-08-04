@@ -1,27 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections;
+﻿using System.Collections;
 
 namespace OpenEntity.Query
 {
-    public interface IConstraint : IPredicate
+    public interface IConstraint
     {
-        IConstraint IsLike(string value);
-        IConstraint IsNotLike(string value);
-        IConstraint IsGreaterThan(object value);
-        IConstraint IsGreaterThanOrEqualTo(object value);
-        //IConstraint In(Select selectQuery);
-        IConstraint IsIn(IEnumerable values);
-        //IConstraint NotIn(Select selectQuery);
-        IConstraint IsNotIn(IEnumerable values);
-        IConstraint IsLessThan(object value);
-        IConstraint IsLessThanOrEqualTo(object value);
-        IConstraint IsNotNull();
-        IConstraint IsNull();
-        IConstraint IsBetweenAnd(object value1, object value2);
-        IConstraint IsEqualTo(object value);
-        IConstraint IsNotEqualTo(object value);
+        IPredicateExpression IsLike(string value);
+        IPredicateExpression IsNotLike(string value);
+        IPredicateExpression IsGreaterThan(object value);
+        IPredicateExpression IsGreaterThanOrEqualTo(object value);
+        //IPredicateExpression In(Select selectQuery);
+        IPredicateExpression IsIn(IEnumerable values);
+        //IPredicateExpression NotIn(Select selectQuery);
+        IPredicateExpression IsNotIn(IEnumerable values);
+        IPredicateExpression IsLessThan(object value);
+        IPredicateExpression IsLessThanOrEqualTo(object value);
+        IPredicateExpression IsNotNull();
+        IPredicateExpression IsNull();
+        IPredicateExpression IsBetweenAnd(object value1, object value2);
+        IPredicateExpression IsEqualTo(object value);
+        IPredicateExpression IsNotEqualTo(object value);
     }
 }

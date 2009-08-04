@@ -15,38 +15,32 @@ using OpenEntity.Query;
 using OpenEntity.Schema;
 using System.Linq.Expressions;
 using OpenEntity.Helpers;
+using System.Data.SqlClient;
 
 namespace OpenEntity.Repository
 {
     public class BaseRepository<TModelType> : IRepository<TModelType>, IEntityCreator where TModelType : IDomainObject
     {
         private IDataProvider dataProvider;
-        private Type entityType;
+        private Type proxyType;
         private ITable table;
+        private IClassMapping classMapping;
 
         public BaseRepository(IDataProvider dataProvider)
         {
             this.dataProvider = dataProvider;
-            this.entityType = ProxyFactory.GetProxyClass(typeof(TModelType));
-            this.TableName = MappingConfig.FindClassMapping(typeof(TModelType)).Table;
+            classMapping = MappingConfig.FindClassMapping(typeof(TModelType));            
         }
 
-        public BaseRepository(IDataProvider dataProvider, string tableName)
+        protected string TableName
         {
-            this.dataProvider = dataProvider;
-            this.TableName = tableName;
-            this.entityType = typeof(EntityDataObject);
+            get
+            {
+                if (classMapping == null)
+                    throw new InvalidOperationException("Could not find class mapping for type {" + typeof(TModelType).Name + "}");
+                return classMapping.Table;
+            }
         }
-
-        public BaseRepository(IDataProvider dataProvider, ITable table)
-        {
-            this.dataProvider = dataProvider;
-            this.Table = table;
-            this.TableName = table.Name;
-            this.entityType = typeof(EntityDataObject);
-        }
-
-        protected string TableName { get; private set; }
         
         protected ITable Table
         {
@@ -55,7 +49,7 @@ namespace OpenEntity.Repository
                 if (this.table == null)
                 {
                     if (string.IsNullOrEmpty(this.TableName))
-                        throw new SchemaException(string.Format(CultureInfo.InvariantCulture, "Could not determine table name for entity type [{0}]", typeof(TModelType).FullName));
+                        throw new SchemaException(string.Format(CultureInfo.InvariantCulture, "Could not determine table name for model type [{0}]", typeof(TModelType).FullName));
                     this.table = this.dataProvider.Schema.FindTable(this.TableName);
                     if (this.table == null)
                         throw new SchemaException(string.Format(CultureInfo.InvariantCulture, "Failed to find database schema for table [{0}]", this.TableName));
@@ -99,12 +93,35 @@ namespace OpenEntity.Repository
 
         public TModelType Create()
         {
-            var entity = (IProxyEntity)Activator.CreateInstance(this.entityType, new object[] { this.Table });
+            if (proxyType == null)
+                this.proxyType = ProxyFactory.GetProxyClass(typeof(TModelType));            
+            var entity = (IProxyEntity)Activator.CreateInstance(this.proxyType, new object[] { this.Table });
             IEntityFields fields = this.CreateEntityFields();
             if (fields == null)
                 return default(TModelType);
             entity.Initialize(fields);
             return (TModelType)entity;
+        }
+
+        public TModelType CreateFrom(TModelType transientObject)
+        {
+            if (transientObject == null)
+                throw new ArgumentNullException("transientObject");
+            var modelObject = Create();
+            var entity = modelObject as IEntity;
+            foreach (var propertyMapping in classMapping.PropertyMappings)
+            {
+                var field = entity.Fields[propertyMapping.Column] as EntityField;
+                if (field.IsReadOnly)
+                    continue;
+                var currentValue = propertyMapping.PropertyInfo.GetValue(transientObject, null);
+                field.ForceSetCurrentValue(currentValue);
+                if (currentValue == null)
+                    field.IsNull = true;
+            }
+            entity.IsDirty = false;
+            entity.Fields.State = EntityState.New;
+            return modelObject;
         }
 
         IProxyEntity IEntityCreator.Create()
@@ -114,14 +131,16 @@ namespace OpenEntity.Repository
 
         public bool Reload(TModelType objectToFetch)
         {
+            if (objectToFetch == null)
+                throw new ArgumentNullException("objectToFetch");
             var proxyEntity = objectToFetch as IProxyEntity;
             if (proxyEntity == null)
-                throw new ArgumentNullException("objectToFetch");
+                proxyEntity = CreateFrom(objectToFetch) as IProxyEntity;
             bool keepConnectionOpenSave = this.dataProvider.KeepConnectionOpen;
             if (proxyEntity.IsNew)
                 return false;
             IEntityFields fields = proxyEntity.Fields;
-            IDbCommand selectCommand = this.CreateSelectCommand(proxyEntity.Table, proxyEntity.Table.Columns, proxyEntity.GetPrimaryKeyPredicateExpression(), null, 1);
+            IDbCommand selectCommand = this.CreateSelectCommand(proxyEntity.Table, proxyEntity.Table.Columns, proxyEntity.GetPrimaryKeyPredicateExpression(), null, null, 1);
             try
             {
                 this.dataProvider.KeepConnectionOpen = true;
@@ -145,9 +164,11 @@ namespace OpenEntity.Repository
 
         public bool Save(TModelType objectToSave, bool refetchAfterSave)
         {
+            if (objectToSave == null)
+                throw new ArgumentNullException("objectToSave");
             var proxyEntity = objectToSave as IProxyEntity;
             if (proxyEntity == null)
-                throw new ArgumentNullException("objectToSave");
+                proxyEntity = CreateFrom(objectToSave) as IProxyEntity;
             if (proxyEntity.Fields.State == EntityState.Deleted)
             {
                 return true; // entity to save is already deleted. Return.
@@ -227,9 +248,11 @@ namespace OpenEntity.Repository
 
         public bool Delete(TModelType objectToDelete)
         {
+            if (objectToDelete == null)
+                throw new ArgumentNullException("objectToDelete");
             var proxyEntity = objectToDelete as IProxyEntity;
             if (proxyEntity == null)
-                throw new ArgumentNullException("objectToDelete");
+                proxyEntity = CreateFrom(objectToDelete) as IProxyEntity;
             if (proxyEntity.IsNew)
             {
                 // not changed or new, no fields to update, skip
@@ -272,13 +295,19 @@ namespace OpenEntity.Repository
 
         public TModelType Fetch(IPredicateExpression queryPredicate, JoinSet joinSet)
         {
+            // Overload
+            return this.Fetch(queryPredicate, joinSet, null);
+        }
+
+        public TModelType Fetch(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause)
+        {
             TModelType fetchedEntity = default(TModelType);
             bool keepConnectionOpenSave = this.dataProvider.KeepConnectionOpen;
             try
             {
                 this.dataProvider.KeepConnectionOpen = true;
                 // use collection fetch for the single entity fetch, to re-use code
-                var entities = this.FetchAll(queryPredicate, joinSet, 1);
+                var entities = this.FetchAll(queryPredicate, joinSet, orderClause, 1);
                 fetchedEntity = entities.FirstOrDefault();
             }
             finally
@@ -292,21 +321,27 @@ namespace OpenEntity.Repository
         public IList<TModelType> FetchAll(IPredicateExpression queryPredicate)
         {
             // Overload
-            return this.FetchAll(queryPredicate, null, -1);
+            return this.FetchAll(queryPredicate, null, null, -1);
         }
 
         public IList<TModelType> FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet)
         {
             // Overload
-            return this.FetchAll(queryPredicate, joinSet, -1);
+            return this.FetchAll(queryPredicate, joinSet, null, -1);
         }
 
-        public IList<TModelType> FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet, int maxNumberOfItemsToReturn)
+        public IList<TModelType> FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause)
+        {
+            // Overload
+            return this.FetchAll(queryPredicate, joinSet, orderClause, -1);
+        }
+
+        public IList<TModelType> FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause, int maxNumberOfItemsToReturn)
         {
             bool keepConnectionOpenSave = this.dataProvider.KeepConnectionOpen;
             List<TModelType> entities = new List<TModelType>();
             // Create the command
-            IDbCommand selectCommand = this.CreateSelectCommand(Table, Table.Columns, queryPredicate, joinSet, maxNumberOfItemsToReturn);
+            IDbCommand selectCommand = this.CreateSelectCommand(Table, Table.Columns, queryPredicate, joinSet, orderClause, maxNumberOfItemsToReturn);
             try
             {
                 this.dataProvider.KeepConnectionOpen = true;
@@ -450,7 +485,7 @@ namespace OpenEntity.Repository
         /// <param name="queryPredicate">The query predicate.</param>
         /// <param name="joinsToWalk">The joins to walk.</param>
         /// <returns></returns>
-        private IDbCommand CreateSelectCommand(ITable fromTable, IList<IColumn> columnsToSelect, IPredicateExpression queryPredicate, JoinSet joinSet, int maxNumberOfItemsToReturn)
+        private IDbCommand CreateSelectCommand(ITable fromTable, IList<IColumn> columnsToSelect, IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause, int maxNumberOfItemsToReturn)
         {
             IDbCommand selectCommand = this.dataProvider.CreateDbCommand();
             // generate a list of the fields to select from
@@ -486,6 +521,16 @@ namespace OpenEntity.Repository
                 selectCommand.CommandText += SqlFragment.WHERE + predicateText;
                 foreach (IDataParameter parameter in queryPredicate.Parameters)
                     selectCommand.Parameters.Add(parameter);
+            }
+            if (orderClause != null)
+            {
+                selectCommand.CommandText += SqlFragment.ORDER_BY;
+                var column = dataProvider.Schema.FindColumn(orderClause.Table, orderClause.Column);
+                selectCommand.CommandText += dataProvider.QualifyColumnName(column);
+                if (orderClause.Direction != SortOrder.Descending)
+                    selectCommand.CommandText += SqlFragment.ASC;
+                else
+                    selectCommand.CommandText += SqlFragment.DESC;
             }
             return selectCommand;
         }
@@ -610,9 +655,9 @@ namespace OpenEntity.Repository
                 IPredicateExpression pkPredicateExpression = entityToSave.GetPrimaryKeyPredicateExpression();
                 IPredicateExpression queryPredicate = new PredicateExpression();
                 if (pkPredicateExpression != null)
-                    queryPredicate.AddWithAnd(pkPredicateExpression);
+                    queryPredicate = queryPredicate.And(pkPredicateExpression);
                 if (updateRestriction != null)
-                    queryPredicate.AddWithAnd(updateRestriction);
+                    queryPredicate = queryPredicate.And(updateRestriction);
                 if (queryPredicate.Count <= 0)
                 {
                     // no identifying filter available. The update query will affect all rows, not only this entity. 
@@ -673,9 +718,9 @@ namespace OpenEntity.Repository
             IPredicateExpression pkPredicateExpression = entityToDelete.GetPrimaryKeyPredicateExpression();
             IPredicateExpression queryPredicate = new PredicateExpression();
             if (pkPredicateExpression != null)
-                queryPredicate.AddWithAnd(pkPredicateExpression);
+                queryPredicate = queryPredicate.And(pkPredicateExpression);
             if (deleteRestriction != null)
-                queryPredicate.AddWithAnd(deleteRestriction);
+                queryPredicate = queryPredicate.And(deleteRestriction);
             if (queryPredicate.Count <= 0)
             {
                 // no identifying filter available. The delete query will affect all rows, not only this entity. 

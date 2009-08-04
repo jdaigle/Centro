@@ -1,66 +1,68 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Data;
 using System.Globalization;
+using System.Linq.Expressions;
+using System.Text;
 using OpenEntity.DataProviders;
+using OpenEntity.Mapping;
+using OpenEntity.Model;
 
 namespace OpenEntity.Query
 {
-    /// <summary>
-    /// Implementation of the IPredicateExpression interface.
-    /// Predicates are expressions which result in true or false, and which are used in WHERE clauses.
-    /// </summary>
     public class PredicateExpression : IPredicateExpression
     {
         private List<PredicateExpressionElement> elements;
         private List<IDataParameter> parameters;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PredicateExpression"/> class.
-        /// </summary>
         public PredicateExpression()
         {
             this.parameters = new List<IDataParameter>();
             this.elements = new List<PredicateExpressionElement>();
         }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PredicateExpression"/> class.
-        /// </summary>
-        /// <param name="predicateToAdd">The predicate to add.</param>
-        public PredicateExpression(IPredicate predicateToAdd)
-            : this()
+        public IPredicateExpression And(IPredicate predicate)
         {
-            this.AddWithAnd(predicateToAdd);
+            if (predicate == null)
+                throw new ArgumentNullException("predicate", "Predicate To Add is null");
+            return this.AddPredicate(predicate, PredicateExpressionOperator.And);
         }
 
-        /// <summary>
-        /// Retrieves a ready to use text representation of the contained Predicate.
-        /// </summary>
-        /// <param name="dataProvider">The data provider containing schema information (used to build the query).</param>
-        /// <param name="uniqueMarker">int counter which is appended to every parameter. The refcounter is increased by every parameter creation,
-        /// making sure the parameter is unique in the predicate and also in the predicate expression(s) containing the predicate.</param>
-        /// <returns>
-        /// The contained Predicate in textual format.
-        /// </returns>
+        public IPredicateExpression Or(IPredicate predicate)
+        {
+            if (predicate == null)
+                throw new ArgumentNullException("predicate", "Predicate To Add is null");
+            return this.AddPredicate(predicate, PredicateExpressionOperator.Or);
+        }
+
+        public IConstraint Where<TModelType>(Expression<Func<TModelType, object>> columnExpression)
+             where TModelType : IDomainObject
+        {
+            return Constrain<TModelType>(columnExpression, PredicateExpressionOperator.And);
+        }
+
+        public IConstraint And<TModelType>(Expression<Func<TModelType, object>> columnExpression)
+             where TModelType : IDomainObject
+        {
+            return Constrain<TModelType>(columnExpression, PredicateExpressionOperator.And);
+        }
+
+        public IConstraint Or<TModelType>(Expression<Func<TModelType, object>> columnExpression)
+             where TModelType : IDomainObject
+        {
+            return Constrain<TModelType>(columnExpression, PredicateExpressionOperator.Or);
+        }
+
+        private IConstraint Constrain<TModelType>(Expression<Func<TModelType, object>> columnExpression, PredicateExpressionOperator operatorToUse)
+             where TModelType : IDomainObject
+        {
+            var classMapping = MappingConfig.FindClassMapping(typeof(TModelType));
+            var tableName = classMapping.Table;
+            var columnName = classMapping.GetColumnName<TModelType>(columnExpression);
+            return new ColumnConstraint(tableName, columnName, this, operatorToUse);
+        }
+
         public string ToQueryText(IDataProvider dataProvider, ref int uniqueMarker)
-        {
-            return this.ToQueryText(dataProvider, ref uniqueMarker, false);
-        }
-
-        /// <summary>
-        /// Retrieves a ready to use text representation of the contained Predicate.
-        /// </summary>
-        /// <param name="dataProvider">The data provider containing schema information (used to build the query).</param>
-        /// <param name="uniqueMarker">int counter which is appended to every parameter. The refcounter is increased by every parameter creation,
-        /// making sure the parameter is unique in the predicate and also in the predicate expression(s) containing the predicate.</param>
-        /// <param name="inHavingClause">if set to true, it will allow aggregate functions to be applied to columns.</param>
-        /// <returns>
-        /// The contained Predicate in textual format.
-        /// </returns>
-        public string ToQueryText(IDataProvider dataProvider, ref int uniqueMarker, bool inHavingClause)
         {
             if (dataProvider == null)
             {
@@ -92,7 +94,7 @@ namespace OpenEntity.Query
                     case PredicateExpressionElementType.Predicate:
                         IPredicate predicateToAdd = (IPredicate)element.Contents;
                         // get the text of the subquery
-                        queryText.AppendFormat(null, " {0}", predicateToAdd.ToQueryText(dataProvider, ref uniqueMarker, inHavingClause));
+                        queryText.AppendFormat(null, " {0}", predicateToAdd.ToQueryText(dataProvider, ref uniqueMarker));
                         this.parameters.AddRange(predicateToAdd.Parameters);
                         break;
                 }
@@ -104,78 +106,24 @@ namespace OpenEntity.Query
             return queryText.ToString();
         }
 
-        /// <summary>
-        /// The list of parameters created when the Predicate was translated to text usable in a query. Only valid after a succesful call to ToQueryText
-        /// </summary>
         public IList<IDataParameter> Parameters
         {
             get { return this.parameters; }
         }
 
-        /// <summary>
-        /// Flag for setting the Predicate to negate itself, i.e. to add 'NOT' to its result.
-        /// </summary>
-        public bool Negate
-        {
-            get;
-            set;
-        }
+        public bool Negate { get; set; }
 
-        /// <summary>
-        /// Clears the constraints and predicate expression within.
-        /// </summary>
         public void Clear()
         {
             this.elements.Clear();
         }
-        /// <summary>
-        /// Gets the amount of predicate expression elements in this predicate expression. This is including all operators and constraints.
-        /// </summary>
+
         public int Count
         {
             get { return this.elements.Count; }
         }
 
-        /// <summary>
-        /// Adds an IPredicate implementing object to the Predicate Expression with an 'And'-operator.
-        /// The object added can be a Predicate derived class or a PredicateExpression. If no objects are present yet in the Predicate Expression ,
-        /// the operator is ignored.
-        /// </summary>
-        /// <param name="predicateToAdd">The IPredicate implementing object to add</param>
-        /// <returns>
-        /// the Predicate on which this method is called, for command chaining
-        /// </returns>
-        /// <exception cref="ArgumentNullException">When predicateToAdd is null</exception>
-        public IPredicate AddWithAnd(IPredicate predicateToAdd)
-        {
-            if (predicateToAdd == null)
-                throw new ArgumentNullException("predicateToAdd", "Predicate To Add is null");
-            return this.AddPredicate(predicateToAdd, PredicateExpressionOperator.And);
-        }
-
-        /// <summary>
-        /// Adds an IPredicate implementing object to the Predicate Expression with an 'Or'-operator.
-        /// The object added can be a Predicate derived class or a Predicate Expression . If no objects are present yet in the Predicate Expression,
-        /// the operator is ignored.
-        /// </summary>
-        /// <param name="predicateToAdd">The IPredicate implementing object to add</param>
-        /// <returns>
-        /// the Predicate on which this method is called, for command chaining
-        /// </returns>
-        /// <exception cref="ArgumentNullException">When predicateToAdd is null</exception>
-        public IPredicate AddWithOr(IPredicate predicateToAdd)
-        {
-            if (predicateToAdd == null)
-                throw new ArgumentNullException("predicateToAdd", "Predicate To Add is null");
-            return this.AddPredicate(predicateToAdd, PredicateExpressionOperator.Or);
-        }
-
-        /// <summary>
-        /// Adds an element.
-        /// </summary>
-        /// <param name="elementToAdd">The element to add.</param>
-        /// <param name="operatorToUse">The operator to use.</param>
-        private IPredicate AddPredicate(object elementToAdd, PredicateExpressionOperator operatorToUse)
+        private IPredicateExpression AddPredicate(object elementToAdd, PredicateExpressionOperator operatorToUse)
         {
             if (elementToAdd == null)
             {

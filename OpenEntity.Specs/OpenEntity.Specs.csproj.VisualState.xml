@@ -5,5 +5,21 @@
   <ExcludeCategories>false</ExcludeCategories>
   <Nodes>
     <Node UniqueName="[0-1000]C:\src\OpenEntity\OpenEntity.Specs\OpenEntity.Specs.csproj" Expanded="true" />
+    <Node UniqueName="[0-1037]C:\src\OpenEntity\OpenEntity.Specs\bin\Debug\OpenEntity.Specs.dll" Expanded="true" />
+    <Node UniqueName="[0-1038]OpenEntity" Expanded="true" />
+    <Node UniqueName="[0-1039]OpenEntity.Specs" Expanded="true" />
+    <Node UniqueName="[0-1041]OpenEntity.Specs.CodeDom" Expanded="true" />
+    <Node UniqueName="[0-1017]OpenEntity.Specs.CodeDom.ProxyFactoryTests" Expanded="true" />
+    <Node UniqueName="[0-1011]OpenEntity.Specs.CodeDom.ProxyGeneratorTests" Expanded="true" />
+    <Node UniqueName="[0-1044]OpenEntity.Specs.DataProviders" Expanded="true" />
+    <Node UniqueName="[0-1034]OpenEntity.Specs.DataProviders.DataProviderFactoryTests" Expanded="true" />
+    <Node UniqueName="[0-1040]OpenEntity.Specs.Joins" Expanded="true" />
+    <Node UniqueName="[0-1004]OpenEntity.Specs.Joins.JoinSetTests" Expanded="true" />
+    <Node UniqueName="[0-1001]OpenEntity.Specs.Joins.JoinTests" Expanded="true" />
+    <Node UniqueName="[0-1042]OpenEntity.Specs.Mapping" Expanded="true" />
+    <Node UniqueName="[0-1013]OpenEntity.Specs.Mapping.MappingConfigTests" Expanded="true" />
+    <Node UniqueName="[0-1043]OpenEntity.Specs.Repository" Expanded="true" />
+    <Node UniqueName="[0-1021]OpenEntity.Specs.Repository.SqlCreate" Expanded="true" />
+    <Node UniqueName="[0-1029]OpenEntity.Specs.Repository.SqlFetch" Expanded="true" />
   </Nodes>
 </VisualState>

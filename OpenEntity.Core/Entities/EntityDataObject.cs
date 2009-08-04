@@ -253,7 +253,7 @@ namespace OpenEntity.Entities
 
             foreach (IEntityField field in this.PrimaryKeyFields)
             {
-                pkPredicateExpression.AddWithAnd(new ColumnConstraint(this.Table.Name, field.Name).IsEqualTo(field.CurrentValue));
+                new ColumnConstraint(this.Table.Name, field.Name, pkPredicateExpression, PredicateExpressionOperator.And).IsEqualTo(field.CurrentValue);
             }
 
             return pkPredicateExpression;

@@ -93,8 +93,10 @@
     <Compile Include="Mapping\PropertyMapping.cs" />
     <Compile Include="Model\IDomainObject.cs" />
     <Compile Include="Model\IValidatable.cs" />
-    <Compile Include="Query\Constraint.cs" />
     <Compile Include="Query\IConstraint.cs" />
+    <Compile Include="Query\IOrderClause.cs" />
+    <Compile Include="Query\IPredicate.cs" />
+    <Compile Include="Query\OrderClause.cs" />
     <Compile Include="Repository\AggregateFunction.cs" />
     <Compile Include="CodeDom\BaseGenerator.cs" />
     <Compile Include="CodeDom\ProxyGenerator.cs" />
@@ -129,7 +131,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\ColumnConstraint.cs" />
     <Compile Include="Query\PredicateExpression.cs" />
-    <Compile Include="Query\IPredicate.cs" />
     <Compile Include="Query\IPredicateExpression.cs" />
     <Compile Include="Query\QueryGenerationException.cs" />
     <Compile Include="Repository\BaseRepository.cs" />

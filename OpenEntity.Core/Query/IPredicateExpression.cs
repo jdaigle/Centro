@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Linq.Expressions;
+using OpenEntity.Model;
 
 namespace OpenEntity.Query
 {
@@ -10,31 +9,10 @@ namespace OpenEntity.Query
     /// </summary>
     public interface IPredicateExpression : IPredicate
     {
-        /// <summary>
-        /// Adds an IPredicate implementing object to the Predicate Expression with an 'Or'-operator. 
-        /// The object added can be a Predicate derived class or a Predicate Expression . If no objects are present yet in the Predicate Expression,
-        /// the operator is ignored. 
-        /// </summary>
-        /// <param name="predicateToAdd">The IPredicate implementing object to add</param>
-        /// <exception cref="ArgumentNullException">When predicateToAdd is null</exception>
-        /// <returns>the Predicate on which this method is called, for command chaining</returns>
-        IPredicate AddWithOr(IPredicate predicateToAdd);
-        /// <summary>
-        /// Adds an IPredicate implementing object to the Predicate Expression with an 'And'-operator. 
-        /// The object added can be a Predicate derived class or a PredicateExpression. If no objects are present yet in the Predicate Expression ,
-        /// the operator is ignored. 
-        /// </summary>
-        /// <param name="predicateToAdd">The IPredicate implementing object to add</param>
-        /// <exception cref="ArgumentNullException">When predicateToAdd is null</exception>
-        /// <returns>the Predicate on which this method is called, for command chaining</returns>
-        IPredicate AddWithAnd(IPredicate predicateToAdd);
-        /// <summary>
-        /// Clears the constraints and predicate expression within.
-        /// </summary>
-        void Clear();
-        /// <summary>
-        /// Gets the amount of predicate expression elements in this predicate expression. This is including all operators and constraints.
-        /// </summary>
-        int Count { get; }
+        IPredicateExpression And(IPredicate predicate);
+        IPredicateExpression Or(IPredicate predicate);
+        IConstraint Where<TModelType>(Expression<Func<TModelType, object>> columnExpression) where TModelType : IDomainObject;
+        IConstraint And<TModelType>(Expression<Func<TModelType, object>> columnExpression) where TModelType : IDomainObject;
+        IConstraint Or<TModelType>(Expression<Func<TModelType, object>> columnExpression) where TModelType : IDomainObject;
     }
 }

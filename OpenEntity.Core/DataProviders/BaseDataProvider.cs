@@ -361,7 +361,7 @@ namespace OpenEntity.DataProviders
                 {
                     throw new CommandExecutionException(
                         String.Format("An exception was caught during the execution of an action query: {0}. Check InnerException, QueryExecuted and Parameters of this exception to examine the cause of this exception.", ex.Message),
-                            base.ToString(), command.Parameters, ex);
+                            command.CommandText, command.Parameters, ex);
                 }
                 finally
                 {
@@ -399,7 +399,7 @@ namespace OpenEntity.DataProviders
                 {
                     throw new CommandExecutionException(
                         String.Format("An exception was caught during the execution of a retrieval query: {0}. Check InnerException, QueryExecuted and Parameters of this exception to examine the cause of this exception.", ex.Message),
-                            base.ToString(), command.Parameters, ex);
+                            command.CommandText, command.Parameters, ex);
                 }
                 finally
                 {
@@ -437,7 +437,7 @@ namespace OpenEntity.DataProviders
                 {
                     throw new CommandExecutionException(
                         String.Format("An exception was caught during the execution of a retrieval query: {0}. Check InnerException, QueryExecuted and Parameters of this exception to examine the cause of this exception.", ex.Message),
-                            base.ToString(), command.Parameters, ex);
+                            command.CommandText, command.Parameters, ex);
                 }
                 finally
                 {
@@ -484,7 +484,7 @@ namespace OpenEntity.DataProviders
                 {
                     throw new CommandExecutionException(
                         String.Format("An exception was caught during the execution of a retrieval query: {0}. Check InnerException, QueryExecuted and Parameters of this exception to examine the cause of this exception.", ex.Message),
-                            base.ToString(), command.Parameters, ex);
+                            command.CommandText, command.Parameters, ex);
                 }
                 finally
                 {

@@ -6,7 +6,7 @@ using OpenEntity.Mapping;
 
 namespace OpenEntity.Tests.Mock.Northwind
 {
-    public class CategoryMap : ClassMapping<Category>
+    public class CategoryMap : ClassConfiguration<Category>
     {
         public CategoryMap()
         {

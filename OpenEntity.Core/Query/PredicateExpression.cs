@@ -38,27 +38,27 @@ namespace OpenEntity.Query
         public IConstraint Where<TModelType>(Expression<Func<TModelType, object>> columnExpression)
              where TModelType : IDomainObject
         {
-            return Constrain<TModelType>(columnExpression, PredicateExpressionOperator.And);
+            return Constrain(columnExpression, PredicateExpressionOperator.And);
         }
 
         public IConstraint And<TModelType>(Expression<Func<TModelType, object>> columnExpression)
              where TModelType : IDomainObject
         {
-            return Constrain<TModelType>(columnExpression, PredicateExpressionOperator.And);
+            return Constrain(columnExpression, PredicateExpressionOperator.And);
         }
 
         public IConstraint Or<TModelType>(Expression<Func<TModelType, object>> columnExpression)
              where TModelType : IDomainObject
         {
-            return Constrain<TModelType>(columnExpression, PredicateExpressionOperator.Or);
+            return Constrain(columnExpression, PredicateExpressionOperator.Or);
         }
 
         private IConstraint Constrain<TModelType>(Expression<Func<TModelType, object>> columnExpression, PredicateExpressionOperator operatorToUse)
              where TModelType : IDomainObject
         {
-            var classMapping = MappingConfig.FindClassMapping(typeof(TModelType));
-            var tableName = classMapping.Table;
-            var columnName = classMapping.GetColumnName<TModelType>(columnExpression);
+            var classConfiguration = MappingConfiguration.FindClassConfiguration(typeof(TModelType));
+            var tableName = classConfiguration.Table;
+            var columnName = classConfiguration.GetColumnName(columnExpression);
             return new ColumnConstraint(tableName, columnName, this, operatorToUse);
         }
 

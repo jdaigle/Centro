@@ -7,7 +7,7 @@ using OpenEntity.Mapping;
 
 namespace OpenEntity.Examples.Northwind.Mapping
 {
-    public class CategoryMap : ClassMapping<Category>
+    public class CategoryMap : ClassConfiguration<Category>
     {
         public CategoryMap()
         {

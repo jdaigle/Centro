@@ -6,7 +6,7 @@ using OpenEntity.Mapping;
 
 namespace OpenEntity.Tests.Mock.Northwind
 {
-    public class SupplierMap : ClassMapping<Supplier>
+    public class SupplierMap : ClassConfiguration<Supplier>
     {
         public SupplierMap()
         {

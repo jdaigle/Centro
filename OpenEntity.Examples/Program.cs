@@ -33,9 +33,9 @@ namespace OpenEntity.Examples
     {
         static void Main(string[] args)
         {
-            MappingConfig.AddAssembly(typeof(EmployeeMap).Assembly);
+            MappingConfiguration.AddAssembly(typeof(EmployeeMap).Assembly);
 
-            var predicate = new PredicateExpression()
+            var predicate = new PredicateExpression() 
                 .Where<Employee>(e => e.FirstName).IsEqualTo("Joseph")
                 .Or<Employee>(e => e.LastName).IsNotEqualTo("Daigle")
                 .And(new PredicateExpression()

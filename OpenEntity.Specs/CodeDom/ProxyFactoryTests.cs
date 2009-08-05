@@ -15,7 +15,7 @@ namespace OpenEntity.Specs.CodeDom
         [TestFixtureSetUp]
         public static void SetupMappings()
         {
-            MappingConfig.AddAssembly(typeof(TestEnvironment).Assembly);
+            MappingConfiguration.AddAssembly(typeof(TestEnvironment).Assembly);
         }
 
         [Test]

@@ -6,7 +6,7 @@ using OpenEntity.Mapping;
 
 namespace OpenEntity.Tests.Mock.Northwind
 {
-    public class ProductMap : ClassMapping<Product>
+    public class ProductMap : ClassConfiguration<Product>
     {
         public ProductMap()
         {

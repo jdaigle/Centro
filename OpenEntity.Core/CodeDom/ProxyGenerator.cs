@@ -52,15 +52,11 @@ namespace OpenEntity.CodeDom
                 get {{ return ({0})proxy.GetCurrentFieldValue({2}); }}
                 set {{ proxy.SetNewFieldValue({2}, value); base.{1} = value; }} }}";
         
-        private readonly IClassMapping classMapping;
+        private readonly IClassConfiguration classConfiguration;
 
-        /// <summary>
-        /// ctor
-        /// </summary>
-        /// <param name="classMapping">The target class mapping</param>
-        public ProxyGenerator(IClassMapping classMapping)
+        public ProxyGenerator(IClassConfiguration classConfiguration)
         {
-            this.classMapping = classMapping;
+            this.classConfiguration = classConfiguration;
         }
 
         public Type Build()
@@ -71,7 +67,7 @@ namespace OpenEntity.CodeDom
 
         protected override void OnInitCompiler()
         {
-            var classAssembly = this.classMapping.ClassType.Assembly;
+            var classAssembly = this.classConfiguration.ClassType.Assembly;
             this.AddAssembly(classAssembly.Location);
 
             foreach (var referencedName in classAssembly.GetReferencedAssemblies())
@@ -111,7 +107,7 @@ namespace OpenEntity.CodeDom
         /// <returns></returns>
         private bool IsPublic(string propertyName)
         {
-            return this.classMapping.ClassType.GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public) != null;
+            return this.classConfiguration.ClassType.GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public) != null;
         }
 
         /// <summary>
@@ -124,15 +120,15 @@ namespace OpenEntity.CodeDom
 
             sb.Append(headerCodeSegment + Environment.NewLine);
             sb.AppendFormat(classDefCodeSegment, 
-                            this.classMapping.ClassType.FullName.Replace('.', '_').Replace("+", "__"),
-                            this.classMapping.ClassType.FullName);
+                            this.classConfiguration.ClassType.FullName.Replace('.', '_').Replace("+", "__"),
+                            this.classConfiguration.ClassType.FullName);
 
-            foreach (var propertyMapping in this.classMapping.PropertyMappings)
+            foreach (var property in this.classConfiguration.Properties)
             {
                 sb.AppendFormat(propertyOverrideCodeSegment,
-                                propertyMapping.PropertyInfo.PropertyType.FullName,
-                                propertyMapping.Name,
-                                "\""+propertyMapping.Column+"\"");
+                                property.PropertyInfo.PropertyType.FullName,
+                                property.Name,
+                                "\""+property.Column+"\"");
                 sb.Append(Environment.NewLine);
             }
 

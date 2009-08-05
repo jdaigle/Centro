@@ -6,7 +6,7 @@ using OpenEntity.Mapping;
 
 namespace OpenEntity.Tests.Mock.Northwind
 {
-    public class OrderMap : ClassMapping<Order>
+    public class OrderMap : ClassConfiguration<Order>
     {
         public OrderMap()
         {

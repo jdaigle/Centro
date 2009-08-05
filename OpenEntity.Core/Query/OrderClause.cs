@@ -14,9 +14,9 @@ namespace OpenEntity.Query
 
         public OrderClause(Expression<Func<TModelType, object>> columnExpression)
         {
-            var classMapping = MappingConfig.FindClassMapping(typeof(TModelType));
-            table = classMapping.Table;
-            column = classMapping.GetColumnName<TModelType>(columnExpression);
+            var classConfiguration = MappingConfiguration.FindClassConfiguration(typeof(TModelType));
+            table = classConfiguration.Table;
+            column = classConfiguration.GetColumnName(columnExpression);
             direction = SortOrder.Ascending;
         }
 

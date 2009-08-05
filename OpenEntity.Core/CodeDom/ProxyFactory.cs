@@ -21,9 +21,9 @@ namespace OpenEntity.CodeDom
         {
             ContractUtils.Requires(targetClass != null, "targetClass");
 
-            IClassMapping classMapping = OpenEntity.Mapping.MappingConfig.FindClassMapping(targetClass);
-            if (classMapping == null)
-                throw new NotSupportedException("Cannot create proxy class for " + targetClass.FullName + " without a class/table mapping.");
+            var classConfiguration = OpenEntity.Mapping.MappingConfiguration.FindClassConfiguration(targetClass);
+            if (classConfiguration == null)
+                throw new NotSupportedException("Cannot create proxy class for " + targetClass.FullName + " without a class/table configuration.");
 
             Type proxyType = null;
             if (proxyTypes.ContainsKey(targetClass))
@@ -32,7 +32,7 @@ namespace OpenEntity.CodeDom
             }
             else
             {
-                var gen = new ProxyGenerator(classMapping);
+                var gen = new ProxyGenerator(classConfiguration);
                 proxyType = gen.Build();
                 proxyTypes.Add(targetClass, proxyType);
             }

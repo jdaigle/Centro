@@ -24,21 +24,21 @@ namespace OpenEntity.Repository
         private IDataProvider dataProvider;
         private Type proxyType;
         private ITable table;
-        private IClassMapping classMapping;
+        private IClassConfiguration classConfiguration;
 
         public BaseRepository(IDataProvider dataProvider)
         {
             this.dataProvider = dataProvider;
-            classMapping = MappingConfig.FindClassMapping(typeof(TModelType));            
+            classConfiguration = MappingConfiguration.FindClassConfiguration(typeof(TModelType));            
         }
 
         protected string TableName
         {
             get
             {
-                if (classMapping == null)
-                    throw new InvalidOperationException("Could not find class mapping for type {" + typeof(TModelType).Name + "}");
-                return classMapping.Table;
+                if (classConfiguration == null)
+                    throw new InvalidOperationException("Could not find class configuration for type {" + typeof(TModelType).Name + "}");
+                return classConfiguration.Table;
             }
         }
         
@@ -109,12 +109,12 @@ namespace OpenEntity.Repository
                 throw new ArgumentNullException("transientObject");
             var modelObject = Create();
             var entity = modelObject as IEntity;
-            foreach (var propertyMapping in classMapping.PropertyMappings)
+            foreach (var property in classConfiguration.Properties)
             {
-                var field = entity.Fields[propertyMapping.Column] as EntityField;
+                var field = entity.Fields[property.Column] as EntityField;
                 if (field.IsReadOnly)
                     continue;
-                var currentValue = propertyMapping.PropertyInfo.GetValue(transientObject, null);
+                var currentValue = property.PropertyInfo.GetValue(transientObject, null);
                 field.ForceSetCurrentValue(currentValue);
                 if (currentValue == null)
                     field.IsNull = true;
@@ -403,8 +403,8 @@ namespace OpenEntity.Repository
         }
         public object FetchScalar(Expression<Func<TModelType, object>> columnExpression, AggregateFunction aggregateFunction, IPredicateExpression queryPredicate, JoinSet joinSet)
         {
-            var classMapping = MappingConfig.FindClassMapping(typeof(TModelType));
-            var columnName = classMapping.GetColumnName(columnExpression);
+            var classConfiguration = MappingConfiguration.FindClassConfiguration(typeof(TModelType));
+            var columnName = classConfiguration.GetColumnName(columnExpression);
             var column = this.dataProvider.Schema.FindColumn(this.TableName, columnName);
             return FetchScalar(column, aggregateFunction, queryPredicate, joinSet);
         }

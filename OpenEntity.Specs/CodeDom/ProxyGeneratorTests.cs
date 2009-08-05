@@ -16,7 +16,7 @@ namespace OpenEntity.Specs.CodeDom
         [TestFixtureSetUp]
         public static void SetupMappings()
         {
-            MappingConfig.AddAssembly(typeof(TestEnvironment).Assembly);
+            MappingConfiguration.AddAssembly(typeof(TestEnvironment).Assembly);
         }
 
         [Test]
@@ -24,7 +24,7 @@ namespace OpenEntity.Specs.CodeDom
         {
             foreach (var type in TestEnvironment.EntityTypes)
             {
-                var mapping = MappingConfig.FindClassMapping(type);
+                var mapping = MappingConfiguration.FindClassConfiguration(type);
                 var gen = new ProxyGenerator(mapping);
                 var proxy = gen.Build();
                 Assert.IsNotNull(proxy);

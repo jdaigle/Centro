@@ -7,6 +7,39 @@ namespace OpenEntity.Helpers
 {
     public static class ReflectionHelper
     {
+        public static PropertyInfo GetProperty<TClass, TMemberResult>(Expression<Func<TClass, TMemberResult>> expression)
+        {
+            //var isExpressionOfDynamicComponent = expression.ToString().Contains("get_Item");
+
+            //if (isExpressionOfDynamicComponent)
+            //    return GetDynamicComponentProperty(expression);
+
+            var memberInfo = DecodeMemberAccessExpression(expression);
+            if (!(memberInfo is PropertyInfo))
+                throw new ArgumentException(string.Format("Invalid MemberInfo type: ExpectedPropertyInfo, Found {0}", memberInfo.GetType().Name), "expression");
+            return (PropertyInfo)memberInfo;
+        }
+
+        public static MemberInfo DecodeMemberAccessExpression<TClass, TMemberResult>(Expression<Func<TClass, TMemberResult>> expression)
+        {
+            if (expression.Body.NodeType == ExpressionType.Convert)
+            {
+                var body = (UnaryExpression)expression.Body;
+                var memberExpression = body.Operand as MemberExpression;
+                if (memberExpression == null)
+                    throw new ArgumentException(string.Format("Invalid expression type: Expected MemberExpression for Unary Convert, Found {0}", body.Operand.NodeType), "expression");
+                return memberExpression.Member;
+            }
+            else if (expression.Body.NodeType == ExpressionType.MemberAccess)
+            {
+                return ((MemberExpression)expression.Body).Member;
+            }
+            else
+            {
+                throw new ArgumentException(string.Format("Invalid expression type: Expected ExpressionType.MemberAccess, Found {0}", expression.Body.NodeType), "expression");
+            }
+        }
+
         //public static bool IsMethodExpression<TModel>(Expression<Func<TModel, object>> expression)
         //{
         //    return IsMethodExpression<TModel, object>(expression);
@@ -21,18 +54,6 @@ namespace OpenEntity.Helpers
         //{
         //    return GetMemberExpression(expression, false) != null;
         //}
-
-        public static PropertyInfo GetProperty<TModel>(Expression<Func<TModel, object>> expression)
-        {
-            //var isExpressionOfDynamicComponent = expression.ToString().Contains("get_Item");
-
-            //if (isExpressionOfDynamicComponent)
-            //    return GetDynamicComponentProperty(expression);
-
-            var memberExpression = GetMemberExpression(expression);
-
-            return (PropertyInfo)memberExpression.Member;
-        }
 
         //private static PropertyInfo GetDynamicComponentProperty<TModel, T>(Expression<Func<TModel, T>> expression)
         //{
@@ -51,14 +72,14 @@ namespace OpenEntity.Helpers
 
         //        if (nextOperand.NodeType != ExpressionType.Convert)
         //            throw new ArgumentException("Expression not supported", "expression");
-	            
+
         //        var unaryExpression = (UnaryExpression)nextOperand;
         //        desiredConversionType = unaryExpression.Type;
         //        nextOperand = unaryExpression.Operand;
         //    }
-                
+
         //    var constExpression = methodCallExpression.Arguments[0] as ConstantExpression;
-                
+
         //    return new DummyPropertyInfo((string)constExpression.Value, desiredConversionType);
         //}
 
@@ -74,31 +95,7 @@ namespace OpenEntity.Helpers
         //    return (PropertyInfo)memberExpression.Member;
         //}
 
-        private static MemberExpression GetMemberExpression<TModel, T>(Expression<Func<TModel, T>> expression)
-        {
-            return GetMemberExpression(expression, true);
-        }
 
-        private static MemberExpression GetMemberExpression<TModel, T>(Expression<Func<TModel, T>> expression, bool enforceCheck)
-        {
-            MemberExpression memberExpression = null;
-            if (expression.Body.NodeType == ExpressionType.Convert)
-            {
-                var body = (UnaryExpression)expression.Body;
-                memberExpression = body.Operand as MemberExpression;
-            }
-            else if (expression.Body.NodeType == ExpressionType.MemberAccess)
-            {
-                memberExpression = expression.Body as MemberExpression;
-            }
-
-            if (enforceCheck && memberExpression == null)
-            {
-                throw new ArgumentException("Not a member access", "expression");
-            }
-
-            return memberExpression;
-        }
 
         //public static Accessor GetAccessor<MODEL>(Expression<Func<MODEL, object>> expression)
         //{

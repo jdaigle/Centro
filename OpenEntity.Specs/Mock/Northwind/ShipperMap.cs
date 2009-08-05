@@ -6,7 +6,7 @@ using OpenEntity.Mapping;
 
 namespace OpenEntity.Tests.Mock.Northwind
 {
-    public class ShipperMap : ClassMapping<Shipper>
+    public class ShipperMap : ClassConfiguration<Shipper>
     {
         public ShipperMap()
         {

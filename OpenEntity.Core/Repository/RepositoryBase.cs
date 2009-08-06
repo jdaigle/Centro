@@ -19,14 +19,14 @@ using System.Data.SqlClient;
 
 namespace OpenEntity.Repository
 {
-    public class BaseRepository<TModelType> : IRepository<TModelType>, IEntityCreator where TModelType : IDomainObject
+    public class RepositoryBase<TModelType> : IRepository<TModelType>, IEntityCreator where TModelType : IDomainObject
     {
         private IDataProvider dataProvider;
         private Type proxyType;
         private ITable table;
         private IClassConfiguration classConfiguration;
 
-        public BaseRepository(IDataProvider dataProvider)
+        public RepositoryBase(IDataProvider dataProvider)
         {
             this.dataProvider = dataProvider;
             classConfiguration = MappingConfiguration.FindClassConfiguration(typeof(TModelType));            

@@ -22,7 +22,7 @@ namespace OpenEntity.Specs.Model
             MappingConfiguration.Clear();
             MappingConfiguration.AddAssembly(typeof(TestEnvironment).Assembly);
 
-            repository = new BaseRepository<Supplier>(TestEnvironment.GetSqlServerDataProvider());
+            repository = new RepositoryBase<Supplier>(TestEnvironment.GetSqlServerDataProvider());
         }
 
         [Test]

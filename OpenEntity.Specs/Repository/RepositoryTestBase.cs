@@ -16,7 +16,7 @@ namespace OpenEntity.Specs.Repository
             MappingConfiguration.Clear();
             MappingConfiguration.AddAssembly(typeof(TestEnvironment).Assembly);
 
-            Repository = new BaseRepository<TModelType>(GetDataProvider());
+            Repository = new RepositoryBase<TModelType>(GetDataProvider());
         }
 
         protected abstract IDataProvider GetDataProvider();

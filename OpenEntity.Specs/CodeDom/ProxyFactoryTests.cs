@@ -5,7 +5,8 @@ using System.Text;
 using OpenEntity.Mapping;
 using NUnit.Framework;
 using OpenEntity.CodeDom;
-using OpenEntity.Tests.Mock.Northwind;
+using OpenEntity.Specs.Mock.Northwind;
+using OpenEntity.Specs.Mock.Northwind;
 
 namespace OpenEntity.Specs.CodeDom
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using OpenEntity.Query;
+using OpenEntity.Model;
 
 namespace OpenEntity.Entities
 {
@@ -20,5 +21,7 @@ namespace OpenEntity.Entities
         /// Gets an IPredicateExpression that represents the primary keys for this entity.
         /// </summary>
         IPredicateExpression GetPrimaryKeyPredicateExpression();
+        void AddCustomTypeConverter(ICustomTypeConverter customTypeConverter, string propertyName);
+        ICustomTypeConverter GetCustomTypeConverter(string propertyName);
     }
 }

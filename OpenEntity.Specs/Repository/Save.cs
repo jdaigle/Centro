@@ -2,7 +2,7 @@
 using OpenEntity.DataProviders;
 using OpenEntity.Entities;
 using OpenEntity.Repository;
-using OpenEntity.Tests.Mock.Northwind;
+using OpenEntity.Specs.Mock.Northwind;
 
 namespace OpenEntity.Specs.Repository
 {

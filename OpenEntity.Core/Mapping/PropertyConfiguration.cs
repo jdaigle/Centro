@@ -15,9 +15,13 @@ namespace OpenEntity.Mapping
         public string Name { get; set; }
         public PropertyInfo PropertyInfo { get; set; }
         public string Column { get; set; }
+        public ICustomTypeConverter CustomTypeConverter { get; private set; }
         public PropertyConfiguration CustomType(Type typeConverter)
         {
-            throw new NotImplementedException();
+            if (!typeof(ICustomTypeConverter).IsAssignableFrom(typeConverter))
+                throw new ArgumentException("Type converter must be of type ICustomTypeConverter", "typeConverter");
+            CustomTypeConverter = Activator.CreateInstance(typeConverter) as ICustomTypeConverter;
+            return this;
         }
     }
 }

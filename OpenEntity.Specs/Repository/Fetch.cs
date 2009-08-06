@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenEntity.Entities;
-using OpenEntity.Tests.Mock.Northwind;
+using OpenEntity.Specs.Mock.Northwind;
 using OpenEntity.DataProviders;
 using OpenEntity.Model;
 

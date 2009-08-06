@@ -6,15 +6,12 @@ using System.Linq;
 using OpenEntity.Schema;
 using OpenEntity.Query;
 using OpenEntity.DataProviders;
+using OpenEntity.Model;
 
 namespace OpenEntity.Entities
 {
     public class EntityDataObject : IProxyEntity, IEntity
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="EntityDataObject"/> class.
-        /// </summary>
-        /// <param name="table">The table schema.</param>
         public EntityDataObject(ITable table)
         {
             this.Table = table;
@@ -23,7 +20,6 @@ namespace OpenEntity.Entities
         }
 
         public ITable Table { get; internal set; }
-
         public bool Initialized { get; private set; }
 
         public void Initialize(IEntityFields fields)
@@ -36,13 +32,6 @@ namespace OpenEntity.Entities
             this.Initialized = true;
         }
 
-        /// <summary>
-        /// Sets the value of the field with the index specified to the value specified. 
-        /// </summary>
-        /// <param name="fieldIndex">The fieldindex of the field which value to set.</param>
-        /// <param name="value">The value to set the field's currentvalue to.</param>
-        /// <exception cref="ArgumentOutOfRangeException">When fieldIndex is smaller than 0 or bigger than the amount of fields in the fields collection.</exception>
-        /// <returns>true if the value is actually set, false otherwise</returns>
         protected bool SetValue(int fieldIndex, object value)
         {
             if (this.Fields == null)
@@ -95,14 +84,6 @@ namespace OpenEntity.Entities
             return valueIsSet;
         }
 
-        /// <summary>
-        /// Gets the value of the field with the index specified. 
-        /// </summary>
-        /// <param name="fieldIndex">Index of the field.</param>
-        /// <returns>the value of the field</returns>
-        /// <exception cref="EntityOutOfSyncException">When the entity is out of sync and needs to be refetched first.</exception>
-        /// <exception cref="EntityIsDeletedException">When the entity is marked as deleted.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">When fieldIndex is smaller than 0 or bigger than the amount of fields in the fields collection.</exception>
         protected object GetValue(int fieldIndex)
         {
             if (this.Fields == null)
@@ -259,7 +240,22 @@ namespace OpenEntity.Entities
             return pkPredicateExpression;
         }
 
-        #endregion        
+        IDictionary<string, ICustomTypeConverter> customTypeConverters = new Dictionary<string, ICustomTypeConverter>();
+
+        public void AddCustomTypeConverter(ICustomTypeConverter customTypeConverter, string propertyName)
+        {
+            if (!customTypeConverters.ContainsKey(propertyName.ToUpperInvariant()))
+                customTypeConverters.Add(propertyName.ToUpperInvariant(), customTypeConverter);
+        }
+
+        public ICustomTypeConverter GetCustomTypeConverter(string propertyName)
+        {
+            if (customTypeConverters.ContainsKey(propertyName.ToUpperInvariant()))
+                return customTypeConverters[propertyName.ToUpperInvariant()];
+            return null;
+        }
+
+        #endregion
 
         #region IEditableObject Members
 

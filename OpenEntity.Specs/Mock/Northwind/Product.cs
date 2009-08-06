@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using OpenEntity.Model;
 
-namespace OpenEntity.Tests.Mock.Northwind
+namespace OpenEntity.Specs.Mock.Northwind
 {
     public class Product : IDomainObject
     {

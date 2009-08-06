@@ -19,28 +19,31 @@ namespace OpenEntity.CodeDom
               using OpenEntity.Entities;
               using OpenEntity.Schema;
               using OpenEntity.Query;
+              using OpenEntity.Model;
               namespace OpenEntity.Proxies {";
 
         private const string classDefCodeSegment =
             @"public class Proxy_{0} : {1}, IProxyEntity {{
                 private EntityDataObject proxy;
                 // ctor
-                public Proxy_{0}(ITable table) {{ this.proxy = new EntityDataObject(table); }}
+                public Proxy_{0}(ITable t) {{ proxy = new EntityDataObject(t); }}
                 // IProxyEntity
-                bool IProxyEntity.Initialized {{ get {{ return this.proxy.Initialized; }} }}
-                void IProxyEntity.Initialize(IEntityFields fields) {{ this.proxy.Initialize(fields); }}
-                IPredicateExpression IProxyEntity.GetPrimaryKeyPredicateExpression() {{ return this.proxy.GetPrimaryKeyPredicateExpression(); }}
+                bool IProxyEntity.Initialized {{ get {{ return proxy.Initialized; }} }}
+                void IProxyEntity.Initialize(IEntityFields fields) {{ proxy.Initialize(fields); }}
+                IPredicateExpression IProxyEntity.GetPrimaryKeyPredicateExpression() {{ return proxy.GetPrimaryKeyPredicateExpression(); }}
+                void IProxyEntity.AddCustomTypeConverter(ICustomTypeConverter c, string p) {{ proxy.AddCustomTypeConverter(c, p); }}
+                ICustomTypeConverter IProxyEntity.GetCustomTypeConverter(string p) {{ return proxy.GetCustomTypeConverter(p); }}
                 // IEntity
-                ITable IEntity.Table {{ get {{ return this.proxy.Table; }} }}
-                bool IEntity.SetNewFieldValue(string fieldName, object value) {{ return proxy.SetNewFieldValue(fieldName, value); }}
-                bool IEntity.SetNewFieldValue(int fieldIndex, object value) {{ return proxy.SetNewFieldValue(fieldIndex, value); }}
-                object IEntity.GetCurrentFieldValue(string fieldName) {{ return proxy.GetCurrentFieldValue(fieldName); }}
+                ITable IEntity.Table {{ get {{ return proxy.Table; }} }}
+                bool IEntity.SetNewFieldValue(string f, object v) {{ return proxy.SetNewFieldValue(f, v); }}
+                bool IEntity.SetNewFieldValue(int f, object v) {{ return proxy.SetNewFieldValue(f, v); }}
+                object IEntity.GetCurrentFieldValue(string f) {{ return proxy.GetCurrentFieldValue(f); }}
                 bool IEntity.IsNew {{ get {{ return proxy.IsNew; }} set {{ proxy.IsNew = value; }} }}
                 bool IEntity.IsDirty {{ get {{ return proxy.IsDirty; }} set {{ proxy.IsDirty = value; }} }}
                 Guid IEntity.EntityObjectID {{ get {{ return proxy.EntityObjectID; }} }}
                 IEntityFields IEntity.Fields {{ get {{ return proxy.Fields; }} }}
                 IList<IEntityField> IEntity.PrimaryKeyFields {{ get {{ return proxy.PrimaryKeyFields; }} }}
-                object IEntity.GetCurrentFieldValue(int fieldIndex) {{ return proxy.GetCurrentFieldValue(fieldIndex); }}
+                object IEntity.GetCurrentFieldValue(int f) {{ return proxy.GetCurrentFieldValue(f); }}
                 //IEditableObject
                 void IEditableObject.BeginEdit() {{ proxy.BeginEdit(); }}
                 void IEditableObject.CancelEdit() {{ proxy.CancelEdit(); }}
@@ -49,8 +52,32 @@ namespace OpenEntity.CodeDom
 
         private const string propertyOverrideCodeSegment =
             @"public override {0} {1} {{
-                get {{ return ({0})proxy.GetCurrentFieldValue({2}); }}
-                set {{ proxy.SetNewFieldValue({2}, value); base.{1} = value; }} }}";
+                get
+                {{
+                    object v = proxy.GetCurrentFieldValue({2});
+                    ICustomTypeConverter c = proxy.GetCustomTypeConverter({3});
+                    if (c != null)
+                    {{
+                        return ({0})c.ConvertTo(v);
+                    }}
+                    else
+                    {{
+                        return ({0})v;
+                    }}
+                }}
+                set
+                {{                    
+                    ICustomTypeConverter c = proxy.GetCustomTypeConverter({3});
+                    if (c != null)
+                    {{
+                        proxy.SetNewFieldValue({2}, c.ConvertFrom(value));
+                    }}
+                    else
+                    {{
+                        proxy.SetNewFieldValue({2}, value);
+                    }}
+                    base.{1} = value;
+                }} }}";
         
         private readonly IClassConfiguration classConfiguration;
 
@@ -128,7 +155,8 @@ namespace OpenEntity.CodeDom
                 sb.AppendFormat(propertyOverrideCodeSegment,
                                 property.PropertyInfo.PropertyType.FullName,
                                 property.Name,
-                                "\""+property.Column+"\"");
+                                "\""+property.Column+"\"",
+                                "\"" + property.Name + "\"");
                 sb.Append(Environment.NewLine);
             }
 

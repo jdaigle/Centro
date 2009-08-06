@@ -96,6 +96,9 @@ namespace OpenEntity.Repository
             if (proxyType == null)
                 this.proxyType = ProxyFactory.GetProxyClass(typeof(TModelType));            
             var entity = (IProxyEntity)Activator.CreateInstance(this.proxyType, new object[] { this.Table });
+            foreach (var property in classConfiguration.Properties)
+                if (property.CustomTypeConverter != null)
+                    entity.AddCustomTypeConverter(property.CustomTypeConverter, property.Name);
             IEntityFields fields = this.CreateEntityFields();
             if (fields == null)
                 return default(TModelType);

@@ -56,6 +56,7 @@
     <Compile Include="Joins\JoinSetTests.cs" />
     <Compile Include="Joins\JoinTests.cs" />
     <Compile Include="Mapping\MappingConfigTests.cs" />
+    <Compile Include="Mapping\PropertyConfigurationTests.cs" />
     <Compile Include="Mock\Northwind\Category.cs" />
     <Compile Include="Mock\Northwind\CategoryMap.cs" />
     <Compile Include="Mock\Northwind\Customer.cs" />
@@ -72,6 +73,9 @@
     <Compile Include="Mock\Northwind\ShipperMap.cs" />
     <Compile Include="Mock\Northwind\Supplier.cs" />
     <Compile Include="Mock\Northwind\SupplierMap.cs" />
+    <Compile Include="Mock\SimplePhoneNumber.cs" />
+    <Compile Include="Mock\SimplePhoneNumberConverter.cs" />
+    <Compile Include="Model\CustomTypeConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\Create.cs" />
     <Compile Include="Repository\Fetch.cs" />

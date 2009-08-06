@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OpenEntity.Tests.Mock.Northwind
+namespace OpenEntity.Specs.Mock.Northwind
 {
     public class Order : OpenEntity.Model.IDomainObject
     {

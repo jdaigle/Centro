@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using OpenEntity.Mapping;
-using OpenEntity.Tests.Mock.Northwind;
+using OpenEntity.Specs.Mock.Northwind;
 using OpenEntity.CodeDom;
 using OpenEntity.Entities;
 

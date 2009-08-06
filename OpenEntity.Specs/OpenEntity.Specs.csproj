@@ -75,6 +75,7 @@
     <Compile Include="Mock\Northwind\SupplierMap.cs" />
     <Compile Include="Mock\SimplePhoneNumber.cs" />
     <Compile Include="Mock\SimplePhoneNumberConverter.cs" />
+    <Compile Include="Model\ModelRelationshipTests.cs" />
     <Compile Include="Model\CustomTypeConverterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\Create.cs" />

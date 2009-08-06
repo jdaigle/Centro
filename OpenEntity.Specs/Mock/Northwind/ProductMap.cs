@@ -15,8 +15,7 @@ namespace OpenEntity.Specs.Mock.Northwind
             this.Maps(x => x.Id).AsColumn("ProductId");
             this.Maps(x => x.Name).AsColumn("ProductName");
             this.Maps(x => x.Discontinued);
-
-
+            this.Maps(x => x.CategoryId);
         }
     }
 }

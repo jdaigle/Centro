@@ -11,7 +11,7 @@ namespace OpenEntity.Specs.Mock.Northwind
         public ShipperMap()
         {
             this.ForTable("Shippers");
-            this.Map(x => x.Name, "CompanyName");
+            this.Maps(x => x.Name).AsColumn("CompanyName");
         }
     }
 }

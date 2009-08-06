@@ -11,9 +11,9 @@ namespace OpenEntity.Specs.Mock.Northwind
         public EmployeeMap()
         {
             this.ForTable("Employees");
-            this.Map(x => x.FirstName, "FirstName");
-            this.Map(x => x.LastName, "LastName");
-            this.Map(x => x.Title, "Title");
+            this.Maps(x => x.FirstName);
+            this.Maps(x => x.LastName);
+            this.Maps(x => x.Title);
         }
     }
 }

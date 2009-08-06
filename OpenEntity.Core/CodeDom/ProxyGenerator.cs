@@ -50,7 +50,7 @@ namespace OpenEntity.CodeDom
                 void IEditableObject.EndEdit() {{ proxy.EndEdit(); }}
                 ";
 
-        private const string propertyOverrideCodeSegment =
+        private const string propertyGetterSetterCodeSegment =
             @"public override {0} {1} {{
                 get
                 {{
@@ -77,6 +77,22 @@ namespace OpenEntity.CodeDom
                         proxy.SetNewFieldValue({2}, value);
                     }}
                     base.{1} = value;
+                }} }}";
+
+        private const string propertyGetterOverrideCodeSegment =
+            @"public override {0} {1} {{
+                get
+                {{
+                    object v = proxy.GetCurrentFieldValue({2});
+                    ICustomTypeConverter c = proxy.GetCustomTypeConverter({3});
+                    if (c != null)
+                    {{
+                        return ({0})c.ConvertTo(v);
+                    }}
+                    else
+                    {{
+                        return ({0})v;
+                    }}
                 }} }}";
         
         private readonly IClassConfiguration classConfiguration;
@@ -152,10 +168,15 @@ namespace OpenEntity.CodeDom
 
             foreach (var property in this.classConfiguration.Properties)
             {
-                sb.AppendFormat(propertyOverrideCodeSegment,
+                var propertyCodeSegment = propertyGetterOverrideCodeSegment;
+                if (property.PropertyInfo.CanWrite)
+                {
+                    propertyCodeSegment = propertyGetterSetterCodeSegment;
+                }
+                sb.AppendFormat(propertyCodeSegment,
                                 property.PropertyInfo.PropertyType.FullName,
                                 property.Name,
-                                "\""+property.Column+"\"",
+                                "\"" + property.Column + "\"",
                                 "\"" + property.Name + "\"");
                 sb.Append(Environment.NewLine);
             }

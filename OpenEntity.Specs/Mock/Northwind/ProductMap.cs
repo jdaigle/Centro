@@ -11,9 +11,12 @@ namespace OpenEntity.Specs.Mock.Northwind
         public ProductMap()
         {
             this.ForTable("Products");
-            this.Map(x => x.Id, "ProductId");
-            this.Map(x => x.Name, "ProductName");
-            this.Map(x => x.Discontinued);
+
+            this.Maps(x => x.Id).AsColumn("ProductId");
+            this.Maps(x => x.Name).AsColumn("ProductName");
+            this.Maps(x => x.Discontinued);
+
+
         }
     }
 }

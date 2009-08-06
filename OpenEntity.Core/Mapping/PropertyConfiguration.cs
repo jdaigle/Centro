@@ -7,16 +7,26 @@ using OpenEntity.Model;
 
 namespace OpenEntity.Mapping
 {
-    public class PropertyConfiguration
+    internal class PropertyConfiguration : IPropertyConfiguration
     {
-        internal PropertyConfiguration()
+        internal PropertyConfiguration(PropertyInfo propertyInfo)
         {
+            PropertyInfo = propertyInfo;
+            Column = propertyInfo.Name;
         }
-        public string Name { get; set; }
-        public PropertyInfo PropertyInfo { get; set; }
-        public string Column { get; set; }
+
+        public string Name { get { return PropertyInfo.Name; } }
+        public PropertyInfo PropertyInfo { get; private set; }
+        public string Column { get; private set; }
         public ICustomTypeConverter CustomTypeConverter { get; private set; }
-        public PropertyConfiguration CustomType(Type typeConverter)
+
+        public IPropertyConfiguration AsColumn(string name)
+        {
+            Column = name;
+            return this;
+        }
+
+        public IPropertyConfiguration AsCustomType(Type typeConverter)
         {
             if (!typeof(ICustomTypeConverter).IsAssignableFrom(typeConverter))
                 throw new ArgumentException("Type converter must be of type ICustomTypeConverter", "typeConverter");

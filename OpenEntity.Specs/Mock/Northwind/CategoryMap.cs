@@ -11,9 +11,9 @@ namespace OpenEntity.Specs.Mock.Northwind
         public CategoryMap()
         {
             this.ForTable("Categories");
-            this.Map(x => x.Name, "CategoryName");
-            this.Map(x => x.Description, "Description");
-            this.Map(x => x.Picture, "Picture");
+            this.Maps(x => x.Name).AsColumn("CategoryName");
+            this.Maps(x => x.Description).AsColumn("Description");
+            this.Maps(x => x.Picture).AsColumn("Picture");
         }
     }
 }

@@ -11,9 +11,9 @@ namespace OpenEntity.Specs.Mock.Northwind
         public SupplierMap()
         {
             this.ForTable("Suppliers");
-            this.Map(x => x.CompanyName);
-            this.Map(x => x.ContactName);
-            this.Map(x => x.Phone).CustomType(typeof(SimplePhoneNumberConverter));
+            this.Maps(x => x.CompanyName);
+            this.Maps(x => x.ContactName);
+            this.Maps(x => x.Phone).AsCustomType(typeof(SimplePhoneNumberConverter));
         }
     }
 }

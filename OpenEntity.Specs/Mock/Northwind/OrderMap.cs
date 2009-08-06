@@ -11,7 +11,7 @@ namespace OpenEntity.Specs.Mock.Northwind
         public OrderMap()
         {
             this.ForTable("Orders");
-            this.Map(x => x.Date, "OrderDate");
+            this.Maps(x => x.Date).AsColumn("OrderDate");
         }
     }
 }

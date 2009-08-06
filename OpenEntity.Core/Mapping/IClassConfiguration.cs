@@ -10,6 +10,6 @@ namespace OpenEntity.Mapping
     {
         string Table { get; }
         Type ClassType { get; }
-        IList<PropertyConfiguration> Properties { get; }
+        IList<IPropertyConfiguration> Properties { get; }
     }
 }

@@ -56,6 +56,7 @@
     <Compile Include="Joins\RelationshipType.cs" />
     <Compile Include="Mapping\ClassConfiguration.cs" />
     <Compile Include="Mapping\ClassConfigurationExtensions.cs" />
+    <Compile Include="Mapping\IPropertyConfiguration.cs" />
     <Compile Include="Mapping\MappingConfiguration.cs" />
     <Compile Include="Mapping\IClassConfiguration.cs" />
     <Compile Include="Mapping\PropertyConfiguration.cs" />

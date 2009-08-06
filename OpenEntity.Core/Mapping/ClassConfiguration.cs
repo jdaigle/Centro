@@ -11,35 +11,21 @@ namespace OpenEntity.Mapping
 {
     public class ClassConfiguration<TClass> : IClassConfiguration
     {
-        private IList<PropertyConfiguration> properties = new List<PropertyConfiguration>();
+        private IList<IPropertyConfiguration> properties = new List<IPropertyConfiguration>();
         
-        public string Table { get; set; }
+        public string Table { get; private set; }
         public Type ClassType { get { return typeof(TClass); } }
-        public IList<PropertyConfiguration> Properties { get { return this.properties; } }
+        public IList<IPropertyConfiguration> Properties { get { return this.properties; } }
 
         public void ForTable(string tableName)
         {
             this.Table = tableName;
         }
 
-        public PropertyConfiguration Map<TResult>(Expression<Func<TClass, TResult>> expression)
+        public IPropertyConfiguration Maps<TResult>(Expression<Func<TClass, TResult>> propertyExpression)
         {
-            return this.Map(expression, null);
-        }
-
-        public PropertyConfiguration Map<TResult>(Expression<Func<TClass, TResult>> expression, string columnName)
-        {
-            return this.Map(ReflectionHelper.GetProperty(expression), columnName);
-        }
-
-        protected virtual PropertyConfiguration Map(PropertyInfo property, string columnName)
-        {
-            var propertyConfig = new PropertyConfiguration()
-            {
-                Name = property.Name,
-                PropertyInfo = property,
-                Column = string.IsNullOrEmpty(columnName) ? property.Name : columnName
-            };
+            var property = ReflectionHelper.GetProperty(propertyExpression);
+            var propertyConfig = new PropertyConfiguration(property);
             this.properties.Add(propertyConfig);
             return propertyConfig;
         }

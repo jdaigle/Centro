@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using OpenEntity.CodeDom;
 using OpenEntity.DataProviders;
@@ -13,9 +15,6 @@ using OpenEntity.Mapping;
 using OpenEntity.Model;
 using OpenEntity.Query;
 using OpenEntity.Schema;
-using System.Linq.Expressions;
-using OpenEntity.Helpers;
-using System.Data.SqlClient;
 
 namespace OpenEntity.Repository
 {

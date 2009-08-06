@@ -11,9 +11,9 @@ namespace OpenEntity.Specs.Mock.Northwind
         public OrderInfoMap()
         {
             this.ForTable("Order Details");
-            this.Map(c => c.UnitPrice, "UnitPrice");
-            this.Map(c => c.Quantity, "Quantity");
-            this.Map(c => c.Discount, "Discount");
+            this.Maps(c => c.UnitPrice).AsColumn("UnitPrice");
+            this.Maps(c => c.Quantity).AsColumn("Quantity");
+            this.Maps(c => c.Discount).AsColumn("Discount");
         }
     }
 }

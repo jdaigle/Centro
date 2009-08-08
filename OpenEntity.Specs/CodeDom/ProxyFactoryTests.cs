@@ -6,7 +6,6 @@ using OpenEntity.Mapping;
 using NUnit.Framework;
 using OpenEntity.CodeDom;
 using OpenEntity.Specs.Mock.Northwind;
-using OpenEntity.Specs.Mock.Northwind;
 
 namespace OpenEntity.Specs.CodeDom
 {
@@ -34,6 +33,12 @@ namespace OpenEntity.Specs.CodeDom
             {
                 Assert.Fail();
             }
+        }
+
+        [Test]
+        public void ShouldGetProxyTypeForMappedClassWithNullableTypes()
+        {
+            Assert.IsNotNull(ProxyFactory.GetProxyClass(typeof(Customer)));
         }
 
         [Test]

@@ -8,5 +8,6 @@ namespace OpenEntity.Specs.Mock.Northwind
     public class Customer : OpenEntity.Model.IDomainObject
     {
         public virtual string Name { get; set; }
+        public virtual DateTime? SomeNullableDate { get; set; }
     }
 }

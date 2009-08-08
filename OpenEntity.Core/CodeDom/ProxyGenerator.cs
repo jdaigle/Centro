@@ -173,8 +173,14 @@ namespace OpenEntity.CodeDom
                 {
                     propertyCodeSegment = propertyGetterSetterCodeSegment;
                 }
+                var propertyTypeParam = property.PropertyInfo.PropertyType.FullName;
+                var nullableType = System.Nullable.GetUnderlyingType(property.PropertyInfo.PropertyType);
+                if (nullableType != null)
+                {
+                    propertyTypeParam = string.Format("System.Nullable<{0}>", nullableType.FullName);
+                }
                 sb.AppendFormat(propertyCodeSegment,
-                                property.PropertyInfo.PropertyType.FullName,
+                                propertyTypeParam,
                                 property.Name,
                                 "\"" + property.Column + "\"",
                                 "\"" + property.Name + "\"");

@@ -20,16 +20,17 @@ namespace OpenEntity.Repository
 {
     public class RepositoryBase<TModelType> : IRepository<TModelType>, IEntityCreator where TModelType : IDomainObject
     {
-        private IDataProvider dataProvider;
         private Type proxyType;
         private ITable table;
         private IClassConfiguration classConfiguration;
 
         public RepositoryBase(IDataProvider dataProvider)
         {
-            this.dataProvider = dataProvider;
+            this.DataProvider = dataProvider;
             classConfiguration = MappingConfiguration.FindClassConfiguration(typeof(TModelType));            
         }
+
+        public IDataProvider DataProvider { get; private set; }
 
         protected string TableName
         {
@@ -49,7 +50,7 @@ namespace OpenEntity.Repository
                 {
                     if (string.IsNullOrEmpty(this.TableName))
                         throw new SchemaException(string.Format(CultureInfo.InvariantCulture, "Could not determine table name for model type [{0}]", typeof(TModelType).FullName));
-                    this.table = this.dataProvider.Schema.FindTable(this.TableName);
+                    this.table = this.DataProvider.Schema.FindTable(this.TableName);
                     if (this.table == null)
                         throw new SchemaException(string.Format(CultureInfo.InvariantCulture, "Failed to find database schema for table [{0}]", this.TableName));
                 }
@@ -82,9 +83,9 @@ namespace OpenEntity.Repository
         /// </summary>
         protected internal void CloseConnectionIfPossible()
         {
-            if (!this.dataProvider.KeepConnectionOpen && !this.dataProvider.IsTransactionInProgress)
+            if (!this.DataProvider.KeepConnectionOpen && !this.DataProvider.IsTransactionInProgress)
             {
-                this.dataProvider.CloseConnection();
+                this.DataProvider.CloseConnection();
             }
         }
 
@@ -138,22 +139,22 @@ namespace OpenEntity.Repository
             var proxyEntity = objectToFetch as IProxyEntity;
             if (proxyEntity == null)
                 proxyEntity = CreateFrom(objectToFetch) as IProxyEntity;
-            bool keepConnectionOpenSave = this.dataProvider.KeepConnectionOpen;
+            bool keepConnectionOpenSave = this.DataProvider.KeepConnectionOpen;
             if (proxyEntity.IsNew)
                 return false;
             IEntityFields fields = proxyEntity.Fields;
             IDbCommand selectCommand = this.CreateSelectCommand(proxyEntity.Table, proxyEntity.Table.Columns, proxyEntity.GetPrimaryKeyPredicateExpression(), null, null, 1);
             try
             {
-                this.dataProvider.KeepConnectionOpen = true;
+                this.DataProvider.KeepConnectionOpen = true;
                 // Execute the retrieval
-                this.dataProvider.ExecuteSingleRowRetrievalQuery(selectCommand, fields);
+                this.DataProvider.ExecuteSingleRowRetrievalQuery(selectCommand, fields);
                 return true;
             }
             finally
             {
                 selectCommand.Dispose();
-                this.dataProvider.KeepConnectionOpen = keepConnectionOpenSave;
+                this.DataProvider.KeepConnectionOpen = keepConnectionOpenSave;
                 this.CloseConnectionIfPossible();
             }
         }
@@ -183,17 +184,17 @@ namespace OpenEntity.Repository
             }
 
             // process the queues
-            bool keepConnectionOpenSave = this.dataProvider.KeepConnectionOpen;
+            bool keepConnectionOpenSave = this.DataProvider.KeepConnectionOpen;
             bool saveSucceeded = true;
             try
             {
-                this.dataProvider.KeepConnectionOpen = true;
+                this.DataProvider.KeepConnectionOpen = true;
 
                 IDbCommand saveQuery = this.CreateCommandForEntityToSave(proxyEntity.IsNew, proxyEntity, null);
                 try
                 {
                     //OnSaveEntity(saveQuery, entityToSave);
-                    saveSucceeded = this.dataProvider.ExecuteActionQuery(saveQuery) > 0;
+                    saveSucceeded = this.DataProvider.ExecuteActionQuery(saveQuery) > 0;
                     //OnSaveEntityComplete(saveQuery, entityToSave);
 
                     if (saveSucceeded)
@@ -202,7 +203,7 @@ namespace OpenEntity.Repository
                         {
                             var identityField = proxyEntity.Fields.IdentityField;
                             object identityValue = null;
-                            var dummyIdentityParam = this.dataProvider.CreateOutputParameter(identityField.ColumnIndex, identityField);
+                            var dummyIdentityParam = this.DataProvider.CreateOutputParameter(identityField.ColumnIndex, identityField);
                             foreach (IDataParameter parameter in saveQuery.Parameters)
                             {
                                 if (parameter.ParameterName.Equals(dummyIdentityParam.ParameterName))
@@ -242,7 +243,7 @@ namespace OpenEntity.Repository
             }
             finally
             {
-                this.dataProvider.KeepConnectionOpen = keepConnectionOpenSave;
+                this.DataProvider.KeepConnectionOpen = keepConnectionOpenSave;
                 this.CloseConnectionIfPossible();
             }
             return saveSucceeded;
@@ -266,7 +267,7 @@ namespace OpenEntity.Repository
             try
             {
                 //OnDeleteEntity(deleteCommand, entityToDelete);
-                bool deleteSucceeded = (this.dataProvider.ExecuteActionQuery(deleteCommand) > 0);
+                bool deleteSucceeded = (this.DataProvider.ExecuteActionQuery(deleteCommand) > 0);
                 //OnDeleteEntityComplete(deleteCommand, entityToDelete);
                 if (deleteSucceeded)
                 {
@@ -304,17 +305,17 @@ namespace OpenEntity.Repository
         public TModelType Fetch(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause)
         {
             TModelType fetchedEntity = default(TModelType);
-            bool keepConnectionOpenSave = this.dataProvider.KeepConnectionOpen;
+            bool keepConnectionOpenSave = this.DataProvider.KeepConnectionOpen;
             try
             {
-                this.dataProvider.KeepConnectionOpen = true;
+                this.DataProvider.KeepConnectionOpen = true;
                 // use collection fetch for the single entity fetch, to re-use code
                 var entities = this.FetchAll(queryPredicate, joinSet, orderClause, 1);
                 fetchedEntity = entities.FirstOrDefault();
             }
             finally
             {
-                this.dataProvider.KeepConnectionOpen = keepConnectionOpenSave;
+                this.DataProvider.KeepConnectionOpen = keepConnectionOpenSave;
                 this.CloseConnectionIfPossible();
             }
             return fetchedEntity;
@@ -340,20 +341,20 @@ namespace OpenEntity.Repository
 
         public IList<TModelType> FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause, int maxNumberOfItemsToReturn)
         {
-            bool keepConnectionOpenSave = this.dataProvider.KeepConnectionOpen;
+            bool keepConnectionOpenSave = this.DataProvider.KeepConnectionOpen;
             List<TModelType> entities = new List<TModelType>();
             // Create the command
             IDbCommand selectCommand = this.CreateSelectCommand(Table, Table.Columns, queryPredicate, joinSet, orderClause, maxNumberOfItemsToReturn);
             try
             {
-                this.dataProvider.KeepConnectionOpen = true;
+                this.DataProvider.KeepConnectionOpen = true;
                 // Execute the retrieval
-                entities = this.dataProvider.ExecuteMultiRowRetrievalQuery(selectCommand, this, false).Cast<TModelType>().ToList();
+                entities = this.DataProvider.ExecuteMultiRowRetrievalQuery(selectCommand, this, false).Cast<TModelType>().ToList();
             }
             finally
             {
                 selectCommand.Dispose();
-                this.dataProvider.KeepConnectionOpen = keepConnectionOpenSave;
+                this.DataProvider.KeepConnectionOpen = keepConnectionOpenSave;
                 this.CloseConnectionIfPossible();
             }
             return entities;
@@ -377,17 +378,17 @@ namespace OpenEntity.Repository
                 throw new ArgumentNullException("field");
             if (aggregateFunction == AggregateFunction.None)
                 return 0;
-            bool keepConnectionOpenSave = this.dataProvider.KeepConnectionOpen;
+            bool keepConnectionOpenSave = this.DataProvider.KeepConnectionOpen;
             IDbCommand aggregateCommand = this.CreateAggregateCommand(Table, field, aggregateFunction, queryPredicate, joinSet);
             try
             {
-                this.dataProvider.KeepConnectionOpen = true;
-                return this.dataProvider.ExecuteScalarRetrievalQuery(aggregateCommand);
+                this.DataProvider.KeepConnectionOpen = true;
+                return this.DataProvider.ExecuteScalarRetrievalQuery(aggregateCommand);
             }
             finally
             {
                 aggregateCommand.Dispose();
-                this.dataProvider.KeepConnectionOpen = keepConnectionOpenSave;
+                this.DataProvider.KeepConnectionOpen = keepConnectionOpenSave;
                 this.CloseConnectionIfPossible();
             }
         }
@@ -407,7 +408,7 @@ namespace OpenEntity.Repository
         {
             var classConfiguration = MappingConfiguration.FindClassConfiguration(typeof(TModelType));
             var columnName = classConfiguration.GetColumnName(columnExpression);
-            var column = this.dataProvider.Schema.FindColumn(this.TableName, columnName);
+            var column = this.DataProvider.Schema.FindColumn(this.TableName, columnName);
             return FetchScalar(column, aggregateFunction, queryPredicate, joinSet);
         }
 
@@ -426,8 +427,8 @@ namespace OpenEntity.Repository
         /// <returns></returns>
         private IDbCommand CreateAggregateCommand(ITable fromTable, IColumn column, AggregateFunction aggregateFunction, IPredicateExpression queryPredicate, JoinSet joinSet)
         {
-            IDbCommand aggregateCommand = this.dataProvider.CreateDbCommand();
-            string fieldName = this.dataProvider.QualifyColumnName(column);
+            IDbCommand aggregateCommand = this.DataProvider.CreateDbCommand();
+            string fieldName = this.DataProvider.QualifyColumnName(column);
             string selectStatement = SqlFragment.SELECT;
             switch (aggregateFunction)
             {
@@ -460,7 +461,7 @@ namespace OpenEntity.Repository
                     break;
             }
             aggregateCommand.CommandText = selectStatement;
-            aggregateCommand.CommandText += Environment.NewLine + SqlFragment.FROM + this.dataProvider.QualifyTableName(fromTable);
+            aggregateCommand.CommandText += Environment.NewLine + SqlFragment.FROM + this.DataProvider.QualifyTableName(fromTable);
             aggregateCommand.CommandText += Environment.NewLine;
             // walk the relationships and add the joins if necessary
             if (joinSet != null && joinSet.Count() > 0)
@@ -471,7 +472,7 @@ namespace OpenEntity.Repository
             if (queryPredicate != null && queryPredicate.Count > 0)
             {
                 int parameterMarker = 0;
-                string predicateText = queryPredicate.ToQueryText(this.dataProvider, ref parameterMarker);
+                string predicateText = queryPredicate.ToQueryText(this.DataProvider, ref parameterMarker);
                 aggregateCommand.CommandText += SqlFragment.WHERE + predicateText;
                 foreach (IDataParameter parameter in queryPredicate.Parameters)
                     aggregateCommand.Parameters.Add(parameter);
@@ -489,14 +490,14 @@ namespace OpenEntity.Repository
         /// <returns></returns>
         private IDbCommand CreateSelectCommand(ITable fromTable, IList<IColumn> columnsToSelect, IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause, int maxNumberOfItemsToReturn)
         {
-            IDbCommand selectCommand = this.dataProvider.CreateDbCommand();
+            IDbCommand selectCommand = this.DataProvider.CreateDbCommand();
             // generate a list of the fields to select from
             StringBuilder columns = new StringBuilder(1024);
             for (int i = 0; i < columnsToSelect.Count; i++)
             {
                 if (i > 0)
                     columns.Append(", ");
-                columns.Append(this.dataProvider.QualifyColumnName(columnsToSelect[i]));
+                columns.Append(this.DataProvider.QualifyColumnName(columnsToSelect[i]));
             }
             string selectStatement = SqlFragment.SELECT;
             if (joinSet != null && joinSet.Count() > 0)
@@ -508,7 +509,7 @@ namespace OpenEntity.Repository
                 selectStatement += maxNumberOfItemsToReturn.ToString();
             }
             selectCommand.CommandText = selectStatement + columns.ToString();
-            selectCommand.CommandText += Environment.NewLine + SqlFragment.FROM + this.dataProvider.QualifyTableName(fromTable);
+            selectCommand.CommandText += Environment.NewLine + SqlFragment.FROM + this.DataProvider.QualifyTableName(fromTable);
             selectCommand.CommandText += Environment.NewLine;
             // walk the relationships and add the joins if necessary
             if (joinSet != null && joinSet.Count() > 0)
@@ -519,7 +520,7 @@ namespace OpenEntity.Repository
             if (queryPredicate != null && queryPredicate.Count > 0)
             {
                 int parameterMarker = 0;
-                string predicateText = queryPredicate.ToQueryText(this.dataProvider, ref parameterMarker);
+                string predicateText = queryPredicate.ToQueryText(this.DataProvider, ref parameterMarker);
                 selectCommand.CommandText += SqlFragment.WHERE + predicateText;
                 foreach (IDataParameter parameter in queryPredicate.Parameters)
                     selectCommand.Parameters.Add(parameter);
@@ -527,8 +528,8 @@ namespace OpenEntity.Repository
             if (orderClause != null)
             {
                 selectCommand.CommandText += SqlFragment.ORDER_BY;
-                var column = dataProvider.Schema.FindColumn(orderClause.Table, orderClause.Column);
-                selectCommand.CommandText += dataProvider.QualifyColumnName(column);
+                var column = DataProvider.Schema.FindColumn(orderClause.Table, orderClause.Column);
+                selectCommand.CommandText += DataProvider.QualifyColumnName(column);
                 if (orderClause.Direction != SortOrder.Descending)
                     selectCommand.CommandText += SqlFragment.ASC;
                 else
@@ -573,10 +574,10 @@ namespace OpenEntity.Repository
                     joinType = SqlFragment.INNER_JOIN;
                     break;
             }
-            string joinTable = this.dataProvider.QualifyTableName(join.DestinationTable);
-            var destinationColumn = this.dataProvider.Schema.FindColumn(join.DestinationTable, join.DestinationColumn);
-            var originColumn = this.dataProvider.Schema.FindColumn(join.OriginTable, join.OriginColumn);
-            string joinPredicate = SqlFragment.ON + this.dataProvider.QualifyColumnName(destinationColumn) + SqlFragment.EQUAL_TO + this.dataProvider.QualifyColumnName(originColumn);
+            string joinTable = this.DataProvider.QualifyTableName(join.DestinationTable);
+            var destinationColumn = this.DataProvider.Schema.FindColumn(join.DestinationTable, join.DestinationColumn);
+            var originColumn = this.DataProvider.Schema.FindColumn(join.OriginTable, join.OriginColumn);
+            string joinPredicate = SqlFragment.ON + this.DataProvider.QualifyColumnName(destinationColumn) + SqlFragment.EQUAL_TO + this.DataProvider.QualifyColumnName(originColumn);
             return joinType + joinTable + joinPredicate;
         }
 
@@ -600,10 +601,10 @@ namespace OpenEntity.Repository
             if (insertActions)
             {
                 var outputRetrievalQueryText = string.Empty;
-                actionCommand = this.dataProvider.CreateDbCommand();
+                actionCommand = this.DataProvider.CreateDbCommand();
                 StringBuilder commandText = new StringBuilder(1024);
                 commandText.Append(SqlFragment.INSERT_INTO);
-                commandText.AppendFormat(this.dataProvider.QualifyTableName(entityToSave.Table));
+                commandText.AppendFormat(this.DataProvider.QualifyTableName(entityToSave.Table));
                 // indicate the fields we will be inserting.
                 commandText.Append(" ( ");
                 int fieldIndex = 0;
@@ -615,7 +616,7 @@ namespace OpenEntity.Repository
                         {
                             commandText.Append(", ");
                         }
-                        commandText.Append(this.dataProvider.QualifyColumnName(field));
+                        commandText.Append(this.DataProvider.QualifyColumnName(field));
                         fieldIndex++;
                     }
                 }
@@ -629,7 +630,7 @@ namespace OpenEntity.Repository
                     {
                         if (field.IsIdentity)
                         {
-                            IDataParameter identityOutputParameter = this.dataProvider.CreateOutputParameter(fieldIndex, field);
+                            IDataParameter identityOutputParameter = this.DataProvider.CreateOutputParameter(fieldIndex, field);
                             actionCommand.Parameters.Add(identityOutputParameter);
                             outputRetrievalQueryText = string.Format(";SELECT {0}={1}", identityOutputParameter.ParameterName, "SCOPE_IDENTITY()");
                         }
@@ -639,7 +640,7 @@ namespace OpenEntity.Repository
                             {
                                 commandText.Append(", ");
                             }
-                            IDataParameter parameter = this.dataProvider.CreateParameter(fieldIndex, field, field.CurrentValue);
+                            IDataParameter parameter = this.DataProvider.CreateParameter(fieldIndex, field, field.CurrentValue);
                             actionCommand.Parameters.Add(parameter);
                             commandText.AppendFormat("{0}", parameter.ParameterName);
                             fieldIndex++;
@@ -666,7 +667,7 @@ namespace OpenEntity.Repository
                     throw new DataException("The entity '" + entityToSave.Table.Name + "' doesn't have a PK defined. The update query will therefore affect all entities in the table(s), not just this entity.");
                 }
 
-                actionCommand = this.dataProvider.CreateDbCommand();
+                actionCommand = this.DataProvider.CreateDbCommand();
                 var fieldsToUpdate = entityToSave.Fields.Where(f => f.IsChanged);
                 if (fieldsToUpdate.Count() == 0)
                 {
@@ -675,7 +676,7 @@ namespace OpenEntity.Repository
                 }
                 StringBuilder commandText = new StringBuilder(1024);
                 // We only support single table updates, pick the table of the first field.
-                commandText.AppendFormat("UPDATE {0} SET ", this.dataProvider.QualifyTableName(entityToSave.Table));
+                commandText.AppendFormat("UPDATE {0} SET ", this.DataProvider.QualifyTableName(entityToSave.Table));
                 // add the fields
                 int fieldIndex = 0;
                 foreach (IEntityField field in fieldsToUpdate)
@@ -684,16 +685,16 @@ namespace OpenEntity.Repository
                     {
                         commandText.Append(", ");
                     }
-                    IDataParameter parameter = this.dataProvider.CreateParameter(fieldIndex, field, field.CurrentValue);
+                    IDataParameter parameter = this.DataProvider.CreateParameter(fieldIndex, field, field.CurrentValue);
                     actionCommand.Parameters.Add(parameter);
-                    commandText.AppendFormat("{0}={1}", this.dataProvider.QualifyColumnName(field), parameter.ParameterName);
+                    commandText.AppendFormat("{0}={1}", this.DataProvider.QualifyColumnName(field), parameter.ParameterName);
                     fieldIndex++;
                 }
                 commandText.Append(" ");
 
                 //append the predicate query text
                 int uniqueMarker = fieldIndex;
-                string queryText = queryPredicate.ToQueryText(this.dataProvider, ref uniqueMarker);
+                string queryText = queryPredicate.ToQueryText(this.DataProvider, ref uniqueMarker);
                 commandText.Append(SqlFragment.WHERE);
                 commandText.Append(queryText);
                 foreach (IDataParameter parameter in queryPredicate.Parameters)
@@ -715,7 +716,7 @@ namespace OpenEntity.Repository
         /// </returns>
         private IDbCommand CreateDeleteCommand(IProxyEntity entityToDelete, IPredicateExpression deleteRestriction)
         {
-            IDbCommand deleteCommand = this.dataProvider.CreateDbCommand();
+            IDbCommand deleteCommand = this.DataProvider.CreateDbCommand();
 
             IPredicateExpression pkPredicateExpression = entityToDelete.GetPrimaryKeyPredicateExpression();
             IPredicateExpression queryPredicate = new PredicateExpression();
@@ -731,11 +732,11 @@ namespace OpenEntity.Repository
 
             StringBuilder commandText = new StringBuilder(1024);
             commandText.Append(SqlFragment.DELETE_FROM);
-            commandText.Append(this.dataProvider.QualifyTableName(entityToDelete.Table));
+            commandText.Append(this.DataProvider.QualifyTableName(entityToDelete.Table));
 
             //append the predicate query text
             int uniqueMarker = 0;
-            string queryText = queryPredicate.ToQueryText(this.dataProvider, ref uniqueMarker);
+            string queryText = queryPredicate.ToQueryText(this.DataProvider, ref uniqueMarker);
             commandText.Append(SqlFragment.WHERE);
             commandText.Append(queryText);
             foreach (IDataParameter parameter in queryPredicate.Parameters)

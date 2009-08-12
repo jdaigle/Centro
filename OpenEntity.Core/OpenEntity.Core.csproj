@@ -34,6 +34,10 @@
     <DocumentationFile>bin\Release\OpenEntity.Core.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Castle.Core, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Castle.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Castle.DynamicProxy2, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\Castle.DynamicProxy2.dll</HintPath>
@@ -66,6 +70,11 @@
     <Compile Include="Mapping\PropertyConfiguration.cs" />
     <Compile Include="Model\ICustomTypeConverter.cs" />
     <Compile Include="Model\IDomainObject.cs" />
+    <Compile Include="Proxy\CallLoggingInterceptor.cs" />
+    <Compile Include="Proxy\EntityFieldInterceptor.cs" />
+    <Compile Include="Proxy\EntityFieldProxyGenerationHook.cs" />
+    <Compile Include="Proxy\EntityProxy.cs" />
+    <Compile Include="Proxy\IHasCount.cs" />
     <Compile Include="Query\IConstraint.cs" />
     <Compile Include="Query\IOrderClause.cs" />
     <Compile Include="Query\IPredicate.cs" />

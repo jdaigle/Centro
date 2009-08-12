@@ -8,6 +8,7 @@ using OpenEntity.Repository;
 using OpenEntity.Specs.Mock.Northwind;
 using OpenEntity.Entities;
 using OpenEntity.Specs.Mock;
+using OpenEntity.Proxy;
 
 namespace OpenEntity.Specs.Model
 {
@@ -32,7 +33,7 @@ namespace OpenEntity.Specs.Model
             Assert.IsNotNull(suppliers);
             Assert.IsNotEmpty(suppliers.ToList());
             var supplier = suppliers.First();
-            var supplierEntity = supplier as IEntity;
+            var supplierEntity = EntityProxyFactory.AsEntity(supplier);
             Assert.IsNotNull(supplier.Phone);
             Assert.IsNotNullOrEmpty(supplier.Phone.ToString());
             Assert.AreEqual(supplier.Phone.ToString(), supplierEntity.Fields["Phone"].CurrentValue.ToString());
@@ -45,7 +46,7 @@ namespace OpenEntity.Specs.Model
             Assert.IsNotNull(suppliers);
             Assert.IsNotEmpty(suppliers.ToList());
             var supplier = suppliers.First();
-            var supplierEntity = supplier as IEntity;
+            var supplierEntity = EntityProxyFactory.AsEntity(supplier);
             var fakePhone = new SimplePhoneNumber("123-456-1230");
             supplier.Phone = fakePhone;
             Assert.IsNotNull(supplier.Phone);

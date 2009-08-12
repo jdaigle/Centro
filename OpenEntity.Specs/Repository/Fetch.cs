@@ -3,45 +3,43 @@ using OpenEntity.Entities;
 using OpenEntity.Specs.Mock.Northwind;
 using OpenEntity.DataProviders;
 using OpenEntity.Model;
+using OpenEntity.Proxy;
 
 namespace OpenEntity.Specs.Repository
 {
     public abstract class Fetch<TModelType> : RepositoryTestBase<TModelType> where TModelType : IDomainObject
     {
         [Test]
-        public void ShouldReturnEntity()
+        public void Should_Return_Entity()
         {
-            var entity = Repository.Fetch(null);
+            var instance = Repository.Fetch(null);
+            var entity = EntityProxyFactory.AsEntity(instance);
             Assert.IsNotNull(entity);
             Assert.IsInstanceOf(typeof(IEntity), entity);
-            Assert.IsInstanceOf(typeof(TModelType), entity);
+            Assert.IsInstanceOf(typeof(TModelType), instance);
         }
 
         [Test]
-        public void EntityShouldBeFetched()
+        public void Should_Return_Fetched_Entity()
         {
-            var entity = Repository.Fetch(null) as IEntity;
+            var instance = Repository.Fetch(null);
+            var entity = EntityProxyFactory.AsEntity(instance);
             Assert.AreEqual(entity.Fields.State, EntityState.Fetched);
         }
 
         [Test]
-        public void EntityShouldNotBeNull()
+        public void Should_Return_Not_Dirty_Entity()
         {
-            var entity = Repository.Fetch(null) as IEntity;
-            Assert.IsFalse(entity.IsNew);
-        }
-
-        [Test]
-        public void EntityShouldNotBeDirty()
-        {
-            var entity = Repository.Fetch(null) as IEntity;
+            var instance = Repository.Fetch(null);
+            var entity = EntityProxyFactory.AsEntity(instance);
             Assert.IsFalse(entity.IsDirty);
         }
 
         [Test]
-        public void EntityShouldHaveFieldValues()
+        public void Should_Return_Entity_With_Field_Values()
         {
-            var entity = Repository.Fetch(null) as IEntity;
+            var instance = Repository.Fetch(null);
+            var entity = EntityProxyFactory.AsEntity(instance);
             foreach (var field in entity.Fields)
             {
                 if (!field.IsNull)

@@ -55,8 +55,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeDom\ProxyFactoryTests.cs" />
-    <Compile Include="CodeDom\ProxyGeneratorTests.cs" />
     <Compile Include="DataProviders\DataProviderFactoryTests.cs" />
     <Compile Include="Joins\JoinSetTests.cs" />
     <Compile Include="Joins\JoinTests.cs" />

@@ -52,7 +52,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeDom\ProxyFactory.cs" />
     <Compile Include="DataProviders\BaseDataProvider.cs" />
     <Compile Include="DataProviders\CommandExecutionException.cs" />
     <Compile Include="DataProviders\DataProviderFactory.cs" />
@@ -73,15 +72,13 @@
     <Compile Include="Proxy\CallLoggingInterceptor.cs" />
     <Compile Include="Proxy\EntityFieldInterceptor.cs" />
     <Compile Include="Proxy\EntityFieldProxyGenerationHook.cs" />
-    <Compile Include="Proxy\EntityProxy.cs" />
+    <Compile Include="Proxy\EntityProxyFactory.cs" />
     <Compile Include="Proxy\IHasCount.cs" />
     <Compile Include="Query\IConstraint.cs" />
     <Compile Include="Query\IOrderClause.cs" />
     <Compile Include="Query\IPredicate.cs" />
     <Compile Include="Query\OrderClause.cs" />
     <Compile Include="Repository\AggregateFunction.cs" />
-    <Compile Include="CodeDom\BaseGenerator.cs" />
-    <Compile Include="CodeDom\ProxyGenerator.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DataProviders\IDataProvider.cs" />
     <Compile Include="Entities\EntityDataObject.cs" />

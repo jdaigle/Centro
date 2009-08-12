@@ -9,6 +9,7 @@ using System.Data.Common;
 using System.Reflection;
 using OpenEntity.Entities;
 using System.Diagnostics;
+using OpenEntity.Proxy;
 
 namespace OpenEntity.DataProviders
 {
@@ -455,14 +456,7 @@ namespace OpenEntity.DataProviders
             }
         }
 
-        /// <summary>
-        /// Executes the passed in retrieval query and, if not null, runs it inside the active transaction. Used to read 1 or more rows.
-        /// It sets the connection object of the command object of query object passed in to the connection object of this class.
-        /// </summary>
-        /// <param name="command">The command to execute.</param>
-        /// <param name="entityCreator">The entity creator.</param>
-        /// <param name="allowDuplicates">Flag to signal if duplicates in the datastream should be loaded into the collection (true) or not (false)</param>
-        public IList<IEntity> ExecuteMultiRowRetrievalQuery(IDbCommand command, IEntityCreator entityCreator, bool allowDuplicates)
+        public IList<object> ExecuteMultiRowRetrievalQuery(IDbCommand command, IEntityCreator entityCreator, bool allowDuplicates)
         {
             IDataReader dataReader = null;
             try
@@ -546,20 +540,12 @@ namespace OpenEntity.DataProviders
             }
         }
 
-        /// <summary>
-        /// Fetches all rows from the open data-reader, creates a new entity in the collection if the entity does not exist,
-        /// and places the data into it's fields collection.
-        /// </summary>
-        /// <param name="dataReader">The open datareader used to fetch the data</param>
-        /// <param name="entityCreator">The entity creator.</param>
-        /// <param name="allowDuplicates">If the entity with the same PK already exists in the collection, if true we will add another entity.</param>
-        /// <returns></returns>
-        private IList<IEntity> FetchAllRows(IDataReader dataReader, IEntityCreator entityCreator, bool allowDuplicates)
+        private IList<object> FetchAllRows(IDataReader dataReader, IEntityCreator entityCreator, bool allowDuplicates)
         {
-            List<IEntity> entities = new List<IEntity>();
+            var fetchedInstances = new List<object>();
             if (dataReader == null || dataReader.IsClosed || entityCreator == null)
             {
-                return entities;
+                return fetchedInstances;
             }
             while (dataReader.Read())
             {
@@ -575,10 +561,13 @@ namespace OpenEntity.DataProviders
                 }
 
                 // Create the generic entity from the collection
-                var entity = entityCreator.Create();
+                var objectInstance = entityCreator.Create();
+                var entity = EntityProxyFactory.AsEntity(objectInstance) as IProxyEntity;
                 // Create the empty fields object based on the schema
                 if (!entity.Initialized)
-                    entity.Initialize(entityCreator.CreateEntityFields());
+                {
+                    throw new InvalidOperationException("Entity was not initialized by the IEntityCreator");
+                }
 
                 // Now read the actual row values into the fields collection of the entity
                 BaseDataProvider.ReadRowIntoFields(rowValues, entity.Fields);
@@ -588,16 +577,16 @@ namespace OpenEntity.DataProviders
 
                 if (allowDuplicates)
                 {
-                    entities.Add(entity);
+                    fetchedInstances.Add(objectInstance);
                 }
                 else
                 {
                     // Add the entity to the collection if it doesn't exist
                     // TODO PK logic
-                    entities.Add(entity);
+                    fetchedInstances.Add(objectInstance);
                 }
             }
-            return entities;
+            return fetchedInstances;
         }
 
         /// <summary>

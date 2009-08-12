@@ -3,6 +3,7 @@ using OpenEntity.DataProviders;
 using OpenEntity.Entities;
 using OpenEntity.Repository;
 using OpenEntity.Specs.Mock.Northwind;
+using OpenEntity.Proxy;
 
 namespace OpenEntity.Specs.Repository
 {
@@ -10,7 +11,7 @@ namespace OpenEntity.Specs.Repository
     public class Save : RepositoryTestBase<Product>
     {
         [Test]
-        public void SavingNewObjectShouldInsert()
+        public void With_New_Object_Should_Insert()
         {
             var newProduct = Repository.Create();
             newProduct.Name = "Blamo";
@@ -20,8 +21,10 @@ namespace OpenEntity.Specs.Repository
             var itemCountAfter = (int)Repository.FetchScalar(p => p.Id, AggregateFunction.Count);            
             Assert.Greater(itemCountAfter, itemCountBefore);
 
-            Assert.IsFalse((newProduct as IEntity).IsNew);
-            Assert.IsFalse((newProduct as IEntity).Fields.State == EntityState.New);
+            var entity = EntityProxyFactory.AsEntity(newProduct);
+
+            Assert.IsFalse(entity.IsNew);
+            Assert.IsFalse(entity.Fields.State == EntityState.New);
 
             Repository.Delete(newProduct);
         }

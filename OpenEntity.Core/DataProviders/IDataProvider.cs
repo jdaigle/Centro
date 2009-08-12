@@ -174,6 +174,6 @@ namespace OpenEntity.DataProviders
         /// <param name="command">The command to execute.</param>
         /// <param name="entityCreator">The entity creator.</param>
         /// <param name="allowDuplicates">Flag to signal if duplicates in the datastream should be loaded into the collection (true) or not (false)</param>
-        IList<IEntity> ExecuteMultiRowRetrievalQuery(IDbCommand command, IEntityCreator entityCreator, bool allowDuplicates);
+        IList<object> ExecuteMultiRowRetrievalQuery(IDbCommand command, IEntityCreator entityCreator, bool allowDuplicates);
     }
 }

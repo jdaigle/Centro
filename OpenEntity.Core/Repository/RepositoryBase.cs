@@ -7,7 +7,6 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using OpenEntity.CodeDom;
 using OpenEntity.DataProviders;
 using OpenEntity.Entities;
 using OpenEntity.Joins;
@@ -15,19 +14,19 @@ using OpenEntity.Mapping;
 using OpenEntity.Model;
 using OpenEntity.Query;
 using OpenEntity.Schema;
+using OpenEntity.Proxy;
 
 namespace OpenEntity.Repository
 {
     public class RepositoryBase<TModelType> : IRepository<TModelType>, IEntityCreator where TModelType : IDomainObject
     {
-        private Type proxyType;
         private ITable table;
         private IClassConfiguration classConfiguration;
 
         public RepositoryBase(IDataProvider dataProvider)
         {
             this.DataProvider = dataProvider;
-            classConfiguration = MappingConfiguration.FindClassConfiguration(typeof(TModelType));            
+            classConfiguration = MappingConfiguration.FindClassConfiguration(typeof(TModelType));
         }
 
         public IDataProvider DataProvider { get; private set; }
@@ -41,7 +40,7 @@ namespace OpenEntity.Repository
                 return classConfiguration.Table;
             }
         }
-        
+
         protected ITable Table
         {
             get
@@ -73,11 +72,6 @@ namespace OpenEntity.Repository
             return fields;
         }
 
-        IEntityFields IEntityCreator.CreateEntityFields()
-        {
-            return this.CreateEntityFields();
-        }
-
         /// <summary>
         /// Closes the connection if it's not meant to be kept open or we're not in a transaction.
         /// </summary>
@@ -93,25 +87,24 @@ namespace OpenEntity.Repository
 
         public TModelType Create()
         {
-            if (proxyType == null)
-                this.proxyType = ProxyFactory.GetProxyClass(typeof(TModelType));            
-            var entity = (IProxyEntity)Activator.CreateInstance(this.proxyType, new object[] { this.Table });
+            var modelInstance = (TModelType)EntityProxyFactory.MakeEntity(typeof(TModelType));
+            var proxyEntity = EntityProxyFactory.AsEntity(modelInstance) as IProxyEntity;
             foreach (var property in classConfiguration.Properties)
                 if (property.CustomTypeConverter != null)
-                    entity.AddCustomTypeConverter(property.CustomTypeConverter, property.Name);
+                    proxyEntity.AddCustomTypeConverter(property.CustomTypeConverter, property.Name);
             IEntityFields fields = this.CreateEntityFields();
             if (fields == null)
                 return default(TModelType);
-            entity.Initialize(fields);
-            return (TModelType)entity;
+            proxyEntity.Initialize(Table, fields);
+            return modelInstance;
         }
 
         public TModelType CreateFrom(TModelType transientObject)
         {
             if (transientObject == null)
                 throw new ArgumentNullException("transientObject");
-            var modelObject = Create();
-            var entity = modelObject as IEntity;
+            var modelInstance = Create();
+            var entity = EntityProxyFactory.AsEntity(modelInstance);
             foreach (var property in classConfiguration.Properties)
             {
                 var field = entity.Fields[property.Column] as EntityField;
@@ -124,26 +117,26 @@ namespace OpenEntity.Repository
             }
             entity.IsDirty = false;
             entity.Fields.State = EntityState.New;
-            return modelObject;
+            return modelInstance;
         }
 
-        IProxyEntity IEntityCreator.Create()
+        object IEntityCreator.Create()
         {
-            return (IProxyEntity)this.Create();
+            return Create();
         }
 
         public bool Reload(TModelType objectToFetch)
         {
             if (objectToFetch == null)
                 throw new ArgumentNullException("objectToFetch");
-            var proxyEntity = objectToFetch as IProxyEntity;
-            if (proxyEntity == null)
-                proxyEntity = CreateFrom(objectToFetch) as IProxyEntity;
-            bool keepConnectionOpenSave = this.DataProvider.KeepConnectionOpen;
+            if (!EntityProxyFactory.IsEntity(objectToFetch))
+                throw new NotSupportedException("Cannot reload a transient model object");
+            var proxyEntity = EntityProxyFactory.AsEntity(objectToFetch) as IProxyEntity;
             if (proxyEntity.IsNew)
                 return false;
             IEntityFields fields = proxyEntity.Fields;
             IDbCommand selectCommand = this.CreateSelectCommand(proxyEntity.Table, proxyEntity.Table.Columns, proxyEntity.GetPrimaryKeyPredicateExpression(), null, null, 1);
+            bool keepConnectionOpenSave = this.DataProvider.KeepConnectionOpen;
             try
             {
                 this.DataProvider.KeepConnectionOpen = true;
@@ -165,13 +158,23 @@ namespace OpenEntity.Repository
             return this.Save(objectToSave, false);
         }
 
-        public bool Save(TModelType objectToSave, bool refetchAfterSave)
+        public bool Save(TModelType objectToSave, bool reloadAfterSave)
         {
             if (objectToSave == null)
                 throw new ArgumentNullException("objectToSave");
-            var proxyEntity = objectToSave as IProxyEntity;
-            if (proxyEntity == null)
-                proxyEntity = CreateFrom(objectToSave) as IProxyEntity;
+            IProxyEntity proxyEntity = null;
+            if (!EntityProxyFactory.IsEntity(objectToSave))
+            {
+                if (reloadAfterSave)
+                    throw new NotSupportedException("Cannot reload a transient model object");
+                var modelInstance = CreateFrom(objectToSave);
+                proxyEntity = EntityProxyFactory.AsEntity(modelInstance) as IProxyEntity;
+            }
+            else
+            {
+                proxyEntity = EntityProxyFactory.AsEntity(objectToSave) as IProxyEntity;
+            }
+
             if (proxyEntity.Fields.State == EntityState.Deleted)
             {
                 return true; // entity to save is already deleted. Return.
@@ -224,7 +227,7 @@ namespace OpenEntity.Repository
                         ((EntityFieldsCollection)proxyEntity.Fields).AcceptChanges();
                         proxyEntity.EndEdit();
                         proxyEntity.IsNew = false;
-                        if (refetchAfterSave)
+                        if (reloadAfterSave)
                         {
                             saveSucceeded &= this.Reload(objectToSave);
                         }
@@ -253,9 +256,9 @@ namespace OpenEntity.Repository
         {
             if (objectToDelete == null)
                 throw new ArgumentNullException("objectToDelete");
-            var proxyEntity = objectToDelete as IProxyEntity;
-            if (proxyEntity == null)
-                proxyEntity = CreateFrom(objectToDelete) as IProxyEntity;
+            if (!EntityProxyFactory.IsEntity(objectToDelete))
+                throw new NotSupportedException("Cannot delete a transient model object");
+            var proxyEntity = EntityProxyFactory.AsEntity(objectToDelete) as IProxyEntity;
             if (proxyEntity.IsNew)
             {
                 // not changed or new, no fields to update, skip

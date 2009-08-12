@@ -3,59 +3,50 @@ using OpenEntity.Entities;
 using OpenEntity.Specs.Mock.Northwind;
 using OpenEntity.DataProviders;
 using OpenEntity.Model;
+using OpenEntity.Proxy;
 
 namespace OpenEntity.Specs.Repository
 {
     public abstract class Create<TModelType> : RepositoryTestBase<TModelType> where TModelType : IDomainObject
     {
         [Test]
-        public void ShouldReturnIEntity()
+        public void Should_Return_ProxyObject()
         {
-            var entity = Repository.Create();
-            Assert.IsInstanceOf(typeof(IEntity), entity);
+            var instance = Repository.Create();
+            Assert.IsTrue(EntityProxyFactory.IsEntity(instance));
         }
 
         [Test]
-        public void ShouldReturnTModelType()
+        public void Should_Return_TModelType()
         {
-            var entity = Repository.Create();
-            Assert.IsInstanceOf(typeof(TModelType), entity);
+            var instance = Repository.Create();
+            Assert.IsInstanceOf(typeof(TModelType), instance);
         }
 
         [Test]
-        public void ShouldHaveEntityTable()
+        public void Should_Return_Initialized_Entity()
         {
-            var entity = Repository.Create() as IEntity;
+            var instance = Repository.Create();
+            var entity = EntityProxyFactory.AsEntity(instance);
             Assert.IsNotNull(entity.Table);
             Assert.IsNotNullOrEmpty(entity.Table.Name);
-        }
-
-        [Test]
-        public void ShouldHaveFields()
-        {
-            var entity = Repository.Create() as IEntity;
             Assert.IsNotNull(entity.Fields);
         }
 
         [Test]
-        public void ShouldBeNew()
+        public void Should_Return_New_Entity()
         {
-            var entity = Repository.Create() as IEntity;
+            var instance = Repository.Create();
+            var entity = EntityProxyFactory.AsEntity(instance);
             Assert.IsTrue(entity.IsNew);
         }
 
         [Test]
-        public void ShouldNotBeDirty()
+        public void Should_Return_Not_Dirty_Entity()
         {
-            var entity = Repository.Create() as IEntity;
+            var instance = Repository.Create();
+            var entity = EntityProxyFactory.AsEntity(instance);
             Assert.IsFalse(entity.IsDirty);
-        }
-
-        [Test]
-        public void ShouldHaveEntityStateBeNew()
-        {
-            var entity = Repository.Create() as IEntity;
-            Assert.AreEqual(entity.Fields.State, EntityState.New);
         }
     }
 

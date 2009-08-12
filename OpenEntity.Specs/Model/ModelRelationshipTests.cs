@@ -8,6 +8,7 @@ using OpenEntity.Repository;
 using OpenEntity.Specs.Mock.Northwind;
 using OpenEntity.Entities;
 using OpenEntity.Specs.Mock;
+using System.Diagnostics;
 
 namespace OpenEntity.Specs.Model
 {
@@ -30,7 +31,11 @@ namespace OpenEntity.Specs.Model
         [Test]
         public void ShouldFetchRelatedCategoryForProduct()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             var products = productRepository.FetchAll(null);
+            stopwatch.Stop();
+            Trace.WriteLine(string.Format("Spend {0} ms fetching products", stopwatch.ElapsedMilliseconds));
             Assert.IsNotNull(products);
             Assert.IsNotEmpty(products.ToList());
             bool atLeaseOneCategoryFetched = false;

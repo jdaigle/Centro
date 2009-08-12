@@ -11,7 +11,15 @@ namespace OpenEntity.Proxy
         , IHasCount
 #endif
     {
-        public IEntity Entity { get; private set; }
+
+        private EntityDataObject entityProxyObject;
+
+        public EntityFieldInterceptor()
+        {
+            entityProxyObject = new EntityDataObject();
+        }
+
+        public IEntity Entity { get { return entityProxyObject; } }
 
         public void Intercept(IInvocation invocation)
         {

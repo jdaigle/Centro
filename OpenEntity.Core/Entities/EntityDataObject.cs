@@ -10,11 +10,10 @@ using OpenEntity.Model;
 
 namespace OpenEntity.Entities
 {
-    public class EntityDataObject : IProxyEntity, IEntity
+    internal class EntityDataObject : IProxyEntity, IEntity
     {
-        public EntityDataObject(ITable table)
+        public EntityDataObject()
         {
-            this.Table = table;
             this.EntityObjectID = Guid.NewGuid();
             this.Initialized = false;
         }
@@ -22,10 +21,11 @@ namespace OpenEntity.Entities
         public ITable Table { get; internal set; }
         public bool Initialized { get; private set; }
 
-        public void Initialize(IEntityFields fields)
+        public void Initialize(ITable table, IEntityFields fields)
         {
             if (this.Initialized)
                 throw new NotSupportedException("This method can only be called once.");
+            this.Table = table;
             this.Fields = fields;
             this.IsNew = true;
             this.IsDirty = false;

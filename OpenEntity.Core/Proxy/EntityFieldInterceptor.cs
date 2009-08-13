@@ -15,13 +15,13 @@ namespace OpenEntity.Proxy
 #endif
     {
 
-        private EntityDataObject entityProxyObject;
+        private ProxyEntityObject entityProxyObject;
         private IClassConfiguration classConfiguration;
 
         public EntityFieldInterceptor(IClassConfiguration classConfiguration)
         {
             this.classConfiguration = classConfiguration;
-            this.entityProxyObject = new EntityDataObject();
+            this.entityProxyObject = new ProxyEntityObject();
 
         }
 

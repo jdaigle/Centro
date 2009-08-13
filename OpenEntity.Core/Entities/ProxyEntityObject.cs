@@ -10,9 +10,9 @@ using OpenEntity.Model;
 
 namespace OpenEntity.Entities
 {
-    internal class EntityDataObject : IProxyEntity, IEntity
+    internal class ProxyEntityObject : IProxyEntity, IEntity
     {
-        public EntityDataObject()
+        public ProxyEntityObject()
         {
             this.EntityObjectID = Guid.NewGuid();
             this.Initialized = false;

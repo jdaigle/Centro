@@ -81,7 +81,7 @@
     <Compile Include="Repository\AggregateFunction.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="DataProviders\IDataProvider.cs" />
-    <Compile Include="Entities\EntityDataObject.cs" />
+    <Compile Include="Entities\ProxyEntityObject.cs" />
     <Compile Include="Entities\EntityField.cs" />
     <Compile Include="Entities\EntityFieldsCollection.cs" />
     <Compile Include="Entities\EntityIsDeletedException.cs" />

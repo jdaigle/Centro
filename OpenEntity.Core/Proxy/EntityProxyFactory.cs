@@ -44,7 +44,7 @@ namespace OpenEntity.Proxy
             if (classConfiguration == null)
                 throw new NotSupportedException("Cannot create proxy class for " + targetClass.FullName + " without a class/table configuration.");
 
-            var entityFieldInterceptor = new EntityFieldInterceptor();
+            var entityFieldInterceptor = new EntityFieldInterceptor(classConfiguration);
 #if DEBUG
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();

@@ -1,22 +1,28 @@
 ﻿using System;
 using Castle.Core.Interceptor;
 using OpenEntity.Entities;
+using OpenEntity.Mapping;
+using System.Linq;
+using OpenEntity.Extensions;
 
 namespace OpenEntity.Proxy
 {
     [Serializable]
-    public class EntityFieldInterceptor : 
+    public class EntityFieldInterceptor :
         IInterceptor
 #if DEBUG
-        , IHasCount
+, IHasCount
 #endif
     {
 
         private EntityDataObject entityProxyObject;
+        private IClassConfiguration classConfiguration;
 
-        public EntityFieldInterceptor()
+        public EntityFieldInterceptor(IClassConfiguration classConfiguration)
         {
-            entityProxyObject = new EntityDataObject();
+            this.classConfiguration = classConfiguration;
+            this.entityProxyObject = new EntityDataObject();
+
         }
 
         public IEntity Entity { get { return entityProxyObject; } }
@@ -26,7 +32,36 @@ namespace OpenEntity.Proxy
 #if DEBUG
             Count++;
 #endif
-            invocation.Proceed();
+            if (invocation.Method.Name.StartsWith("get_", StringComparison.OrdinalIgnoreCase))
+            {
+
+                string propertyName = invocation.Method.Name.Substring(4);
+                var property = classConfiguration.Properties.FirstOrDefault(p => p.Name.Matches(propertyName));
+                if (property != null)
+                {
+                    var value = entityProxyObject.GetCurrentFieldValue(property.Column);
+                    if (property.CustomTypeConverter != null)
+                        invocation.ReturnValue = property.CustomTypeConverter.ConvertTo(value);
+                    else
+                        invocation.ReturnValue = value;
+                    return;
+                }
+            }
+            else if (invocation.Method.Name.StartsWith("set_", StringComparison.OrdinalIgnoreCase))
+            {
+                string propertyName = invocation.Method.Name.Substring(4);
+                var property = classConfiguration.Properties.FirstOrDefault(p => p.Name.Matches(propertyName));
+                if (property != null)
+                {                                        
+                    var value = invocation.GetArgumentValue(0);
+                    if (property.CustomTypeConverter != null)
+                        entityProxyObject.SetNewFieldValue(property.Column, property.CustomTypeConverter.ConvertFrom(value));
+                    else
+                        entityProxyObject.SetNewFieldValue(property.Column, value);
+                    return;
+                }
+            }
+            invocation.Proceed();            
         }
 
 #if DEBUG

@@ -67,6 +67,7 @@ namespace OpenEntity.Specs.Proxy
             var value = pet.NonVirtualProperty;
         }
 
+#if DEBUG
         [Test]
         public void EntityProxyFactory_should_not_intercept_normal_methods()
         {
@@ -76,7 +77,9 @@ namespace OpenEntity.Specs.Proxy
             var interceptedMethodsCount = GetInterceptedMethodsCountFor<EntityFieldInterceptor>(pet);
             Assert.AreEqual(0, interceptedMethodsCount);
         }
+#endif
 
+#if DEBUG
         [Test]
         public void EntityProxyFactory_should_intercept_property_setters()
         {
@@ -85,7 +88,9 @@ namespace OpenEntity.Specs.Proxy
             var interceptedMethodsCount = GetInterceptedMethodsCountFor<EntityFieldInterceptor>(pet);
             Assert.AreEqual(1, interceptedMethodsCount);
         }
+#endif
 
+#if DEBUG
         [Test]
         public void EntityProxyFactory_should_intercept_property_getters()
         {
@@ -94,6 +99,7 @@ namespace OpenEntity.Specs.Proxy
             var interceptedMethodsCount = GetInterceptedMethodsCountFor<EntityFieldInterceptor>(pet);
             Assert.AreEqual(1, interceptedMethodsCount);
         }
+#endif
 
         [Test]
         public void DynProxyGetTarget_should_return_proxy_itself()
@@ -104,6 +110,7 @@ namespace OpenEntity.Specs.Proxy
             Assert.AreSame(pet, hack.DynProxyGetTarget());
         }
 
+#if DEBUG
         [Test]
         public void EntityProxyFactory_should_log_getters_and_setters()
         {
@@ -115,6 +122,7 @@ namespace OpenEntity.Specs.Proxy
             Assert.AreEqual(2, logsCount);
             Assert.AreEqual(2, entityCount);
         }
+#endif
 
 #if DEBUG
         [Test]
@@ -143,6 +151,20 @@ namespace OpenEntity.Specs.Proxy
             Assert.False(petWeakReference.IsAlive, "Object should have been collected");
         }
 
+        [Test]
+        public void Unitialized_ProxyEntity_Should_Throw_Exception_On_Accessing_Mapped_Property()
+        {
+            var pet = (Pet)EntityProxyFactory.MakeEntity(typeof(Pet));
+            Assert.Throws<InvalidOperationException>(delegate
+            {
+                var unused = pet.Weight;
+            });
+            Assert.Throws<InvalidOperationException>(delegate
+            {
+                pet.Weight = 50.00m;
+            });
+        }
+
 
 #if DEBUG
         private int GetInterceptedMethodsCountFor<TInterceptor>(object entity)
@@ -166,6 +188,7 @@ namespace OpenEntity.Specs.Proxy
         public virtual string Name { get; set; }
         public virtual int Age { get; set; }
         public virtual bool Deceased { get; set; }
+        public virtual decimal Weight { get; set; }
 
         public override string ToString()
         {
@@ -182,11 +205,7 @@ namespace OpenEntity.Specs.Proxy
     {
         public PetMapping()
         {
-            ForTable("pets");
-            Maps(x => x.Id);
-            Maps(x => x.Name);
-            Maps(x => x.Age);
-            Maps(x => x.Deceased);
+            Maps(x => x.Weight);
         }
     }
 

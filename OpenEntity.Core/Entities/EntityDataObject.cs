@@ -141,6 +141,8 @@ namespace OpenEntity.Entities
 
         public bool SetNewFieldValue(string fieldName, object value)
         {
+            if (!this.Initialized)
+                throw new InvalidOperationException("Entity has not been initialized.");
             IEntityField field = this.Fields[fieldName];
             if (field == null)
             {
@@ -156,6 +158,8 @@ namespace OpenEntity.Entities
 
         public object GetCurrentFieldValue(string fieldName)
         {
+            if (!this.Initialized)
+                throw new InvalidOperationException("Entity has not been initialized.");
             IEntityField field = this.Fields[fieldName];
             if (field == null)
             {

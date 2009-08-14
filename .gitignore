@@ -35,4 +35,7 @@ httpd.parse.errors
  
 # Exclude ALL DLLs? (
 # *.dll
- 
+
+# NUnit
+*.VisualState.xml
+TestResult.xml

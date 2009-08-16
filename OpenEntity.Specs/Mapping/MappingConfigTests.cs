@@ -8,12 +8,12 @@ using OpenEntity.Mapping;
 namespace OpenEntity.Specs.Mapping
 {
     [TestFixture]
-    public class MappingConfigTests
+    public class MappingTableTests
     {
         [TestFixtureSetUp]
         public void ClearMappings()
         {
-            MappingConfiguration.Clear();
+            MappingTable.Clear();
         }
 
         [Test]        
@@ -21,32 +21,32 @@ namespace OpenEntity.Specs.Mapping
         {
             foreach (var type in TestEnvironment.EntityTypes)
             {
-                Assert.IsNull(MappingConfiguration.FindClassConfiguration(type));
+                Assert.IsNull(MappingTable.FindClassMapping(type));
             }
         }
 
         [Test]
         public void AddingAssemblyShouldFindAllClassMappings()
         {
-            MappingConfiguration.AddAssembly(typeof(TestEnvironment).Assembly);
+            MappingTable.AddAssembly(typeof(TestEnvironment).Assembly);
             foreach (var type in TestEnvironment.EntityTypes)
             {
-                Assert.IsNotNull(MappingConfiguration.FindClassConfiguration(type));
+                Assert.IsNotNull(MappingTable.FindClassMapping(type));
             }
         }
 
         [Test]
         public void ClearShouldClearSearchedAssemblies()
         {
-            MappingConfiguration.AddAssembly(typeof(TestEnvironment).Assembly);
+            MappingTable.AddAssembly(typeof(TestEnvironment).Assembly);
             foreach (var type in TestEnvironment.EntityTypes)
             {
-                Assert.IsNotNull(MappingConfiguration.FindClassConfiguration(type));
+                Assert.IsNotNull(MappingTable.FindClassMapping(type));
             }
-            MappingConfiguration.Clear();
+            MappingTable.Clear();
             foreach (var type in TestEnvironment.EntityTypes)
             {
-                Assert.IsNull(MappingConfiguration.FindClassConfiguration(type));
+                Assert.IsNull(MappingTable.FindClassMapping(type));
             }
         }
     }

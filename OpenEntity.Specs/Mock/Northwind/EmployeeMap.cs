@@ -6,7 +6,7 @@ using OpenEntity.Mapping;
 
 namespace OpenEntity.Specs.Mock.Northwind
 {
-    public class EmployeeMap : ClassConfiguration<Employee>
+    public class EmployeeMap : ClassMapping<Employee>
     {
         public EmployeeMap()
         {

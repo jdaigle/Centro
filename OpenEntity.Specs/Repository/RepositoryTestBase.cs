@@ -13,8 +13,8 @@ namespace OpenEntity.Specs.Repository
         [TestFixtureSetUp]
         public void SetupRepository()
         {
-            MappingConfiguration.Clear();
-            MappingConfiguration.AddAssembly(typeof(TestEnvironment).Assembly);
+            MappingTable.Clear();
+            MappingTable.AddAssembly(typeof(TestEnvironment).Assembly);
 
             Repository = new RepositoryBase<TModelType>(GetDataProvider());
         }

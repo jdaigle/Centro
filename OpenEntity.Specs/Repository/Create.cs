@@ -57,6 +57,13 @@ namespace OpenEntity.Specs.Repository
         {
             return TestEnvironment.GetSqlServerDataProvider();
         }
+
+        [Test]
+        public void Should__Throw()
+        {
+            var instance = Repository.Create();
+            Assert.Throws<InvalidFieldReadException>(delegate { string.IsNullOrEmpty(instance.Name); });
+        }
     }
 
     [TestFixture]

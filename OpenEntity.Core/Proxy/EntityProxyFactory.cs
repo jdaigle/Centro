@@ -5,6 +5,7 @@ using Castle.DynamicProxy;
 using OpenEntity.Entities;
 using OpenEntity.Mapping;
 using System.Diagnostics;
+using OpenEntity.DataProviders;
 
 namespace OpenEntity.Proxy
 {
@@ -38,13 +39,13 @@ namespace OpenEntity.Proxy
             return entityFieldInterceptor != null ? entityFieldInterceptor.Entity : null;
         }
 
-        public static object MakeEntity(Type targetClass)
+        public static object MakeEntity(Type targetClass, IDataProvider dataProvider)
         {
-            var classConfiguration = MappingConfiguration.FindClassConfiguration(targetClass);
-            if (classConfiguration == null)
+            var classMapping = MappingTable.FindClassMapping(targetClass);
+            if (classMapping == null)
                 throw new NotSupportedException("Cannot create proxy class for " + targetClass.FullName + " without a class/table configuration.");
 
-            var entityFieldInterceptor = new EntityFieldInterceptor(classConfiguration);
+            var entityFieldInterceptor = new EntityFieldInterceptor(classMapping, dataProvider);
 #if DEBUG
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();

@@ -13,12 +13,7 @@ namespace OpenEntity.Specs.Mock.Northwind
         public virtual int Id { get { return default(int); } }
         public virtual string Name { get; set; }
         public virtual bool Discontinued { get; set; }
-        public virtual object CategoryId { get; set; }
-
-        public Category GetRelatedCategory(IRepository<Category> categoryRepository)
-        {
-            var predicate = new PredicateExpression().Where<Category>(c => c.Id).IsEqualTo(CategoryId);
-            return categoryRepository.Fetch(predicate);
-        }
+        public virtual Category Category { get; set; }
+        public virtual Supplier Supplier { get; set; }
     }
 }

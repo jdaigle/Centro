@@ -6,16 +6,18 @@ using OpenEntity.Mapping;
 
 namespace OpenEntity.Specs.Mock.Northwind
 {
-    public class ProductMap : ClassConfiguration<Product>
+    public class ProductMap : ClassMapping<Product>
     {
         public ProductMap()
         {
             this.ForTable("Products");
 
-            this.Maps(x => x.Id).AsColumn("ProductId");
-            this.Maps(x => x.Name).AsColumn("ProductName");
-            this.Maps(x => x.Discontinued);
-            this.Maps(x => x.CategoryId);
+            Maps(x => x.Id).AsColumn("ProductId");
+            Maps(x => x.Name).AsColumn("ProductName");
+            Maps(x => x.Discontinued);
+
+            References(x => x.Category).WithColumn("CategoryId");
+            References(x => x.Supplier).WithColumn("SupplierId");
         }
     }
 }

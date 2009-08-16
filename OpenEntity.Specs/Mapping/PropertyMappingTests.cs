@@ -11,22 +11,22 @@ using OpenEntity.Specs.Mock;
 namespace OpenEntity.Specs.Mapping
 {
     [TestFixture]
-    public class PropertyConfigurationTests
+    public class PropertyMappingTests
     {
 
         [TestFixtureSetUp]
         public void SetupMapping()
         {
-            MappingConfiguration.Clear();
-            MappingConfiguration.AddAssembly(typeof(TestEnvironment).Assembly);
+            MappingTable.Clear();
+            MappingTable.AddAssembly(typeof(TestEnvironment).Assembly);
         }
 
         [Test]
         public void CustomTypeShouldBeSet()
         {
-            var classConfiguration = MappingConfiguration.FindClassConfiguration(typeof(Supplier));
-            Assert.IsNotNull(classConfiguration);
-            var phoneProperty = classConfiguration.Properties.FirstOrDefault(p => p.Name.Matches("Phone"));
+            var classMapping = MappingTable.FindClassMapping(typeof(Supplier));
+            Assert.IsNotNull(classMapping);
+            var phoneProperty = classMapping.Properties.FirstOrDefault(p => p.Name.Matches("Phone"));
             Assert.IsNotNull(phoneProperty);
             Assert.IsNotNull(phoneProperty.CustomTypeConverter);
             Assert.IsTrue(phoneProperty.CustomTypeConverter is SimplePhoneNumberConverter);

@@ -5,9 +5,16 @@ using OpenEntity.Query;
 using OpenEntity.Schema;
 using System.Linq.Expressions;
 using System;
+using OpenEntity.Entities;
 
 namespace OpenEntity.Repository
 {
+    internal interface IRepositoryInternal
+    {
+        IProxyEntity CreateEmptyEntity();
+        IList<object> FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause, int maxNumberOfItemsToReturn);        
+    }
+
     public interface IRepository<TModelType> where TModelType : IDomainObject
     {        
         TModelType Create();

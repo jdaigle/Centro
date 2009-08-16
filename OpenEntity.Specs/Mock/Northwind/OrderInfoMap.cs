@@ -6,7 +6,7 @@ using OpenEntity.Mapping;
 
 namespace OpenEntity.Specs.Mock.Northwind
 {
-    public class OrderInfoMap : ClassConfiguration<OrderInfo>
+    public class OrderInfoMap : ClassMapping<OrderInfo>
     {
         public OrderInfoMap()
         {

@@ -41,10 +41,32 @@ namespace OpenEntity.Query
             return Constrain(columnExpression, PredicateExpressionOperator.And);
         }
 
+        public IConstraint Where<TModelType>(string column)
+            where TModelType : IDomainObject
+        {
+            return Constrain<TModelType>(column, PredicateExpressionOperator.And);
+        }
+
+        public IConstraint Where(string table, string column)
+        {
+            return Constrain(table, column, PredicateExpressionOperator.And);
+        }
+
         public IConstraint And<TModelType>(Expression<Func<TModelType, object>> columnExpression)
              where TModelType : IDomainObject
         {
             return Constrain(columnExpression, PredicateExpressionOperator.And);
+        }
+
+        public IConstraint And<TModelType>(string column)
+            where TModelType : IDomainObject
+        {
+            return Constrain<TModelType>(column, PredicateExpressionOperator.And);
+        }
+
+        public IConstraint And(string table, string column)
+        {
+            return Constrain(table, column, PredicateExpressionOperator.And);
         }
 
         public IConstraint Or<TModelType>(Expression<Func<TModelType, object>> columnExpression)
@@ -53,12 +75,40 @@ namespace OpenEntity.Query
             return Constrain(columnExpression, PredicateExpressionOperator.Or);
         }
 
+        public IConstraint Or<TModelType>(string column)
+            where TModelType : IDomainObject
+        {
+            return Constrain<TModelType>(column, PredicateExpressionOperator.Or);
+        }
+
+        public IConstraint Or(string table, string column)
+        {
+            return Constrain(table, column, PredicateExpressionOperator.Or);
+        }
+
         private IConstraint Constrain<TModelType>(Expression<Func<TModelType, object>> columnExpression, PredicateExpressionOperator operatorToUse)
              where TModelType : IDomainObject
         {
-            var classConfiguration = MappingConfiguration.FindClassConfiguration(typeof(TModelType));
-            var tableName = classConfiguration.Table;
-            var columnName = classConfiguration.GetColumnName(columnExpression);
+            var classMapping = MappingTable.FindClassMapping(typeof(TModelType));
+            var tableName = classMapping.Table;
+            var columnName = classMapping.GetColumnName(columnExpression);
+            return new ColumnConstraint(tableName, columnName, this, operatorToUse);
+        }
+
+        private IConstraint Constrain<TModelType>(string column, PredicateExpressionOperator operatorToUse)
+            where TModelType : IDomainObject
+        {
+
+            var classMapping = MappingTable.FindClassMapping(typeof(TModelType));
+            var tableName = classMapping.Table;
+            var columnName = column;
+            return new ColumnConstraint(tableName, columnName, this, operatorToUse);
+        }
+
+        private IConstraint Constrain(string table, string column, PredicateExpressionOperator operatorToUse)
+        {
+            var tableName = table;
+            var columnName = column;
             return new ColumnConstraint(tableName, columnName, this, operatorToUse);
         }
 

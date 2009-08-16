@@ -7,9 +7,9 @@ using OpenEntity.Model;
 
 namespace OpenEntity.Mapping
 {
-    internal class PropertyConfiguration : IPropertyConfiguration
+    internal class PropertyMapping : IPropertyMapping
     {
-        internal PropertyConfiguration(PropertyInfo propertyInfo)
+        internal PropertyMapping(PropertyInfo propertyInfo)
         {
             PropertyInfo = propertyInfo;
             Column = propertyInfo.Name;
@@ -19,18 +19,26 @@ namespace OpenEntity.Mapping
         public PropertyInfo PropertyInfo { get; private set; }
         public string Column { get; private set; }
         public ICustomTypeConverter CustomTypeConverter { get; private set; }
+        public bool HasReference { get { return Reference != null; } }
+        public IReferenceMapping Reference { get; private set; }
 
-        public IPropertyConfiguration AsColumn(string name)
+        public IPropertyMapping AsColumn(string name)
         {
             Column = name;
             return this;
         }
 
-        public IPropertyConfiguration AsCustomType(Type typeConverter)
+        public IPropertyMapping AsCustomType(Type typeConverter)
         {
             if (!typeof(ICustomTypeConverter).IsAssignableFrom(typeConverter))
                 throw new ArgumentException("Type converter must be of type ICustomTypeConverter", "typeConverter");
             CustomTypeConverter = Activator.CreateInstance(typeConverter) as ICustomTypeConverter;
+            return this;
+        }
+
+        public IPropertyMapping References(IReferenceMapping reference)
+        {
+            Reference = reference;
             return this;
         }
     }

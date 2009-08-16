@@ -12,21 +12,21 @@ using OpenEntity.Entities;
 using OpenEntity.Joins;
 using OpenEntity.Mapping;
 using OpenEntity.Model;
+using OpenEntity.Proxy;
 using OpenEntity.Query;
 using OpenEntity.Schema;
-using OpenEntity.Proxy;
 
 namespace OpenEntity.Repository
 {
-    public class RepositoryBase<TModelType> : IRepository<TModelType>, IEntityCreator where TModelType : IDomainObject
+    public class RepositoryBase<TModelType> : IRepository<TModelType>, IRepositoryInternal, IEntityCreator where TModelType : IDomainObject
     {
         private ITable table;
-        private IClassConfiguration classConfiguration;
+        private IClassMapping classMapping;
 
         public RepositoryBase(IDataProvider dataProvider)
         {
             this.DataProvider = dataProvider;
-            classConfiguration = MappingConfiguration.FindClassConfiguration(typeof(TModelType));
+            classMapping = MappingTable.FindClassMapping(typeof(TModelType));
         }
 
         public IDataProvider DataProvider { get; private set; }
@@ -35,9 +35,9 @@ namespace OpenEntity.Repository
         {
             get
             {
-                if (classConfiguration == null)
-                    throw new InvalidOperationException("Could not find class configuration for type {" + typeof(TModelType).Name + "}");
-                return classConfiguration.Table;
+                if (classMapping == null)
+                    throw new InvalidOperationException("Could not find class mapping for type {" + typeof(TModelType).Name + "}");
+                return classMapping.Table;
             }
         }
 
@@ -85,11 +85,11 @@ namespace OpenEntity.Repository
 
         #region IRepository<TModelType> Members
 
-        public TModelType Create()
+        public virtual TModelType Create()
         {
-            var modelInstance = (TModelType)EntityProxyFactory.MakeEntity(typeof(TModelType));
+            var modelInstance = (TModelType)EntityProxyFactory.MakeEntity(typeof(TModelType), DataProvider);
             var proxyEntity = EntityProxyFactory.AsEntity(modelInstance) as IProxyEntity;
-            foreach (var property in classConfiguration.Properties)
+            foreach (var property in classMapping.Properties)
                 if (property.CustomTypeConverter != null)
                     proxyEntity.AddCustomTypeConverter(property.CustomTypeConverter, property.Name);
             IEntityFields fields = this.CreateEntityFields();
@@ -99,13 +99,13 @@ namespace OpenEntity.Repository
             return modelInstance;
         }
 
-        public TModelType CreateFrom(TModelType transientObject)
+        public virtual TModelType CreateFrom(TModelType transientObject)
         {
             if (transientObject == null)
                 throw new ArgumentNullException("transientObject");
             var modelInstance = Create();
             var entity = EntityProxyFactory.AsEntity(modelInstance);
-            foreach (var property in classConfiguration.Properties)
+            foreach (var property in classMapping.Properties)
             {
                 var field = entity.Fields[property.Column] as EntityField;
                 if (field.IsReadOnly)
@@ -125,7 +125,7 @@ namespace OpenEntity.Repository
             return Create();
         }
 
-        public bool Reload(TModelType objectToFetch)
+        public virtual bool Reload(TModelType objectToFetch)
         {
             if (objectToFetch == null)
                 throw new ArgumentNullException("objectToFetch");
@@ -142,6 +142,7 @@ namespace OpenEntity.Repository
                 this.DataProvider.KeepConnectionOpen = true;
                 // Execute the retrieval
                 this.DataProvider.ExecuteSingleRowRetrievalQuery(selectCommand, fields);
+                proxyEntity.Reload();
                 return true;
             }
             finally
@@ -152,13 +153,13 @@ namespace OpenEntity.Repository
             }
         }
 
-        public bool Save(TModelType objectToSave)
+        public virtual bool Save(TModelType objectToSave)
         {
             // Overload
             return this.Save(objectToSave, false);
         }
 
-        public bool Save(TModelType objectToSave, bool reloadAfterSave)
+        public virtual bool Save(TModelType objectToSave, bool reloadAfterSave)
         {
             if (objectToSave == null)
                 throw new ArgumentNullException("objectToSave");
@@ -252,7 +253,7 @@ namespace OpenEntity.Repository
             return saveSucceeded;
         }
 
-        public bool Delete(TModelType objectToDelete)
+        public virtual bool Delete(TModelType objectToDelete)
         {
             if (objectToDelete == null)
                 throw new ArgumentNullException("objectToDelete");
@@ -293,19 +294,19 @@ namespace OpenEntity.Repository
             }
         }
 
-        public TModelType Fetch(IPredicateExpression queryPredicate)
+        public virtual TModelType Fetch(IPredicateExpression queryPredicate)
         {
             // Overload
             return this.Fetch(queryPredicate, null);
         }
 
-        public TModelType Fetch(IPredicateExpression queryPredicate, JoinSet joinSet)
+        public virtual TModelType Fetch(IPredicateExpression queryPredicate, JoinSet joinSet)
         {
             // Overload
             return this.Fetch(queryPredicate, joinSet, null);
         }
 
-        public TModelType Fetch(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause)
+        public virtual TModelType Fetch(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause)
         {
             TModelType fetchedEntity = default(TModelType);
             bool keepConnectionOpenSave = this.DataProvider.KeepConnectionOpen;
@@ -324,25 +325,25 @@ namespace OpenEntity.Repository
             return fetchedEntity;
         }
 
-        public IList<TModelType> FetchAll(IPredicateExpression queryPredicate)
+        public virtual IList<TModelType> FetchAll(IPredicateExpression queryPredicate)
         {
             // Overload
             return this.FetchAll(queryPredicate, null, null, -1);
         }
 
-        public IList<TModelType> FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet)
+        public virtual IList<TModelType> FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet)
         {
             // Overload
             return this.FetchAll(queryPredicate, joinSet, null, -1);
         }
 
-        public IList<TModelType> FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause)
+        public virtual IList<TModelType> FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause)
         {
             // Overload
             return this.FetchAll(queryPredicate, joinSet, orderClause, -1);
         }
 
-        public IList<TModelType> FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause, int maxNumberOfItemsToReturn)
+        public virtual IList<TModelType> FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause, int maxNumberOfItemsToReturn)
         {
             bool keepConnectionOpenSave = this.DataProvider.KeepConnectionOpen;
             List<TModelType> entities = new List<TModelType>();
@@ -363,19 +364,19 @@ namespace OpenEntity.Repository
             return entities;
         }
 
-        public object FetchScalar(IColumn field, AggregateFunction aggregateFunction)
+        public virtual object FetchScalar(IColumn field, AggregateFunction aggregateFunction)
         {
             // Overload
             return this.FetchScalar(field, aggregateFunction, null, null);
         }
 
-        public object FetchScalar(IColumn field, AggregateFunction aggregateFunction, IPredicateExpression queryPredicate)
+        public virtual object FetchScalar(IColumn field, AggregateFunction aggregateFunction, IPredicateExpression queryPredicate)
         {
             // Overload
             return this.FetchScalar(field, aggregateFunction, queryPredicate, null);
         }
 
-        public object FetchScalar(IColumn field, AggregateFunction aggregateFunction, IPredicateExpression queryPredicate, JoinSet joinSet)
+        public virtual object FetchScalar(IColumn field, AggregateFunction aggregateFunction, IPredicateExpression queryPredicate, JoinSet joinSet)
         {
             if (field == null)
                 throw new ArgumentNullException("field");
@@ -396,23 +397,37 @@ namespace OpenEntity.Repository
             }
         }
 
-        public object FetchScalar(Expression<Func<TModelType, object>> columnExpression, AggregateFunction aggregateFunction)
+        public virtual object FetchScalar(Expression<Func<TModelType, object>> columnExpression, AggregateFunction aggregateFunction)
         {
             // Overload
             return FetchScalar(columnExpression, aggregateFunction, null, null);
         }
 
-        public object FetchScalar(Expression<Func<TModelType, object>> columnExpression, AggregateFunction aggregateFunction, IPredicateExpression queryPredicate)
+        public virtual object FetchScalar(Expression<Func<TModelType, object>> columnExpression, AggregateFunction aggregateFunction, IPredicateExpression queryPredicate)
         {
             // Overload
             return FetchScalar(columnExpression, aggregateFunction, queryPredicate, null);
         }
-        public object FetchScalar(Expression<Func<TModelType, object>> columnExpression, AggregateFunction aggregateFunction, IPredicateExpression queryPredicate, JoinSet joinSet)
+        public virtual object FetchScalar(Expression<Func<TModelType, object>> columnExpression, AggregateFunction aggregateFunction, IPredicateExpression queryPredicate, JoinSet joinSet)
         {
-            var classConfiguration = MappingConfiguration.FindClassConfiguration(typeof(TModelType));
-            var columnName = classConfiguration.GetColumnName(columnExpression);
+            var classMapping = MappingTable.FindClassMapping(typeof(TModelType));
+            var columnName = classMapping.GetColumnName(columnExpression);
             var column = this.DataProvider.Schema.FindColumn(this.TableName, columnName);
             return FetchScalar(column, aggregateFunction, queryPredicate, joinSet);
+        }
+
+        #endregion
+
+        #region IRepositoryInternal Members
+
+        IProxyEntity IRepositoryInternal.CreateEmptyEntity()
+        {
+            return EntityProxyFactory.AsEntity(Create()) as IProxyEntity;
+        }
+
+        IList<object> IRepositoryInternal.FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause, int maxNumberOfItemsToReturn)
+        {
+            return FetchAll(queryPredicate, joinSet, orderClause, maxNumberOfItemsToReturn).Cast<object>().ToList();
         }
 
         #endregion

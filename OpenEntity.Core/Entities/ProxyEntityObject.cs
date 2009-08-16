@@ -106,15 +106,17 @@ namespace OpenEntity.Entities
                 throw new EntityIsDeletedException();
             }
 
+            IEntityField field = this.Fields[fieldIndex];
+
             // check if the field is set to a value, if that's required. 
-            if (this.IsNew && !this.Fields[fieldIndex].IsChanged && this.Fields[fieldIndex].CurrentValue == null)
+            if (this.IsNew && !field.IsChanged && field.CurrentValue == null && !field.IsNullable)
             {
                 // not set to a value, illegal.
-                throw new InvalidFieldReadException(string.Format("The field '{0}' at index {1} isn't set to a value yet, so reading its value leads to invalid results. ", this.Fields[fieldIndex].Name, fieldIndex));
+                throw new InvalidFieldReadException(string.Format("The nullable field '{0}' at index {1} isn't set to a value yet, so reading its value leads to invalid results. ", this.Fields[fieldIndex].Name, fieldIndex));
             }
 
             object valueToReturn = null;
-            IEntityField field = this.Fields[fieldIndex];
+            
 
             valueToReturn = field.CurrentValue;
             // convert from DBNull to null
@@ -258,6 +260,14 @@ namespace OpenEntity.Entities
                 return customTypeConverters[propertyName.ToUpperInvariant()];
             return null;
         }
+
+        public void Reload()
+        {
+            if (Reloaded != null)
+                Reloaded(this, EventArgs.Empty);
+        }
+
+        public event EventHandler Reloaded;
 
         #endregion
 

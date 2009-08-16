@@ -20,8 +20,8 @@ namespace OpenEntity.Specs.Model
         [TestFixtureSetUp]
         public void SetupMapping()
         {
-            MappingConfiguration.Clear();
-            MappingConfiguration.AddAssembly(typeof(TestEnvironment).Assembly);
+            MappingTable.Clear();
+            MappingTable.AddAssembly(typeof(TestEnvironment).Assembly);
 
             repository = new RepositoryBase<Supplier>(TestEnvironment.GetSqlServerDataProvider());
         }

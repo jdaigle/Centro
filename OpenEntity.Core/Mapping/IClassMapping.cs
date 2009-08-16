@@ -6,10 +6,10 @@ using System.Linq.Expressions;
 
 namespace OpenEntity.Mapping
 {
-    public interface IClassConfiguration
+    public interface IClassMapping
     {
         string Table { get; }
         Type ClassType { get; }
-        IList<IPropertyConfiguration> Properties { get; }
+        IList<IPropertyMapping> Properties { get; }
     }
 }

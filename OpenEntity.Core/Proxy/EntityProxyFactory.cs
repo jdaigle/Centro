@@ -39,13 +39,13 @@ namespace OpenEntity.Proxy
             return entityFieldInterceptor != null ? entityFieldInterceptor.Entity : null;
         }
 
-        public static object MakeEntity(Type targetClass, IDataProvider dataProvider)
+        public static object MakeEntity(Type targetClass)
         {
             var classMapping = MappingTable.FindClassMapping(targetClass);
             if (classMapping == null)
                 throw new NotSupportedException("Cannot create proxy class for " + targetClass.FullName + " without a class/table configuration.");
 
-            var entityFieldInterceptor = new EntityFieldInterceptor(classMapping, dataProvider);
+            var entityFieldInterceptor = new EntityFieldInterceptor(classMapping);
 #if DEBUG
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();

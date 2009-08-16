@@ -21,13 +21,11 @@ namespace OpenEntity.Proxy
 
         private ProxyEntityObject entityProxyObject;
         private IClassMapping classMapping;
-        private IDataProvider dataProvider;
         private Dictionary<IReferenceMapping, object> cachedReferenceObjects = new Dictionary<IReferenceMapping, object>();
 
-        public EntityFieldInterceptor(IClassMapping classMapping, IDataProvider dataProvider)
+        public EntityFieldInterceptor(IClassMapping classMapping)
         {
             this.classMapping = classMapping;
-            this.dataProvider = dataProvider;
             this.entityProxyObject = new ProxyEntityObject();
             this.entityProxyObject.Reloaded += new EventHandler(HandleEntityProxyObjectReloaded);
         }
@@ -91,7 +89,7 @@ namespace OpenEntity.Proxy
             if (cachedReferenceObjects.ContainsKey(property.Reference))
                 return cachedReferenceObjects[property.Reference];
             var foriegnKeyValue = entityProxyObject.GetCurrentFieldValue(property.Column);
-            var repository = RepositoryFactory.GetRepositoryFactoryFor(dataProvider).GetRepository(property.Reference.ReferenceModelType);
+            var repository = RepositoryFactory.GetRepositoryFactoryFor(entityProxyObject.DataProvider).GetRepository(property.Reference.ReferenceModelType);
             var entity = repository.CreateEmptyEntity();
             var foreignKeyColumn = entity.PrimaryKeyFields[0].Name;
             if (property.Reference.HasSpecifiedForeignKey)

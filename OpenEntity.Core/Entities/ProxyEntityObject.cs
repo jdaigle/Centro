@@ -19,14 +19,16 @@ namespace OpenEntity.Entities
         }
 
         public ITable Table { get; internal set; }
+        public IDataProvider DataProvider { get; private set; }
         public bool Initialized { get; private set; }
 
-        public void Initialize(ITable table, IEntityFields fields)
+        public void Initialize(ITable table, IEntityFields fields, IDataProvider dataProvider)
         {
             if (this.Initialized)
                 throw new NotSupportedException("This method can only be called once.");
             this.Table = table;
             this.Fields = fields;
+            DataProvider = dataProvider;
             this.IsNew = true;
             this.IsDirty = false;
             this.Initialized = true;

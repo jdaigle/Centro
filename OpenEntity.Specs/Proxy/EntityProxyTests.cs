@@ -26,20 +26,20 @@ namespace OpenEntity.Specs.Proxy
         [Test]
         public void IsEntity_should_be_true_for_objects_created_with_MakeEntity()
         {
-            var proxyPet = EntityProxyFactory.MakeEntity(typeof(Pet), null);
+            var proxyPet = EntityProxyFactory.MakeEntity(typeof(Pet));
             Assert.True(EntityProxyFactory.IsEntity(proxyPet));
         }
 
         [Test]
         public void MakeEntity_Should_ThrowException_For_Unmapped_Class()
         {
-            Assert.Throws<NotSupportedException>(delegate { EntityProxyFactory.MakeEntity(typeof(object), null); });
+            Assert.Throws<NotSupportedException>(delegate { EntityProxyFactory.MakeEntity(typeof(object)); });
         }
 
         [Test]
         public void AsEntity_should_return_IEntity_for_objects_created_with_MakeEntity()
         {
-            var proxyPet = EntityProxyFactory.MakeEntity(typeof(Pet), null);
+            var proxyPet = EntityProxyFactory.MakeEntity(typeof(Pet));
             Assert.IsNotNull(EntityProxyFactory.AsEntity(proxyPet));
         }
 
@@ -53,7 +53,7 @@ namespace OpenEntity.Specs.Proxy
         [Test]
         public void EntityProxyFactory_should_create_classes_with_nonVirtual_methods()
         {
-            var pet = (WithNonVirtualMethod)EntityProxyFactory.MakeEntity(typeof(WithNonVirtualMethod), null);
+            var pet = (WithNonVirtualMethod)EntityProxyFactory.MakeEntity(typeof(WithNonVirtualMethod));
             pet.Name = "Rex";
             pet.NonVirtualMethod();
         }
@@ -61,7 +61,7 @@ namespace OpenEntity.Specs.Proxy
         [Test]
         public void EntityProxyFactory_should__create_classes_with_nonVirtual_properties()
         {
-            var pet = (WithNonVirtualProperty)EntityProxyFactory.MakeEntity(typeof(WithNonVirtualProperty), null);
+            var pet = (WithNonVirtualProperty)EntityProxyFactory.MakeEntity(typeof(WithNonVirtualProperty));
             pet.Name = "Rex";
             pet.NonVirtualProperty = 5;
             var value = pet.NonVirtualProperty;
@@ -71,7 +71,7 @@ namespace OpenEntity.Specs.Proxy
         [Test]
         public void EntityProxyFactory_should_not_intercept_normal_methods()
         {
-            var pet = (Pet)EntityProxyFactory.MakeEntity(typeof(Pet), null);
+            var pet = (Pet)EntityProxyFactory.MakeEntity(typeof(Pet));
             var notUsed = pet.GetHashCode(); //should not intercept
             var alsoNotUsed = pet.Equals(null); //should not intercept
             var interceptedMethodsCount = GetInterceptedMethodsCountFor<EntityFieldInterceptor>(pet);
@@ -83,7 +83,7 @@ namespace OpenEntity.Specs.Proxy
         [Test]
         public void EntityProxyFactory_should_intercept_property_setters()
         {
-            var pet = (Pet)EntityProxyFactory.MakeEntity(typeof(Pet), null);
+            var pet = (Pet)EntityProxyFactory.MakeEntity(typeof(Pet));
             pet.Age = 5; //should intercept
             var interceptedMethodsCount = GetInterceptedMethodsCountFor<EntityFieldInterceptor>(pet);
             Assert.AreEqual(1, interceptedMethodsCount);
@@ -94,7 +94,7 @@ namespace OpenEntity.Specs.Proxy
         [Test]
         public void EntityProxyFactory_should_intercept_property_getters()
         {
-            var pet = (Pet)EntityProxyFactory.MakeEntity(typeof(Pet), null);
+            var pet = (Pet)EntityProxyFactory.MakeEntity(typeof(Pet));
             var age = pet.Age; //should intercept
             var interceptedMethodsCount = GetInterceptedMethodsCountFor<EntityFieldInterceptor>(pet);
             Assert.AreEqual(1, interceptedMethodsCount);
@@ -104,7 +104,7 @@ namespace OpenEntity.Specs.Proxy
         [Test]
         public void DynProxyGetTarget_should_return_proxy_itself()
         {
-            var pet = EntityProxyFactory.MakeEntity(typeof(Pet), null);
+            var pet = EntityProxyFactory.MakeEntity(typeof(Pet));
             var hack = pet as IProxyTargetAccessor;
             Assert.NotNull(hack);
             Assert.AreSame(pet, hack.DynProxyGetTarget());
@@ -114,7 +114,7 @@ namespace OpenEntity.Specs.Proxy
         [Test]
         public void EntityProxyFactory_should_log_getters_and_setters()
         {
-            var pet = (Pet)EntityProxyFactory.MakeEntity(typeof(Pet), null);
+            var pet = (Pet)EntityProxyFactory.MakeEntity(typeof(Pet));
             pet.Age = 4;
             var age = pet.Age;
             int logsCount = GetInterceptedMethodsCountFor<CallLoggingInterceptor>(pet);
@@ -129,7 +129,7 @@ namespace OpenEntity.Specs.Proxy
         public void EntityProxyFactory_should_not_intercept_methods()
         {
 
-            var pet = EntityProxyFactory.MakeEntity(typeof(Pet), null);
+            var pet = EntityProxyFactory.MakeEntity(typeof(Pet));
             pet.ToString();
             int logsCount = GetInterceptedMethodsCountFor<CallLoggingInterceptor>(pet);
             int entityCount = GetInterceptedMethodsCountFor<EntityFieldInterceptor>(pet);
@@ -144,7 +144,7 @@ namespace OpenEntity.Specs.Proxy
         [Test]
         public void EntityProxyFactory_should_not_hold_any_reference_to_created_objects()
         {
-            var pet = EntityProxyFactory.MakeEntity(typeof(Pet), null);
+            var pet = EntityProxyFactory.MakeEntity(typeof(Pet));
             var petWeakReference = new WeakReference(pet, false);
             pet = null;
             GC.Collect();
@@ -154,7 +154,7 @@ namespace OpenEntity.Specs.Proxy
         [Test]
         public void Unitialized_ProxyEntity_Should_Throw_Exception_On_Accessing_Mapped_Property()
         {
-            var pet = (Pet)EntityProxyFactory.MakeEntity(typeof(Pet), null);
+            var pet = (Pet)EntityProxyFactory.MakeEntity(typeof(Pet));
             Assert.Throws<InvalidOperationException>(delegate
             {
                 var unused = pet.Weight;

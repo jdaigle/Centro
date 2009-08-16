@@ -87,7 +87,7 @@ namespace OpenEntity.Repository
 
         public virtual TModelType Create()
         {
-            var modelInstance = (TModelType)EntityProxyFactory.MakeEntity(typeof(TModelType), DataProvider);
+            var modelInstance = (TModelType)EntityProxyFactory.MakeEntity(typeof(TModelType));
             var proxyEntity = EntityProxyFactory.AsEntity(modelInstance) as IProxyEntity;
             foreach (var property in classMapping.Properties)
                 if (property.CustomTypeConverter != null)
@@ -95,7 +95,7 @@ namespace OpenEntity.Repository
             IEntityFields fields = this.CreateEntityFields();
             if (fields == null)
                 return default(TModelType);
-            proxyEntity.Initialize(Table, fields);
+            proxyEntity.Initialize(Table, fields, DataProvider);
             return modelInstance;
         }
 

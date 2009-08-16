@@ -20,14 +20,12 @@ namespace OpenEntity.Proxy
     {
 
         private ProxyEntityObject entityProxyObject;
-        private IClassMapping classMapping;
-        private Dictionary<IReferenceMapping, object> cachedReferenceObjects = new Dictionary<IReferenceMapping, object>();
+        private IClassMapping classMapping;        
 
         public EntityFieldInterceptor(IClassMapping classMapping)
         {
             this.classMapping = classMapping;
             this.entityProxyObject = new ProxyEntityObject();
-            this.entityProxyObject.Reloaded += new EventHandler(HandleEntityProxyObjectReloaded);
         }
 
         public IEntity Entity { get { return entityProxyObject; } }
@@ -45,7 +43,7 @@ namespace OpenEntity.Proxy
                 {
                     if (property.HasReference)
                     {
-                        invocation.ReturnValue = HandleReferencePropertyGet(property);
+                        invocation.ReturnValue = entityProxyObject.HandleReferencePropertyGet(property);
                     }
                     else
                     {
@@ -67,7 +65,7 @@ namespace OpenEntity.Proxy
                     var value = invocation.GetArgumentValue(0);
                     if (property.HasReference)
                     {
-                        HandleReferencePropertySet(property, value);
+                        entityProxyObject.HandleReferencePropertySet(property, value);
                     }
                     else
                     {
@@ -80,49 +78,6 @@ namespace OpenEntity.Proxy
                 }
             }
             invocation.Proceed();
-        }
-
-        private object HandleReferencePropertyGet(IPropertyMapping property)
-        {
-            if (entityProxyObject.Fields[property.Column].IsNull)
-                return null;
-            if (cachedReferenceObjects.ContainsKey(property.Reference))
-                return cachedReferenceObjects[property.Reference];
-            var foriegnKeyValue = entityProxyObject.GetCurrentFieldValue(property.Column);
-            var repository = RepositoryFactory.GetRepositoryFactoryFor(entityProxyObject.DataProvider).GetRepository(property.Reference.ReferenceModelType);
-            var entity = repository.CreateEmptyEntity();
-            var foreignKeyColumn = entity.PrimaryKeyFields[0].Name;
-            if (property.Reference.HasSpecifiedForeignKey)
-                foreignKeyColumn = property.Reference.ForeignKey;
-            var predicate = new PredicateExpression()
-                            .Where(entity.Table.Name, foreignKeyColumn).IsEqualTo(foriegnKeyValue);
-            var referenceObject = repository.FetchAll(predicate, null, null, 1).FirstOrDefault();
-            if (referenceObject != null)
-                cachedReferenceObjects.Add(property.Reference, referenceObject);
-            return referenceObject;
-        }
-
-        private void HandleReferencePropertySet(IPropertyMapping property, object value)
-        {
-            if (value == null)
-            {
-                entityProxyObject.SetNewFieldValue(property.Column, value);
-                return;
-            }
-            var entity = EntityProxyFactory.AsEntity(value);
-            if (entity == null)            
-                throw new InvalidOperationException(string.Format("Supplied value of type [{0}] is not an entity and cannot be used for this property.", value.GetType().FullName));           
-            var fieldValue = entity.PrimaryKeyFields[0].CurrentValue;
-            if (property.Reference.HasSpecifiedForeignKey)
-                fieldValue = entity.Fields[property.Reference.ForeignKey].CurrentValue;
-            if (fieldValue == null || fieldValue == DBNull.Value)
-                throw new InvalidOperationException("Foreign key value for the supplied reference is null, the entity is invalid for this property.");
-            entityProxyObject.SetNewFieldValue(property.Column, fieldValue);
-        }
-
-        private void HandleEntityProxyObjectReloaded(object sender, EventArgs e)
-        {
-            cachedReferenceObjects.Clear();
         }
 
 #if DEBUG

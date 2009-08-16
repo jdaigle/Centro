@@ -7,6 +7,9 @@ using OpenEntity.Schema;
 using OpenEntity.Query;
 using OpenEntity.DataProviders;
 using OpenEntity.Model;
+using OpenEntity.Repository;
+using OpenEntity.Mapping;
+using OpenEntity.Proxy;
 
 namespace OpenEntity.Entities
 {
@@ -265,6 +268,7 @@ namespace OpenEntity.Entities
 
         public void Reload()
         {
+            cachedReferenceObjects.Clear();
             if (Reloaded != null)
                 Reloaded(this, EventArgs.Empty);
         }
@@ -311,6 +315,50 @@ namespace OpenEntity.Entities
                 this.Fields.EndEdit();
                 this.editCycleInProgress = false;
             }
+        }
+
+        #endregion
+
+        #region Proxy Object Helpers
+
+        private Dictionary<IReferenceMapping, object> cachedReferenceObjects = new Dictionary<IReferenceMapping, object>();
+
+        internal object HandleReferencePropertyGet(IPropertyMapping property)
+        {
+            if (Fields[property.Column].IsNull)
+                return null;
+            if (cachedReferenceObjects.ContainsKey(property.Reference))
+                return cachedReferenceObjects[property.Reference];
+            var foriegnKeyValue = GetCurrentFieldValue(property.Column);
+            var repository = RepositoryFactory.GetRepositoryFactoryFor(DataProvider).GetRepository(property.Reference.ReferenceModelType);
+            var entity = repository.CreateEmptyEntity();
+            var foreignKeyColumn = entity.PrimaryKeyFields[0].Name;
+            if (property.Reference.HasSpecifiedForeignKey)
+                foreignKeyColumn = property.Reference.ForeignKey;
+            var predicate = new PredicateExpression()
+                            .Where(entity.Table.Name, foreignKeyColumn).IsEqualTo(foriegnKeyValue);
+            var referenceObject = repository.FetchAll(predicate, null, null, 1).FirstOrDefault();
+            if (referenceObject != null)
+                cachedReferenceObjects.Add(property.Reference, referenceObject);
+            return referenceObject;
+        }
+
+        internal void HandleReferencePropertySet(IPropertyMapping property, object value)
+        {
+            if (value == null)
+            {
+                SetNewFieldValue(property.Column, value);
+                return;
+            }
+            var entity = EntityProxyFactory.AsEntity(value);
+            if (entity == null)
+                throw new InvalidOperationException(string.Format("Supplied value of type [{0}] is not an entity and cannot be used for this property.", value.GetType().FullName));
+            var fieldValue = entity.PrimaryKeyFields[0].CurrentValue;
+            if (property.Reference.HasSpecifiedForeignKey)
+                fieldValue = entity.Fields[property.Reference.ForeignKey].CurrentValue;
+            if (fieldValue == null || fieldValue == DBNull.Value)
+                throw new InvalidOperationException("Foreign key value for the supplied reference is null, the entity is invalid for this property.");
+            SetNewFieldValue(property.Column, fieldValue);
         }
 
         #endregion

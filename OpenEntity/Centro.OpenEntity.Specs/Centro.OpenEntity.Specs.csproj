@@ -94,7 +94,7 @@
     <Compile Include="Validation\DataAnnotationsValidationRunnerTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenEntity.Core\Centro.OpenEntity.csproj">
+    <ProjectReference Include="..\Centro.OpenEntity\Centro.OpenEntity.csproj">
       <Project>{F4A46ED8-DD9C-42EC-AD3C-408739E93C06}</Project>
       <Name>Centro.OpenEntity</Name>
     </ProjectReference>

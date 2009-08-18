@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Data;
-using OpenEntity.Entities;
+using Centro.OpenEntity.Entities;
 
-namespace OpenEntity.DataProviders
+namespace Centro.OpenEntity.DataProviders
 {
     [Serializable]
     public class CommandExecutionException : DataException

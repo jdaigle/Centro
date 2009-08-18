@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using OpenEntity.DataProviders;
-using OpenEntity.Model;
+using Centro.OpenEntity.DataProviders;
+using Centro.OpenEntity.Model;
 
-namespace OpenEntity.Repository
+namespace Centro.OpenEntity.Repository
 {
     public class RepositoryFactory : IRepositoryFactory
     {
@@ -29,7 +29,7 @@ namespace OpenEntity.Repository
                 cachedFactories.Add(dataProvider, this);
         }
 
-        public IRepository<TModel> GetRepository<TModel>() where TModel : OpenEntity.Model.IDomainObject
+        public IRepository<TModel> GetRepository<TModel>() where TModel : Centro.OpenEntity.Model.IDomainObject
         {
             if (cachedRepositories.ContainsKey(typeof(TModel)))
                 return (IRepository<TModel>)cachedRepositories[typeof(TModel)];

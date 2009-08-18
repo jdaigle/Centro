@@ -3,9 +3,9 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using OpenEntity.Mapping;
+using Centro.OpenEntity.Mapping;
 
-namespace OpenEntity.Specs.Mapping
+namespace Centro.OpenEntity.Specs.Mapping
 {
     [TestFixture]
     public class MappingTableTests

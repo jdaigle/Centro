@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OpenEntity
+namespace Centro.OpenEntity
 {
     public static class SqlDbClientTypeName
     {

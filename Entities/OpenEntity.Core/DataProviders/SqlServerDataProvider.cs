@@ -6,9 +6,9 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Data.OleDb;
-using OpenEntity.Schema;
+using Centro.OpenEntity.Schema;
 
-namespace OpenEntity.DataProviders
+namespace Centro.OpenEntity.DataProviders
 {
     /// <summary>
     /// Implementation of BaseDataProvider specified to Microsoft SQL Server (version agnostic).

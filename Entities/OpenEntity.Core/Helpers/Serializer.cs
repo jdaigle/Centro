@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Serialization;
 using System.IO;
 
-namespace OpenEntity.Helpers
+namespace Centro.OpenEntity.Helpers
 {
     public static class Serializer
     {

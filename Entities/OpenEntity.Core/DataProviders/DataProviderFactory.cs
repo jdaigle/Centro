@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Configuration;
 using System.Globalization;
-using OpenEntity.Extensions;
+using Centro.OpenEntity.Extensions;
 
-namespace OpenEntity.DataProviders
+namespace Centro.OpenEntity.DataProviders
 {
     public static class DataProviderFactory
     {

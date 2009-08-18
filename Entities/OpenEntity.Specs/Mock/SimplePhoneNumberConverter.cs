@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OpenEntity.Model;
+using Centro.OpenEntity.Model;
 
-namespace OpenEntity.Specs.Mock
+namespace Centro.OpenEntity.Specs.Mock
 {
     public class SimplePhoneNumberConverter : ICustomTypeConverter
     {

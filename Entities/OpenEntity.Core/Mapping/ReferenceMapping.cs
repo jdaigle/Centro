@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OpenEntity.Mapping
+namespace Centro.OpenEntity.Mapping
 {
     internal class ReferenceMapping : IReferenceMapping
     {

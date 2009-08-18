@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using OpenEntity.Schema;
+using Centro.OpenEntity.Schema;
 
-namespace OpenEntity.Entities
+namespace Centro.OpenEntity.Entities
 {
     public interface IEntity : IEditableObject
     {

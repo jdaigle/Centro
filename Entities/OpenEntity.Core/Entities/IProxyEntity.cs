@@ -1,10 +1,10 @@
 ﻿using System;
-using OpenEntity.Query;
-using OpenEntity.Model;
-using OpenEntity.Schema;
-using OpenEntity.DataProviders;
+using Centro.OpenEntity.Query;
+using Centro.OpenEntity.Model;
+using Centro.OpenEntity.Schema;
+using Centro.OpenEntity.DataProviders;
 
-namespace OpenEntity.Entities
+namespace Centro.OpenEntity.Entities
 {
     public interface IProxyEntity : IEntity
     {

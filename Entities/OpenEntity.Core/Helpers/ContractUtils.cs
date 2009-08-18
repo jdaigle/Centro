@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenEntity.Helpers
+namespace Centro.OpenEntity.Helpers
 {
     public static class ContractUtils
     {

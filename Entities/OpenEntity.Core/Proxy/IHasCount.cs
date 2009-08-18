@@ -1,5 +1,5 @@
 ﻿
-namespace OpenEntity.Proxy
+namespace Centro.OpenEntity.Proxy
 {
 #if DEBUG
     public interface IHasCount

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using OpenEntity.Mapping;
-using OpenEntity.Specs.Mock.Northwind;
-using OpenEntity.Extensions;
-using OpenEntity.Specs.Mock;
+using Centro.OpenEntity.Mapping;
+using Centro.OpenEntity.Specs.Mock.Northwind;
+using Centro.OpenEntity.Extensions;
+using Centro.OpenEntity.Specs.Mock;
 
-namespace OpenEntity.Specs.Mapping
+namespace Centro.OpenEntity.Specs.Mapping
 {
     [TestFixture]
     public class PropertyMappingTests

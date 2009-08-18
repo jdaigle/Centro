@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace OpenEntity.Entities
+namespace Centro.OpenEntity.Entities
 {
     [Serializable]
     public class EntityIsDeletedException : DataException

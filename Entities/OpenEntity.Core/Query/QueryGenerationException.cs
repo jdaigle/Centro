@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace OpenEntity.Query
+namespace Centro.OpenEntity.Query
 {
     [Serializable]
     public class QueryGenerationException : DataException

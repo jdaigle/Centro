@@ -1,7 +1,7 @@
-﻿using OpenEntity.Model;
+﻿using Centro.OpenEntity.Model;
 using System;
 
-namespace OpenEntity.Repository
+namespace Centro.OpenEntity.Repository
 {
     public interface IRepositoryFactory
     {

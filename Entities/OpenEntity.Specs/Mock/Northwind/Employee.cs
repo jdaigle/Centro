@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OpenEntity.Mapping;
+using Centro.OpenEntity.Mapping;
 
-namespace OpenEntity.Specs.Mock.Northwind
+namespace Centro.OpenEntity.Specs.Mock.Northwind
 {
-    public class Employee : OpenEntity.Model.IDomainObject
+    public class Employee : Centro.OpenEntity.Model.IDomainObject
     {
         public virtual string LastName { get; set; }
         public virtual string FirstName { get; set; }

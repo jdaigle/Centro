@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
-namespace OpenEntity.Mapping
+namespace Centro.OpenEntity.Mapping
 {
     public static class MappingTable
     {

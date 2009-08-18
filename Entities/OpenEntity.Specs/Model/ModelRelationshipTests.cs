@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using OpenEntity.Mapping;
-using OpenEntity.Repository;
-using OpenEntity.Specs.Mock.Northwind;
-using OpenEntity.Entities;
-using OpenEntity.Specs.Mock;
+using Centro.OpenEntity.Mapping;
+using Centro.OpenEntity.Repository;
+using Centro.OpenEntity.Specs.Mock.Northwind;
+using Centro.OpenEntity.Entities;
+using Centro.OpenEntity.Specs.Mock;
 using System.Diagnostics;
 
-namespace OpenEntity.Specs.Model
+namespace Centro.OpenEntity.Specs.Model
 {
     [TestFixture]
     public class ModelRelationshipTests

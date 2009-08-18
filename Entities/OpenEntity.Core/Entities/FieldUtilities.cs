@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenEntity.Entities
+namespace Centro.OpenEntity.Entities
 {
     internal class FieldUtilities
     {

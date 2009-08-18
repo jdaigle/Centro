@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 
-namespace OpenEntity.Extensions
+namespace Centro.OpenEntity.Extensions
 {
     public static class Crypto
     {

@@ -5,9 +5,9 @@ using System.Text;
 using System.Reflection;
 using System.ComponentModel;
 using System.Data;
-using OpenEntity.Schema;
+using Centro.OpenEntity.Schema;
 
-namespace OpenEntity.Entities
+namespace Centro.OpenEntity.Entities
 {
     internal class EntityField : IEntityField
     {

@@ -6,7 +6,7 @@ using System.Reflection;
 using System.IO;
 using System.Diagnostics;
 
-namespace OpenEntity.Extensions
+namespace Centro.OpenEntity.Extensions
 {
     public static class Assemblies
     {

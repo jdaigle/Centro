@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OpenEntity.Specs.Mock.Northwind
+namespace Centro.OpenEntity.Specs.Mock.Northwind
 {
-    public class Customer : OpenEntity.Model.IDomainObject
+    public class Customer : Centro.OpenEntity.Model.IDomainObject
     {
         public virtual string Name { get; set; }
         public virtual DateTime? SomeNullableDate { get; set; }

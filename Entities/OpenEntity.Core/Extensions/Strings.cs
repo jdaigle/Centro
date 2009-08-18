@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Security;
 using System.Text.RegularExpressions;
-using OpenEntity.Helpers;
+using Centro.OpenEntity.Helpers;
 
-namespace OpenEntity.Extensions
+namespace Centro.OpenEntity.Extensions
 {
     public static class Strings
     {

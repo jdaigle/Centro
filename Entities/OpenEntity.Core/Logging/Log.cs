@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Diagnostics;
 
-namespace OpenEntity.Logging
+namespace Centro.OpenEntity.Logging
 {
     public static class Log
     {

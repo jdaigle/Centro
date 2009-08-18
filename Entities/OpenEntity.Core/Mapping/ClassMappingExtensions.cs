@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
-using OpenEntity.Helpers;
-using OpenEntity.Extensions;
+using Centro.OpenEntity.Helpers;
+using Centro.OpenEntity.Extensions;
 
-namespace OpenEntity.Mapping
+namespace Centro.OpenEntity.Mapping
 {
     public static class ClassMappingExtensions
     {

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Data;
-using OpenEntity.Schema;
-using OpenEntity.Entities;
+using Centro.OpenEntity.Schema;
+using Centro.OpenEntity.Entities;
 
-namespace OpenEntity.DataProviders
+namespace Centro.OpenEntity.DataProviders
 {
     /// <summary>
     /// A data provider provides access to a relational database persistent storage.

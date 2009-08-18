@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OpenEntity.Model;
-using OpenEntity.Repository;
-using OpenEntity.Query;
+using Centro.OpenEntity.Model;
+using Centro.OpenEntity.Repository;
+using Centro.OpenEntity.Query;
 
-namespace OpenEntity.Specs.Mock.Northwind
+namespace Centro.OpenEntity.Specs.Mock.Northwind
 {
     public class Product : IDomainObject
     {

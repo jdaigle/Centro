@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Castle.Core.Interceptor;
 
-namespace OpenEntity.Proxy
+namespace Centro.OpenEntity.Proxy
 {
 #if DEBUG
     [Serializable]

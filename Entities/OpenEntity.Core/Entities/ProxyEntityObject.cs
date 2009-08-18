@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
 using System.Linq;
-using OpenEntity.Schema;
-using OpenEntity.Query;
-using OpenEntity.DataProviders;
-using OpenEntity.Model;
-using OpenEntity.Repository;
-using OpenEntity.Mapping;
-using OpenEntity.Proxy;
+using Centro.OpenEntity.Schema;
+using Centro.OpenEntity.Query;
+using Centro.OpenEntity.DataProviders;
+using Centro.OpenEntity.Model;
+using Centro.OpenEntity.Repository;
+using Centro.OpenEntity.Mapping;
+using Centro.OpenEntity.Proxy;
 
-namespace OpenEntity.Entities
+namespace Centro.OpenEntity.Entities
 {
     internal class ProxyEntityObject : IProxyEntity, IEntity
     {

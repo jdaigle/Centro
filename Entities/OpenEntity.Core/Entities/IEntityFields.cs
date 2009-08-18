@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace OpenEntity.Entities
+namespace Centro.OpenEntity.Entities
 {
     public interface IEntityFields : IEnumerable<IEntityField>, IEditableObject
     {

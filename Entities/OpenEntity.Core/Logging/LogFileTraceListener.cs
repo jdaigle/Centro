@@ -7,7 +7,7 @@ using System.IO;
 using System.Threading;
 using System.Globalization;
 
-namespace OpenEntity.Logging
+namespace Centro.OpenEntity.Logging
 {
     public class LogFileTraceListener : TraceListener
     {

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using OpenEntity.Joins;
-using OpenEntity.Model;
-using OpenEntity.Query;
-using OpenEntity.Schema;
+using Centro.OpenEntity.Joins;
+using Centro.OpenEntity.Model;
+using Centro.OpenEntity.Query;
+using Centro.OpenEntity.Schema;
 using System.Linq.Expressions;
 using System;
-using OpenEntity.Entities;
+using Centro.OpenEntity.Entities;
 
-namespace OpenEntity.Repository
+namespace Centro.OpenEntity.Repository
 {
     internal interface IRepositoryInternal
     {

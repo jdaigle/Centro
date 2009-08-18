@@ -2,10 +2,10 @@
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using OpenEntity.Joins;
+using Centro.OpenEntity.Joins;
 using NUnit.Framework;
 
-namespace OpenEntity.Specs.Joins
+namespace Centro.OpenEntity.Specs.Joins
 {
     [TestFixture]
     public class JoinSetTests

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Reflection;
-using OpenEntity.Model;
+using Centro.OpenEntity.Model;
 
-namespace OpenEntity.Mapping
+namespace Centro.OpenEntity.Mapping
 {
     public interface IPropertyMapping
     {

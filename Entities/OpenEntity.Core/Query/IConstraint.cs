@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace OpenEntity.Query
+namespace Centro.OpenEntity.Query
 {
     public interface IConstraint
     {

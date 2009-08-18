@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using OpenEntity.DataProviders;
+using Centro.OpenEntity.DataProviders;
 using System.Configuration;
 
-namespace OpenEntity.Specs.DataProviders
+namespace Centro.OpenEntity.Specs.DataProviders
 {
     [TestFixture]
     public class DataProviderFactoryTests

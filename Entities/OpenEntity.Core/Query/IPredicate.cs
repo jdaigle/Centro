@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using OpenEntity.DataProviders;
+using Centro.OpenEntity.DataProviders;
 
-namespace OpenEntity.Query
+namespace Centro.OpenEntity.Query
 {
     public interface IPredicate
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OpenEntity.Extensions
+namespace Centro.OpenEntity.Extensions
 {
     public static class Versions
     {

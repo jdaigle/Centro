@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Data.OleDb;
 using System.Data;
-using OpenEntity.Extensions;
-using OpenEntity.Helpers;
+using Centro.OpenEntity.Extensions;
+using Centro.OpenEntity.Helpers;
 
-namespace OpenEntity.Schema
+namespace Centro.OpenEntity.Schema
 {
     /// <summary>
     /// A base abstract implementation of an ISchema.

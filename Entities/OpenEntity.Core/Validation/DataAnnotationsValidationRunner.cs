@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace OpenEntity.Validation
+namespace Centro.OpenEntity.Validation
 {
     public static class DataAnnotationsValidationRunner
     {

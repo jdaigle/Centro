@@ -1,14 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenEntity.Core", "OpenEntity.Core\OpenEntity.Core.csproj", "{F4A46ED8-DD9C-42EC-AD3C-408739E93C06}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Centro.OpenEntity", "OpenEntity.Core\Centro.OpenEntity.csproj", "{F4A46ED8-DD9C-42EC-AD3C-408739E93C06}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DbScripts", "DbScripts", "{8B328314-E010-45F7-8E38-F9B5E792A9F3}"
 	ProjectSection(SolutionItems) = preProject
 		DbScripts\Northwind_Schema_Data_SQLServer.sql = DbScripts\Northwind_Schema_Data_SQLServer.sql
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenEntity.Specs", "OpenEntity.Specs\OpenEntity.Specs.csproj", "{A12D43F7-05E6-4E2D-8253-105263D7E3B2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Centro.OpenEntity.Specs", "OpenEntity.Specs\Centro.OpenEntity.Specs.csproj", "{A12D43F7-05E6-4E2D-8253-105263D7E3B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

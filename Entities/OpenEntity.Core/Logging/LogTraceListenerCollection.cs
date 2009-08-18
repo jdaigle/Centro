@@ -6,7 +6,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 
-namespace OpenEntity.Logging
+namespace Centro.OpenEntity.Logging
 {
     public sealed class LogTraceListenerCollection : Collection<TraceListener>, IList, ICollection, IEnumerable
     {

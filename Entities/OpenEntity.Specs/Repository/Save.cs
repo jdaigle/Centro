@@ -1,11 +1,11 @@
 ﻿using NUnit.Framework;
-using OpenEntity.DataProviders;
-using OpenEntity.Entities;
-using OpenEntity.Repository;
-using OpenEntity.Specs.Mock.Northwind;
-using OpenEntity.Proxy;
+using Centro.OpenEntity.DataProviders;
+using Centro.OpenEntity.Entities;
+using Centro.OpenEntity.Repository;
+using Centro.OpenEntity.Specs.Mock.Northwind;
+using Centro.OpenEntity.Proxy;
 
-namespace OpenEntity.Specs.Repository
+namespace Centro.OpenEntity.Specs.Repository
 {
     [TestFixture]
     public class Save : RepositoryTestBase<Product>

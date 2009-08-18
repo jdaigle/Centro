@@ -1,4 +1,4 @@
-﻿namespace OpenEntity.Validation
+﻿namespace Centro.OpenEntity.Validation
 {
     public class ErrorInfo
     {

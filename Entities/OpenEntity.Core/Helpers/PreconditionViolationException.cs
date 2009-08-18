@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OpenEntity.Helpers
+namespace Centro.OpenEntity.Helpers
 {
     [Serializable]
     public class PreconditionViolationException : Exception

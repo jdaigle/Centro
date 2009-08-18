@@ -1,15 +1,15 @@
 ﻿using System;
 using Castle.Core.Interceptor;
-using OpenEntity.Entities;
-using OpenEntity.Mapping;
+using Centro.OpenEntity.Entities;
+using Centro.OpenEntity.Mapping;
 using System.Linq;
-using OpenEntity.Extensions;
-using OpenEntity.DataProviders;
+using Centro.OpenEntity.Extensions;
+using Centro.OpenEntity.DataProviders;
 using System.Collections.Generic;
-using OpenEntity.Repository;
-using OpenEntity.Query;
+using Centro.OpenEntity.Repository;
+using Centro.OpenEntity.Query;
 
-namespace OpenEntity.Proxy
+namespace Centro.OpenEntity.Proxy
 {
     [Serializable]
     public class EntityFieldInterceptor :

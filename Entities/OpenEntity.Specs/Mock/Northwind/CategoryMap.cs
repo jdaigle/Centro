@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OpenEntity.Mapping;
+using Centro.OpenEntity.Mapping;
 
-namespace OpenEntity.Specs.Mock.Northwind
+namespace Centro.OpenEntity.Specs.Mock.Northwind
 {
     public class CategoryMap : ClassMapping<Category>
     {

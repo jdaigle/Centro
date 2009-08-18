@@ -2,7 +2,7 @@
 
 using System;
 
-namespace OpenEntity
+namespace Centro.OpenEntity
 {
 
     /// <summary>

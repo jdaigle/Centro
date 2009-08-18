@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace OpenEntity.Schema
+namespace Centro.OpenEntity.Schema
 {
     /// <summary>
     /// General interface for table column schema information.

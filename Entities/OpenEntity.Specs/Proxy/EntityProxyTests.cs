@@ -2,10 +2,10 @@
 using System.Linq;
 using Castle.Core.Interceptor;
 using NUnit.Framework;
-using OpenEntity.Proxy;
-using OpenEntity.Mapping;
+using Centro.OpenEntity.Proxy;
+using Centro.OpenEntity.Mapping;
 
-namespace OpenEntity.Specs.Proxy
+namespace Centro.OpenEntity.Specs.Proxy
 {
     [TestFixture]
     public class EntityProxyTests

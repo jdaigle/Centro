@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Text;
-using OpenEntity.DataProviders;
-using OpenEntity.Schema;
+using Centro.OpenEntity.DataProviders;
+using Centro.OpenEntity.Schema;
 
-namespace OpenEntity.Query
+namespace Centro.OpenEntity.Query
 {
     internal class ColumnConstraint : IPredicate, IConstraint
     {

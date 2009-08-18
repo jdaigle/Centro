@@ -1,4 +1,4 @@
-﻿namespace OpenEntity.Repository
+﻿namespace Centro.OpenEntity.Repository
 {
     public enum AggregateFunction : int
     {

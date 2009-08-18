@@ -1,10 +1,10 @@
 ﻿using NUnit.Framework;
-using OpenEntity.DataProviders;
-using OpenEntity.Mapping;
-using OpenEntity.Repository;
-using OpenEntity.Model;
+using Centro.OpenEntity.DataProviders;
+using Centro.OpenEntity.Mapping;
+using Centro.OpenEntity.Repository;
+using Centro.OpenEntity.Model;
 
-namespace OpenEntity.Specs.Repository
+namespace Centro.OpenEntity.Specs.Repository
 {
     public abstract class RepositoryTestBase<TModelType> where TModelType : IDomainObject
     {

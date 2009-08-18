@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
-using OpenEntity.Helpers;
+using Centro.OpenEntity.Helpers;
 using System.Reflection;
-using OpenEntity.Extensions;
-using OpenEntity.Model;
+using Centro.OpenEntity.Extensions;
+using Centro.OpenEntity.Model;
 
-namespace OpenEntity.Mapping
+namespace Centro.OpenEntity.Mapping
 {
     public class ClassMapping<TClass> : IClassMapping
     {

@@ -1,6 +1,6 @@
 ﻿using System.Data.SqlClient;
 
-namespace OpenEntity.Query
+namespace Centro.OpenEntity.Query
 {
     public interface IOrderClause
     {

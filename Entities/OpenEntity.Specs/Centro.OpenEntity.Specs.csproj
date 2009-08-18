@@ -8,8 +8,8 @@
     <ProjectGuid>{A12D43F7-05E6-4E2D-8253-105263D7E3B2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenEntity.Specs</RootNamespace>
-    <AssemblyName>OpenEntity.Specs</AssemblyName>
+    <RootNamespace>Centro.OpenEntity.Specs</RootNamespace>
+    <AssemblyName>Centro.OpenEntity.Specs</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -94,9 +94,9 @@
     <Compile Include="Validation\DataAnnotationsValidationRunnerTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenEntity.Core\OpenEntity.Core.csproj">
+    <ProjectReference Include="..\OpenEntity.Core\Centro.OpenEntity.csproj">
       <Project>{F4A46ED8-DD9C-42EC-AD3C-408739E93C06}</Project>
-      <Name>OpenEntity.Core</Name>
+      <Name>Centro.OpenEntity</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -4,11 +4,11 @@ using System.Data;
 using System.Globalization;
 using System.Linq.Expressions;
 using System.Text;
-using OpenEntity.DataProviders;
-using OpenEntity.Mapping;
-using OpenEntity.Model;
+using Centro.OpenEntity.DataProviders;
+using Centro.OpenEntity.Mapping;
+using Centro.OpenEntity.Model;
 
-namespace OpenEntity.Query
+namespace Centro.OpenEntity.Query
 {
     public class PredicateExpression : IPredicateExpression
     {

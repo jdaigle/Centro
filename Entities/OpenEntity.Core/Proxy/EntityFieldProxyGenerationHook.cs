@@ -2,7 +2,7 @@
 using System.Reflection;
 using Castle.DynamicProxy;
 
-namespace OpenEntity.Proxy
+namespace Centro.OpenEntity.Proxy
 {
     public class EntityFieldProxyGenerationHook : IProxyGenerationHook
     {

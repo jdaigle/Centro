@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
-using OpenEntity.Mapping;
-using OpenEntity.Model;
+using Centro.OpenEntity.Mapping;
+using Centro.OpenEntity.Model;
 
-namespace OpenEntity.Query
+namespace Centro.OpenEntity.Query
 {
     public class OrderClause<TModelType> : IOrderClause where TModelType : IDomainObject
     {

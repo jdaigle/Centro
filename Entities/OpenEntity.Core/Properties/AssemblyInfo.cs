@@ -5,20 +5,20 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Open Entity Core API Library")]
+[assembly: AssemblyTitle("Centro OpenEntity Core API Library")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyCompany("Cridion")]
-[assembly: AssemblyProduct("Open Entity ORM")]
+[assembly: AssemblyProduct("Centro OpenEntity ORM")]
 [assembly: AssemblyCopyright("Copyright © Cridion, LLC 2009")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 #if DEBUG
-[assembly: AssemblyVersion("1.0.*")]
+[assembly: AssemblyVersion("0.1.*")]
 #else
-[assembly: AssemblyVersion("1.1.0.0")]
+[assembly: AssemblyVersion("0.1.0.0")]
 #endif
-[assembly: AssemblyFileVersion("1.0")]
+[assembly: AssemblyFileVersion("0.1")]
 
 
 // Setting ComVisible to false makes the types in this assembly not visible 

@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
-using OpenEntity.Schema;
+using Centro.OpenEntity.Schema;
 using System.IO;
 using System.Data.Common;
 using System.Reflection;
-using OpenEntity.Entities;
+using Centro.OpenEntity.Entities;
 using System.Diagnostics;
-using OpenEntity.Proxy;
+using Centro.OpenEntity.Proxy;
 
-namespace OpenEntity.DataProviders
+namespace Centro.OpenEntity.DataProviders
 {
     public abstract class BaseDataProvider : IDataProvider, ISchemaProvider
     {

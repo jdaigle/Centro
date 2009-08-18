@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OpenEntity.Specs.Mock.Northwind;
-using OpenEntity.DataProviders;
+using Centro.OpenEntity.Specs.Mock.Northwind;
+using Centro.OpenEntity.DataProviders;
 
-namespace OpenEntity.Specs
+namespace Centro.OpenEntity.Specs
 {
     public static class TestEnvironment
     {

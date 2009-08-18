@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OpenEntity.Schema
+namespace Centro.OpenEntity.Schema
 {
     /// <summary>
     /// A representation of a database schema

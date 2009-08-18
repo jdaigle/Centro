@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OpenEntity.Entities
+namespace Centro.OpenEntity.Entities
 {
     /// <summary>
     /// Enum definition for the state an Entity can be in.

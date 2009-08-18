@@ -2,12 +2,12 @@
 using System.Linq;
 using Castle.Core.Interceptor;
 using Castle.DynamicProxy;
-using OpenEntity.Entities;
-using OpenEntity.Mapping;
+using Centro.OpenEntity.Entities;
+using Centro.OpenEntity.Mapping;
 using System.Diagnostics;
-using OpenEntity.DataProviders;
+using Centro.OpenEntity.DataProviders;
 
-namespace OpenEntity.Proxy
+namespace Centro.OpenEntity.Proxy
 {
     public static class EntityProxyFactory
     {

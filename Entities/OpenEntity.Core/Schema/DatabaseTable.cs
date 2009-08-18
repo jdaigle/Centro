@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OpenEntity.Extensions;
+using Centro.OpenEntity.Extensions;
 
 
-namespace OpenEntity.Schema
+namespace Centro.OpenEntity.Schema
 {
     internal class DatabaseTable : ITable
     {

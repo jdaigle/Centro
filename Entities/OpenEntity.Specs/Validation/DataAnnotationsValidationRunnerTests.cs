@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using System.ComponentModel.DataAnnotations;
-using OpenEntity.Validation;
+using Centro.OpenEntity.Validation;
 
-namespace OpenEntity.Specs.Validation
+namespace Centro.OpenEntity.Specs.Validation
 {
     [TestFixture]
     public class DataAnnotationsValidationRunnerTests

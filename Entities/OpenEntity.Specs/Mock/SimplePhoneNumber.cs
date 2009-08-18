@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace OpenEntity.Specs.Mock
+namespace Centro.OpenEntity.Specs.Mock
 {
     public class SimplePhoneNumber
     {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-using OpenEntity.Model;
+using Centro.OpenEntity.Model;
 
-namespace OpenEntity.Mapping
+namespace Centro.OpenEntity.Mapping
 {
     internal class PropertyMapping : IPropertyMapping
     {

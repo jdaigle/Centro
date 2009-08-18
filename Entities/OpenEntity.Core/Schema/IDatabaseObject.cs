@@ -1,5 +1,5 @@
 ﻿
-namespace OpenEntity.Schema
+namespace Centro.OpenEntity.Schema
 {
     /// <summary>
     /// General interface for any database object

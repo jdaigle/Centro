@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq.Expressions;
-using OpenEntity.Model;
+using Centro.OpenEntity.Model;
 
-namespace OpenEntity.Query
+namespace Centro.OpenEntity.Query
 {
     /// <summary>
     /// Indicates a predicate which can be ultimately parsed into a Where clause as a predicate. It contains 0-n predicates.

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
-using OpenEntity.Extensions;
+using Centro.OpenEntity.Extensions;
 
-namespace OpenEntity.Entities
+namespace Centro.OpenEntity.Entities
 {
     internal class EntityFieldsCollection : IEntityFields, IEnumerable<IEntityField>, IEnumerable
     {

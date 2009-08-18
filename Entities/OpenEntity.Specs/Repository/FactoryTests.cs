@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using OpenEntity.Repository;
-using OpenEntity.Specs.Mock.Northwind;
+using Centro.OpenEntity.Repository;
+using Centro.OpenEntity.Specs.Mock.Northwind;
 
-namespace OpenEntity.Specs.Repository
+namespace Centro.OpenEntity.Specs.Repository
 {
     [TestFixture]
     public class FactoryTests

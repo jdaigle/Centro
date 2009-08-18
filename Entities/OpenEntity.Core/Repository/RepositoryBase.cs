@@ -7,16 +7,16 @@ using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
-using OpenEntity.DataProviders;
-using OpenEntity.Entities;
-using OpenEntity.Joins;
-using OpenEntity.Mapping;
-using OpenEntity.Model;
-using OpenEntity.Proxy;
-using OpenEntity.Query;
-using OpenEntity.Schema;
+using Centro.OpenEntity.DataProviders;
+using Centro.OpenEntity.Entities;
+using Centro.OpenEntity.Joins;
+using Centro.OpenEntity.Mapping;
+using Centro.OpenEntity.Model;
+using Centro.OpenEntity.Proxy;
+using Centro.OpenEntity.Query;
+using Centro.OpenEntity.Schema;
 
-namespace OpenEntity.Repository
+namespace Centro.OpenEntity.Repository
 {
     public class RepositoryBase<TModelType> : IRepository<TModelType>, IRepositoryInternal, IEntityCreator where TModelType : IDomainObject
     {

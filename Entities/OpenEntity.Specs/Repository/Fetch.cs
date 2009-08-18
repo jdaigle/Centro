@@ -1,11 +1,11 @@
 ﻿using NUnit.Framework;
-using OpenEntity.Entities;
-using OpenEntity.Specs.Mock.Northwind;
-using OpenEntity.DataProviders;
-using OpenEntity.Model;
-using OpenEntity.Proxy;
+using Centro.OpenEntity.Entities;
+using Centro.OpenEntity.Specs.Mock.Northwind;
+using Centro.OpenEntity.DataProviders;
+using Centro.OpenEntity.Model;
+using Centro.OpenEntity.Proxy;
 
-namespace OpenEntity.Specs.Repository
+namespace Centro.OpenEntity.Specs.Repository
 {
     public abstract class Fetch<TModelType> : RepositoryTestBase<TModelType> where TModelType : IDomainObject
     {

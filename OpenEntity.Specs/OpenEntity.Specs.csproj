@@ -44,6 +44,9 @@
       <HintPath>..\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -88,6 +91,7 @@
     <Compile Include="Repository\RepositoryTestBase.cs" />
     <Compile Include="Repository\Save.cs" />
     <Compile Include="TestEnvironment.cs" />
+    <Compile Include="Validation\DataAnnotationsValidationRunnerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenEntity.Core\OpenEntity.Core.csproj">

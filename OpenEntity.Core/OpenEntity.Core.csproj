@@ -43,6 +43,9 @@
       <HintPath>..\lib\Castle.DynamicProxy2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.configuration" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -129,33 +132,9 @@
     <Compile Include="Schema\ISchemaProvider.cs" />
     <Compile Include="Schema\ITable.cs" />
     <Compile Include="SqlDbClientTypeName.cs" />
-    <Compile Include="Validation\IClassValidator.cs" />
-    <Compile Include="Validation\IInitializeValidator.cs" />
-    <Compile Include="Validation\InvalidMessage.cs" />
-    <Compile Include="Validation\InvalidStateException.cs" />
-    <Compile Include="Validation\InvalidValue.cs" />
-    <Compile Include="Validation\IRule.cs" />
-    <Compile Include="Validation\IValidator.cs" />
-    <Compile Include="Validation\IValidatorContext.cs" />
-    <Compile Include="Validation\Rules\CollectionSizeAttribute.cs" />
-    <Compile Include="Validation\Rules\CollectionSizeValidator.cs" />
-    <Compile Include="Validation\Rules\DigitsAttribute.cs" />
-    <Compile Include="Validation\Rules\DigitsValidator.cs" />
-    <Compile Include="Validation\Rules\IsNumericAttribute.cs" />
-    <Compile Include="Validation\Rules\IsNumericValidator.cs" />
-    <Compile Include="Validation\Rules\PatternAttribute.cs" />
-    <Compile Include="Validation\Rules\PatternValidator.cs" />
-    <Compile Include="Validation\Rules\RangeSizeAttribute.cs" />
-    <Compile Include="Validation\Rules\MinAttribute.cs" />
-    <Compile Include="Validation\Rules\MaxAttribute.cs" />
-    <Compile Include="Validation\Rules\StringLengthAttribute.cs" />
-    <Compile Include="Validation\Rules\PastAttribute.cs" />
-    <Compile Include="Validation\Rules\FutureAttribute.cs" />
-    <Compile Include="Validation\Rules\NotNullOrEmptyAttribute.cs" />
-    <Compile Include="Validation\Rules\NotNullOrEmptyValidator.cs" />
-    <Compile Include="Validation\Rules\NotNullAttribute.cs" />
-    <Compile Include="Validation\Rules\NotNullValidator.cs" />
-    <Compile Include="Validation\ValidatorClassAttribute.cs" />
+    <Compile Include="Validation\DataAnnotationsValidationRunner.cs" />
+    <Compile Include="Validation\ErrorInfo.cs" />
+    <Compile Include="Validation\RulesException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

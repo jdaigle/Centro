@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="Sandbox" xmlns="http://schemas.microsoft.com/linqtosql/mapping/2007">
+  <Table Name="dbo.AccessControlLists" Member="AccessControlLists">
+    <Type Name="Cridion.Framework.FileSystem.Data.AccessControlList">
+      <Column Name="aclid" Member="Aclid" Storage="_Aclid" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" />
+      <Column Name="directoryid" Member="Directoryid" Storage="_Directoryid" DbType="BigInt NOT NULL" />
+      <Column Name="aclreadall" Member="Aclreadall" Storage="_Aclreadall" DbType="Bit NOT NULL" />
+      <Column Name="aclchangeall" Member="Aclchangeall" Storage="_Aclchangeall" DbType="Bit NOT NULL" />
+      <Column Name="acladminall" Member="Acladminall" Storage="_Acladminall" DbType="Bit NOT NULL" />
+      <Column Name="inherit" Member="Inherit" Storage="_Inherit" DbType="Bit NOT NULL" />
+      <Association Name="FK_AccessControlLists_Directories" Member="Directory" Storage="_Directory" ThisKey="Directoryid" OtherKey="Directoryid" IsForeignKey="true" />
+      <Association Name="FK_ACLMembers_AccessControlLists" Member="ACLMembers" Storage="_ACLMembers" ThisKey="Aclid" OtherKey="Aclid" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.ACLMembers" Member="ACLMembers">
+    <Type Name="Cridion.Framework.FileSystem.Data.ACLMember">
+      <Column Name="aclmemberid" Member="Aclmemberid" Storage="_Aclmemberid" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" />
+      <Column Name="aclid" Member="Aclid" Storage="_Aclid" DbType="BigInt NOT NULL" />
+      <Column Name="membername" Member="Membername" Storage="_Membername" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="aclread" Member="Aclread" Storage="_Aclread" DbType="Bit NOT NULL" />
+      <Column Name="aclchange" Member="Aclchange" Storage="_Aclchange" DbType="Bit NOT NULL" />
+      <Column Name="acladmin" Member="Acladmin" Storage="_Acladmin" DbType="Bit NOT NULL" />
+      <Association Name="FK_ACLMembers_AccessControlLists" Member="AccessControlList" Storage="_AccessControlList" ThisKey="Aclid" OtherKey="Aclid" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Directories" Member="Directories">
+    <Type Name="Cridion.Framework.FileSystem.Data.Directory">
+      <Column Name="directoryid" Member="Directoryid" Storage="_Directoryid" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" />
+      <Column Name="directoryname" Member="Directoryname" Storage="_Directoryname" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="parentdirectoryid" Member="Parentdirectoryid" Storage="_Parentdirectoryid" DbType="BigInt NOT NULL" />
+      <Column Name="directorydeleted" Member="Directorydeleted" Storage="_Directorydeleted" DbType="Bit NOT NULL" />
+      <Column Name="rootdirectory" Member="Rootdirectory" Storage="_Rootdirectory" DbType="Bit NOT NULL" />
+      <Association Name="FK_AccessControlLists_Directories" Member="AccessControlLists" Storage="_AccessControlLists" ThisKey="Directoryid" OtherKey="Directoryid" DeleteRule="NO ACTION" />
+      <Association Name="FK_Files_Directories" Member="Files" Storage="_Files" ThisKey="Directoryid" OtherKey="Directoryid" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FileBinaries" Member="FileBinaries">
+    <Type Name="Cridion.Framework.FileSystem.Data.FileBinary">
+      <Column Name="filebinaryid" Member="Filebinaryid" Storage="_Filebinaryid" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" />
+      <Column Name="filebinarydata" Member="Filebinarydata" Storage="_Filebinarydata" DbType="Image NOT NULL" CanBeNull="false" UpdateCheck="Never" />
+      <Column Name="filesize" Member="Filesize" Storage="_Filesize" DbType="BigInt NOT NULL" />
+      <Association Name="FK_FileVersions_FileBinaries" Member="FileVersions" Storage="_FileVersions" ThisKey="Filebinaryid" OtherKey="Filebinaryid" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Files" Member="Files">
+    <Type Name="Cridion.Framework.FileSystem.Data.File">
+      <Column Name="fileid" Member="Fileid" Storage="_Fileid" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" />
+      <Column Name="filename" Member="Filename" Storage="_Filename" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="directoryid" Member="Directoryid" Storage="_Directoryid" DbType="BigInt NOT NULL" />
+      <Column Name="filecreationdate" Member="Filecreationdate" Storage="_Filecreationdate" DbType="DateTime NOT NULL" />
+      <Column Name="filedeleted" Member="Filedeleted" Storage="_Filedeleted" DbType="Bit NOT NULL" />
+      <Association Name="FK_Files_Directories" Member="Directory" Storage="_Directory" ThisKey="Directoryid" OtherKey="Directoryid" IsForeignKey="true" />
+      <Association Name="FK_FileVersions_Files" Member="FileVersions" Storage="_FileVersions" ThisKey="Fileid" OtherKey="Fileid" DeleteRule="NO ACTION" />
+    </Type>
+  </Table>
+  <Table Name="dbo.FileVersions" Member="FileVersions">
+    <Type Name="Cridion.Framework.FileSystem.Data.FileVersion">
+      <Column Name="fileversionid" Member="Fileversionid" Storage="_Fileversionid" DbType="BigInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" AutoSync="OnInsert" />
+      <Column Name="fileid" Member="Fileid" Storage="_Fileid" DbType="BigInt NOT NULL" />
+      <Column Name="versionnumber" Member="Versionnumber" Storage="_Versionnumber" DbType="Int NOT NULL" />
+      <Column Name="filebinaryid" Member="Filebinaryid" Storage="_Filebinaryid" DbType="BigInt NOT NULL" />
+      <Column Name="filemodifieddate" Member="Filemodifieddate" Storage="_Filemodifieddate" DbType="DateTime NOT NULL" />
+      <Column Name="latestversion" Member="Latestversion" Storage="_Latestversion" DbType="Bit NOT NULL" />
+      <Association Name="FK_FileVersions_FileBinaries" Member="FileBinary" Storage="_FileBinary" ThisKey="Filebinaryid" OtherKey="Filebinaryid" IsForeignKey="true" />
+      <Association Name="FK_FileVersions_Files" Member="File" Storage="_File" ThisKey="Fileid" OtherKey="Fileid" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Function Name="dbo.sp_CreateDefaultAccessControlList" Method="Sp_CreateDefaultAccessControlList">
+    <Parameter Name="directoryid" Parameter="directoryid" DbType="Int" />
+    <Return DbType="Int" />
+  </Function>
+  <Function Name="dbo.sp_CreateNewRootDirectory" Method="Sp_CreateNewRootDirectory">
+    <Parameter Name="directoryname" Parameter="directoryname" DbType="VarChar(255)" />
+    <Return DbType="Int" />
+  </Function>
+  <Function Name="dbo.sp_GrantAdminPermission" Method="Sp_GrantAdminPermission">
+    <Parameter Name="membername" Parameter="membername" DbType="VarChar(100)" />
+    <Parameter Name="directoryid" Parameter="directoryid" DbType="Int" />
+    <Return DbType="Int" />
+  </Function>
+</Database>

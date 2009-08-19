@@ -55,8 +55,22 @@
     <Compile Include="IVersionedFile.cs" />
     <Compile Include="NTFS\NTFSDirectory.cs" />
     <Compile Include="NTFS\NTFSFileSystemProvider.cs" />
+    <None Include="Sql\AccessControlList.cs" />
+    <None Include="Sql\FileExplorerDBContext.cs" />
+    <None Include="Sql\SQLDirectoryDefinition.cs" />
+    <None Include="Sql\SQLFileAccess.cs" />
+    <None Include="Sql\SQLFileDefinition.cs" />
+    <None Include="Sql\SQLFileSystemProvider.cs" />
+    <None Include="Sql\SqlFileVersionDefinition.cs" />
     <Compile Include="VirtualPath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sql\FileExplorerSQLMapping.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sql\Schema.SQL" />
+    <None Include="Sql\StoredProcs.SQL" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

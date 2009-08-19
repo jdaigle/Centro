@@ -45,6 +45,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileSystemException.cs" />
+    <Compile Include="FileSystemSecurityException.cs" />
+    <Compile Include="IDirectory.cs" />
+    <Compile Include="IDirectoryPrivilege.cs" />
+    <Compile Include="IFile.cs" />
+    <Compile Include="IFileSystemProvider.cs" />
+    <Compile Include="IVersion.cs" />
+    <Compile Include="IVersionedFile.cs" />
+    <Compile Include="NTFS\NTFSDirectory.cs" />
+    <Compile Include="NTFS\NTFSFileSystemProvider.cs" />
+    <Compile Include="VirtualPath.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

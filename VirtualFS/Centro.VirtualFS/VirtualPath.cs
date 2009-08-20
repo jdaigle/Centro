@@ -39,6 +39,24 @@ namespace Centro.VirtualFS
             get { return path; }
         }
 
+        public IList<string> DirectoryParts
+        {
+            get
+            {                
+                List<string> parts = new List<string>();
+                if (IsRoot)
+                    return parts;
+                string remaining = Directory.Remove(Directory.LastIndexOf(VirtualPath.DirectorySeparatorChar));
+                while (remaining.Length > 1)
+                {
+                    var part = remaining.Substring(remaining.LastIndexOf(VirtualPath.DirectorySeparatorChar) + 1);                    
+                    parts.Add(part);
+                    remaining = remaining.Remove(remaining.LastIndexOf(VirtualPath.DirectorySeparatorChar));
+                }
+                return parts;
+            }
+        }
+
         public VirtualPath DirectoryPart
         {
             get

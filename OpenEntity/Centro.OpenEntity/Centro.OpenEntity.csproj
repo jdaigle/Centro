@@ -66,10 +66,12 @@
     <Compile Include="Joins\RelationshipType.cs" />
     <Compile Include="Mapping\ClassMapping.cs" />
     <Compile Include="Mapping\ClassMappingExtensions.cs" />
+    <Compile Include="Mapping\IOneToManyMapping.cs" />
     <Compile Include="Mapping\IPropertyMapping.cs" />
     <Compile Include="Mapping\IReferenceMapping.cs" />
     <Compile Include="Mapping\MappingTable.cs" />
     <Compile Include="Mapping\IClassMapping.cs" />
+    <Compile Include="Mapping\OneToManyMapping.cs" />
     <Compile Include="Mapping\PropertyMapping.cs" />
     <Compile Include="Mapping\ReferenceMapping.cs" />
     <Compile Include="Model\ICustomTypeConverter.cs" />

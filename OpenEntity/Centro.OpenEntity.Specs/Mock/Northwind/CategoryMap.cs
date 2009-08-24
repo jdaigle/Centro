@@ -15,6 +15,7 @@ namespace Centro.OpenEntity.Specs.Mock.Northwind
             this.Maps(x => x.Name).AsColumn("CategoryName");
             this.Maps(x => x.Description).AsColumn("Description");
             this.Maps(x => x.Picture).AsColumn("Picture");
+            this.HasMany<IEnumerable<Product>, Product>(x => x.Products).AsForeignKey("CategoryId").OnPrimaryKey("CategoryId");
         }
     }
 }

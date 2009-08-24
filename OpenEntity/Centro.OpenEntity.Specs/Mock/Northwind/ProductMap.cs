@@ -16,8 +16,8 @@ namespace Centro.OpenEntity.Specs.Mock.Northwind
             Maps(x => x.Name).AsColumn("ProductName");
             Maps(x => x.Discontinued);
 
-            References(x => x.Category).WithColumn("CategoryId");
-            References(x => x.Supplier).WithColumn("SupplierId");
+            References(x => x.Category).AsColumn("CategoryId");
+            References(x => x.Supplier).AsColumn("SupplierId");
         }
     }
 }

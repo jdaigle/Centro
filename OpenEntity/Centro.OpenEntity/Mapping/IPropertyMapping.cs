@@ -12,9 +12,12 @@ namespace Centro.OpenEntity.Mapping
         ICustomTypeConverter CustomTypeConverter { get; }
         bool HasReference { get; }
         IReferenceMapping Reference { get; }
+        bool HasOneToMany { get; }
+        IOneToManyMapping OneToMany { get; }
 
         IPropertyMapping AsColumn(string name);
         IPropertyMapping AsCustomType(Type typeConverter);
         IPropertyMapping References(IReferenceMapping reference);
+        IPropertyMapping HasMany(IOneToManyMapping many);
     }
 }

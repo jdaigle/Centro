@@ -425,9 +425,14 @@ namespace Centro.OpenEntity.Repository
             return EntityProxyFactory.AsEntity(Create()) as IProxyEntity;
         }
 
-        IList<object> IRepositoryInternal.FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause, int maxNumberOfItemsToReturn)
+        object IRepositoryInternal.FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause, int maxNumberOfItemsToReturn)
         {
-            return FetchAll(queryPredicate, joinSet, orderClause, maxNumberOfItemsToReturn).Cast<object>().ToList();
+            return FetchAll(queryPredicate, joinSet, orderClause, maxNumberOfItemsToReturn);
+        }
+
+        object IRepositoryInternal.FetchOne(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause)
+        {
+            return Fetch(queryPredicate, joinSet, orderClause);
         }
 
         #endregion

@@ -12,7 +12,8 @@ namespace Centro.OpenEntity.Repository
     internal interface IRepositoryInternal
     {
         IProxyEntity CreateEmptyEntity();
-        IList<object> FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause, int maxNumberOfItemsToReturn);        
+        object FetchAll(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause, int maxNumberOfItemsToReturn);        
+        object FetchOne(IPredicateExpression queryPredicate, JoinSet joinSet, IOrderClause orderClause);
     }
 
     public interface IRepository<TModelType> where TModelType : IDomainObject

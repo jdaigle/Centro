@@ -29,6 +29,33 @@ namespace Centro.OpenEntity.Specs.Model
         }
 
         [Test]
+        public void Should_Fetch_Related_Products_For_Category()
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var categories = categoryRepository.FetchAll(null);
+            stopwatch.Stop();
+            Trace.WriteLine(string.Format("Spend {0} ms fetching categories", stopwatch.ElapsedMilliseconds));
+            stopwatch.Reset();
+            Assert.IsNotNull(categories);
+            Assert.IsNotEmpty(categories.ToList());
+            int categoryProductFetchCount = 0;
+            foreach (var category in categories)
+            {
+                var products = category.Products;
+                Assert.IsNotNull(products);
+                foreach (var product in products)
+                {
+                    categoryProductFetchCount++;
+                    Assert.IsNotNull(product);
+                    Assert.IsNotNullOrEmpty(product.Name);
+                }
+            }
+            Trace.WriteLine(string.Format("Fetched {0} products from {1} categories", categoryProductFetchCount, categories.Count));
+            Assert.Greater(categoryProductFetchCount, 0);
+        }
+
+        [Test]
         public void Should_Fetch_Related_Category_For_Product()
         {
             Stopwatch stopwatch = new Stopwatch();

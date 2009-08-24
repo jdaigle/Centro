@@ -21,6 +21,8 @@ namespace Centro.OpenEntity.Mapping
         public ICustomTypeConverter CustomTypeConverter { get; private set; }
         public bool HasReference { get { return Reference != null; } }
         public IReferenceMapping Reference { get; private set; }
+        public bool HasOneToMany { get { return OneToMany != null; } }
+        public IOneToManyMapping OneToMany { get; private set; }
 
         public IPropertyMapping AsColumn(string name)
         {
@@ -39,6 +41,12 @@ namespace Centro.OpenEntity.Mapping
         public IPropertyMapping References(IReferenceMapping reference)
         {
             Reference = reference;
+            return this;
+        }
+
+        public IPropertyMapping HasMany(IOneToManyMapping oneToMany)
+        {
+            OneToMany = oneToMany;
             return this;
         }
     }

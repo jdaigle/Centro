@@ -39,5 +39,15 @@ namespace Centro.OpenEntity.Mapping
             propertyMapping.References(referenceMapping);
             return referenceMapping;
         }
+
+        public IOneToManyMapping HasMany<TModelCollectionType, TModelType>(Expression<Func<TClass, TModelCollectionType>> propertyExpression)
+            where TModelCollectionType : IEnumerable<TModelType>
+            where TModelType : IDomainObject
+        {
+            var propertyMapping = this.Maps(propertyExpression);
+            var oneToManyMapping = new OneToManyMapping(propertyMapping, typeof(TModelType));
+            propertyMapping.HasMany(oneToManyMapping);
+            return oneToManyMapping;
+        }
     }
 }

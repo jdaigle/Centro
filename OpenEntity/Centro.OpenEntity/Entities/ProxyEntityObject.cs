@@ -332,15 +332,27 @@ namespace Centro.OpenEntity.Entities
             var foriegnKeyValue = GetCurrentFieldValue(property.Column);
             var repository = RepositoryFactory.GetRepositoryFactoryFor(DataProvider).GetRepository(property.Reference.ReferenceModelType);
             var entity = repository.CreateEmptyEntity();
-            var foreignKeyColumn = entity.PrimaryKeyFields[0].Name;
+            var primaryKeyColumn = entity.PrimaryKeyFields[0].Name;
             if (property.Reference.HasSpecifiedForeignKey)
-                foreignKeyColumn = property.Reference.ForeignKey;
+                primaryKeyColumn = property.Reference.ForeignKey;
             var predicate = new PredicateExpression()
-                            .Where(entity.Table.Name, foreignKeyColumn).IsEqualTo(foriegnKeyValue);
-            var referenceObject = repository.FetchAll(predicate, null, null, 1).FirstOrDefault();
+                            .Where(entity.Table.Name, primaryKeyColumn).IsEqualTo(foriegnKeyValue);
+            var referenceObject = repository.FetchOne(predicate, null, null);
             if (referenceObject != null)
                 cachedReferenceObjects.Add(property.Reference, referenceObject);
             return referenceObject;
+        }
+
+        internal object HandleOneToManyPropertyGet(IPropertyMapping property)
+        {
+            var primaryKeyValue = PrimaryKeyFields[0].CurrentValue;
+            if (property.OneToMany.SpecifiedPrimaryKey)
+                primaryKeyValue = GetCurrentFieldValue(property.Column);
+            var repository = RepositoryFactory.GetRepositoryFactoryFor(DataProvider).GetRepository(property.OneToMany.ReferenceModelType);
+            var entity = repository.CreateEmptyEntity();
+            var predicate = new PredicateExpression()
+                            .Where(entity.Table.Name, property.OneToMany.ForeignKey).IsEqualTo(primaryKeyValue);
+            return repository.FetchAll(predicate, null, null, -1);
         }
 
         internal void HandleReferencePropertySet(IPropertyMapping property, object value)
@@ -362,5 +374,7 @@ namespace Centro.OpenEntity.Entities
         }
 
         #endregion
+
+        
     }
 }

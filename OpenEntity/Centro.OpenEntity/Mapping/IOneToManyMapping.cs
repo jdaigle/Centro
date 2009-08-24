@@ -5,14 +5,15 @@ using System.Text;
 
 namespace Centro.OpenEntity.Mapping
 {
-    public interface IReferenceMapping
+    public interface IOneToManyMapping
     {
         IPropertyMapping Property { get; }
         Type ReferenceModelType { get; }
-        bool HasSpecifiedForeignKey { get; }
+        bool SpecifiedPrimaryKey { get; }
         string ForeignKey { get; }
 
-        IReferenceMapping AsColumn(string columnName);
-        IReferenceMapping WithForeignKey(string columnName);
+        IOneToManyMapping AsForeignKey(string columnName);
+        IOneToManyMapping OnPrimaryKey(string columnName);
     }
 }
+

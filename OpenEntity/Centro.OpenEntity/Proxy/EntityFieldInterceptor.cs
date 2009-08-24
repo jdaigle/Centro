@@ -45,6 +45,10 @@ namespace Centro.OpenEntity.Proxy
                     {
                         invocation.ReturnValue = entityProxyObject.HandleReferencePropertyGet(property);
                     }
+                    else if (property.HasOneToMany)
+                    {
+                        invocation.ReturnValue = entityProxyObject.HandleOneToManyPropertyGet(property);
+                    }
                     else
                     {
                         var value = entityProxyObject.GetCurrentFieldValue(property.Column);

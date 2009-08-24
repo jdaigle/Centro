@@ -5,27 +5,28 @@ using System.Text;
 
 namespace Centro.OpenEntity.Mapping
 {
-    internal class ReferenceMapping : IReferenceMapping
+    public class OneToManyMapping : IOneToManyMapping
     {
-        internal ReferenceMapping(IPropertyMapping property, Type referenceModelType)
+        internal OneToManyMapping(IPropertyMapping property, Type referenceModelType)
         {
             Property = property;
             ReferenceModelType = referenceModelType;
-            Property.References(this);
+            Property.HasMany(this);
         }
 
         public IPropertyMapping Property { get; private set; }
         public Type ReferenceModelType { get; private set; }
-        public bool HasSpecifiedForeignKey { get { return !string.IsNullOrEmpty(ForeignKey); } }
+        public bool SpecifiedPrimaryKey { get; private set; }
         public string ForeignKey { get; private set; }
 
-        public IReferenceMapping AsColumn(string columnName)
+        public IOneToManyMapping OnPrimaryKey(string columnName)
         {
             Property.AsColumn(columnName);
+            SpecifiedPrimaryKey = true;
             return this;
         }
 
-        public IReferenceMapping WithForeignKey(string columnName)
+        public IOneToManyMapping AsForeignKey(string columnName)
         {
             ForeignKey = columnName;
             return this;

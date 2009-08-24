@@ -68,8 +68,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sql\Schema.SQL" />
-    <None Include="Sql\StoredProcs.SQL" />
+    <None Include="Sql\Schema.sql" />
+    <None Include="Sql\StoredProcs.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

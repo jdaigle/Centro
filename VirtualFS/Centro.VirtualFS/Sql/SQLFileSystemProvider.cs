@@ -12,13 +12,15 @@ namespace Centro.VirtualFS.Sql
     public class SqlFileSystemProvider : IFileSystemProvider
     {
         private IRepository<SqlDirectory> directoryRepository;
+        private IRepository<SqlFile> fileRepository;
 
         public SqlFileSystemProvider(IDataProvider dataProvider)
         {
             directoryRepository = new RepositoryBase<SqlDirectory>(dataProvider);
+            fileRepository = new RepositoryBase<SqlFile>(dataProvider);
         }
 
-        public IDirectory RootDirectory
+        public SqlDirectory RootDirectory
         {
             get
             {
@@ -26,7 +28,7 @@ namespace Centro.VirtualFS.Sql
             }
         }
 
-        public IDirectory GetDirectory(VirtualPath path)
+        public SqlDirectory GetDirectory(VirtualPath path)
         {
             // TODO optimize this crap
             if (path.IsRoot)
@@ -36,6 +38,7 @@ namespace Centro.VirtualFS.Sql
                 throw new InvalidOperationException("Could not find any directory parts in the path.");
             var predicate = new PredicateExpression()
                     .Where<SqlDirectory>(x => x.Name).IsLike(pathParts[0])
+                    .And<SqlDirectory>(x => x.IsDeleted).IsEqualTo(false)
                     .And<SqlDirectory>(x => x.IsRoot).IsEqualTo(0);
             var matchingDirectories = directoryRepository.FetchAll(predicate);
             if (matchingDirectories.Count == 0)
@@ -60,24 +63,51 @@ namespace Centro.VirtualFS.Sql
             return null;
         }
 
-        public IFile GetFile(VirtualPath path)
+        public SqlFile GetFile(VirtualPath path)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(path.FileName))
+                return null;
+            var directory = GetDirectory(path.DirectoryPart);
+            if (directory == null)
+                return null;
+            var predicate = new PredicateExpression()
+                    .Where<SqlFile>(x => x.Name).IsLike(path.FileName)
+                    .And<SqlFile>(x => x.ParentDirectory).IsEqualTo(directory.Id)
+                    .And<SqlFile>(x => x.IsDeleted).IsEqualTo(false);
+            return fileRepository.FetchAll(predicate).FirstOrDefault();
         }
 
-        public IList<IDirectory> GetDirectories(IDirectory directory)
+        public IList<SqlDirectory> GetDirectories(SqlDirectory directory)
         {
-            throw new NotImplementedException();
+            var predicate = new PredicateExpression()
+                    .Where<SqlDirectory>(x => x.ParentDirectory).IsEqualTo(directory.Id)
+                    .And<SqlDirectory>(x => x.IsDeleted).IsEqualTo(false)
+                    .And<SqlDirectory>(x => x.IsRoot).IsEqualTo(0);
+            return directoryRepository.FetchAll(predicate);
         }
 
-        public IList<IFile> GetFiles(IDirectory directory)
+        public IList<SqlFile> GetFiles(SqlDirectory directory)
         {
-            throw new NotImplementedException();
+            var predicate = new PredicateExpression()
+                    .Where<SqlFile>(x => x.ParentDirectory).IsEqualTo(directory.Id)
+                    .And<SqlFile>(x => x.IsDeleted).IsEqualTo(false);
+            return fileRepository.FetchAll(predicate);
         }
 
-        public IDirectory CreateDirectory(IDirectory parent, string name)
+        public SqlDirectory CreateDirectory(SqlDirectory parent, string name)
         {
-            throw new NotImplementedException();
+            if (GetDirectories(parent).Any(x => x.Name.Matches(name)))
+                throw new FileSystemException(string.Format("Directory with the name [{0}] already exists.", name));
+
+            var directory = directoryRepository.Create();
+            directory.ParentDirectory = parent;
+            directory.IsDeleted = false;
+            directory.IsRoot = false;
+            directory.Name = name;
+
+            if (!directoryRepository.Save(directory, true))
+                throw new FileSystemException("Failed to save new directory.");
+            return directory;
         }
 
         public void DeleteDirectory(IDirectory directory)
@@ -125,5 +155,45 @@ namespace Centro.VirtualFS.Sql
             }
             return directory;
         }
+
+        #region IFileSystemProvider Members
+
+        IDirectory IFileSystemProvider.RootDirectory
+        {
+            get { return RootDirectory; }
+        }
+
+        IDirectory IFileSystemProvider.GetDirectory(VirtualPath path)
+        {
+            return GetDirectory(path);
+        }
+
+        IList<IDirectory> IFileSystemProvider.GetDirectories(IDirectory directory)
+        {
+            if (directory is SqlDirectory)
+                return GetDirectories((SqlDirectory)directory).Cast<IDirectory>().ToList();
+            return new List<IDirectory>();
+        }
+
+        IList<IFile> IFileSystemProvider.GetFiles(IDirectory directory)
+        {
+            if (directory is SqlDirectory)
+                return GetFiles((SqlDirectory)directory).Cast<IFile>().ToList();
+            return new List<IFile>();
+        }
+
+        IFile IFileSystemProvider.GetFile(VirtualPath path)
+        {
+            return GetFile(path);
+        }
+
+        IDirectory IFileSystemProvider.CreateDirectory(IDirectory parent, string name)
+        {
+            if (parent is SqlDirectory)
+                return CreateDirectory((SqlDirectory)parent, name);
+            return null;
+        }
+
+        #endregion
     }
 }

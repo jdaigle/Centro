@@ -15,7 +15,9 @@ namespace Centro.VirtualFS.Sql.Config
             Maps(x => x.Name);
             Maps(x => x.IsRoot);
             Maps(x => x.IsDeleted);
-            References(x => x.ParentDirectory).WithColumn("parent_id");
+            References(x => x.ParentDirectory).AsColumn("parent_id");
+            HasMany(x => x.SubDirectories).AsForeignKey("parent_id");
+            HasMany(x => x.Files).AsForeignKey("directory_id");
         }
     }
 }

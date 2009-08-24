@@ -56,6 +56,7 @@
     <Compile Include="NTFS\DirectoryTests.cs" />
     <Compile Include="NTFS\FileSystemProviderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sql\DirectoryTests.cs" />
     <Compile Include="Sql\FileSystemProviderTests.cs" />
   </ItemGroup>
   <ItemGroup>

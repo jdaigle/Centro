@@ -40,8 +40,7 @@ namespace Centro.OpenEntity.Mapping
             return referenceMapping;
         }
 
-        public IOneToManyMapping HasMany<TModelCollectionType, TModelType>(Expression<Func<TClass, TModelCollectionType>> propertyExpression)
-            where TModelCollectionType : IEnumerable<TModelType>
+        public IOneToManyMapping HasMany<TModelType>(Expression<Func<TClass, IEnumerable<TModelType>>> propertyExpression)
             where TModelType : IDomainObject
         {
             var propertyMapping = this.Maps(propertyExpression);

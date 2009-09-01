@@ -23,6 +23,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Centro.VirtualFS", "Virtual
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Centro.VirtualFS.Specs", "VirtualFS\Centro.VirtualFS.Specs\Centro.VirtualFS.Specs.csproj", "{DC9936B7-E76F-46BA-AD61-98C77E56D5A6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Centro.MVC", "MVC\Centro.MVC\Centro.MVC.csproj", "{5EA6FDF7-AB40-4EEC-9FBF-51659645E3B0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6B52E44B-7C7E-42AE-BD14-925AD3BB3BBF} = {6B52E44B-7C7E-42AE-BD14-925AD3BB3BBF}
+		{624C8D82-C664-4774-BF02-F85F8CD9BCC2} = {624C8D82-C664-4774-BF02-F85F8CD9BCC2}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Centro.MVC.Specs", "MVC\Centro.MVC.Specs\Centro.MVC.Specs.csproj", "{F33FB413-54B4-4CAC-BB1A-572A4DB881F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +61,14 @@ Global
 		{DC9936B7-E76F-46BA-AD61-98C77E56D5A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC9936B7-E76F-46BA-AD61-98C77E56D5A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC9936B7-E76F-46BA-AD61-98C77E56D5A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EA6FDF7-AB40-4EEC-9FBF-51659645E3B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EA6FDF7-AB40-4EEC-9FBF-51659645E3B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EA6FDF7-AB40-4EEC-9FBF-51659645E3B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EA6FDF7-AB40-4EEC-9FBF-51659645E3B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F33FB413-54B4-4CAC-BB1A-572A4DB881F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F33FB413-54B4-4CAC-BB1A-572A4DB881F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F33FB413-54B4-4CAC-BB1A-572A4DB881F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F33FB413-54B4-4CAC-BB1A-572A4DB881F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

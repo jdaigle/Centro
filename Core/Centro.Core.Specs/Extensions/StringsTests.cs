@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 
 namespace Centro.Core.Specs.Extensions
 {
-    public class Strings
+    public class StringsTests
     {
         [TestFixture]
         public class Matches

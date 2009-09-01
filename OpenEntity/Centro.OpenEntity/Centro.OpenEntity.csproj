@@ -36,11 +36,11 @@
   <ItemGroup>
     <Reference Include="Castle.Core, Version=1.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Castle.Core.dll</HintPath>
+      <HintPath>..\..\lib\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Castle.DynamicProxy2, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Castle.DynamicProxy2.dll</HintPath>
+      <HintPath>..\..\lib\Castle.DynamicProxy2.dll</HintPath>
     </Reference>
     <Reference Include="Centro.Core, Version=0.1.3530.36946, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>

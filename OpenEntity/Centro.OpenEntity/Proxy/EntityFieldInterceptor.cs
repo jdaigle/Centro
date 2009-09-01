@@ -3,7 +3,7 @@ using Castle.Core.Interceptor;
 using Centro.OpenEntity.Entities;
 using Centro.OpenEntity.Mapping;
 using System.Linq;
-using Centro.OpenEntity.Extensions;
+using Centro.Core.Extensions;
 using Centro.OpenEntity.DataProviders;
 using System.Collections.Generic;
 using Centro.OpenEntity.Repository;

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
-using Centro.OpenEntity.Helpers;
-using Centro.OpenEntity.Extensions;
+using Centro.Core.Helpers;
+using Centro.Core.Extensions;
 
 namespace Centro.OpenEntity.Mapping
 {

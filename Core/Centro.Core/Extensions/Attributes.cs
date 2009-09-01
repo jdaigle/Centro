@@ -5,7 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 using System.Reflection;
 
-namespace Centro.OpenEntity.Extensions
+namespace Centro.Core.Extensions
 {
     public static class Attributes
     {

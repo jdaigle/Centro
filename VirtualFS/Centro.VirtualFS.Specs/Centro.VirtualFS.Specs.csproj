@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Centro.Core, Version=0.1.3530.37086, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Core\Centro.Core\bin\Debug\Centro.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Centro.OpenEntity, Version=0.1.3518.37482, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\OpenEntity\Centro.OpenEntity\bin\Debug\Centro.OpenEntity.dll</HintPath>

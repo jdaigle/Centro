@@ -5,7 +5,7 @@ using System.Text;
 using NUnit.Framework;
 using Centro.OpenEntity.Mapping;
 using Centro.OpenEntity.Specs.Mock.Northwind;
-using Centro.OpenEntity.Extensions;
+using Centro.Core.Extensions;
 using Centro.OpenEntity.Specs.Mock;
 
 namespace Centro.OpenEntity.Specs.Mapping

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Globalization;
-using Centro.OpenEntity.Extensions;
+using Centro.Core.Extensions;
 
 namespace Centro.OpenEntity.DataProviders
 {

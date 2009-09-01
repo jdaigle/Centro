@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Centro.OpenEntity.Helpers
+namespace Centro.Core.Helpers
 {
     public static class ReflectionHelper
     {

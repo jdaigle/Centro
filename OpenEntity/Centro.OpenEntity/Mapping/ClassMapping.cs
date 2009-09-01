@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Linq.Expressions;
-using Centro.OpenEntity.Helpers;
+using Centro.Core.Helpers;
 using System.Reflection;
-using Centro.OpenEntity.Extensions;
+using Centro.Core.Extensions;
 using Centro.OpenEntity.Model;
 
 namespace Centro.OpenEntity.Mapping

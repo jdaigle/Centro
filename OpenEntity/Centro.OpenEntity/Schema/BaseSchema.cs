@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Data.OleDb;
 using System.Data;
-using Centro.OpenEntity.Extensions;
-using Centro.OpenEntity.Helpers;
+using Centro.Core.Extensions;
+using Centro.Core.Helpers;
 
 namespace Centro.OpenEntity.Schema
 {

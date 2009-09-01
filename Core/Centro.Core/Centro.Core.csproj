@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3EC1A8E1-9266-423B-8024-D68914BCBE94}</ProjectGuid>
+    <ProjectGuid>{624C8D82-C664-4774-BF02-F85F8CD9BCC2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Centro.VirtualFS</RootNamespace>
-    <AssemblyName>Centro.VirtualFS</AssemblyName>
+    <RootNamespace>Centro.Core</RootNamespace>
+    <AssemblyName>Centro.Core</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,14 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Centro.Core, Version=0.1.3530.37086, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Core\Centro.Core\bin\Debug\Centro.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Centro.OpenEntity, Version=0.1.3518.37482, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\OpenEntity\Centro.OpenEntity\bin\Debug\Centro.OpenEntity.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -53,27 +45,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FileSystemException.cs" />
-    <Compile Include="FileSystemSecurityException.cs" />
-    <Compile Include="IDirectory.cs" />
-    <Compile Include="IAccessControlledDirectory.cs" />
-    <Compile Include="IFile.cs" />
-    <Compile Include="IFileSystemProvider.cs" />
-    <Compile Include="IVersion.cs" />
-    <Compile Include="IVersionedFile.cs" />
-    <Compile Include="NTFS\NTFSDirectory.cs" />
-    <Compile Include="NTFS\NTFSFileSystemProvider.cs" />
-    <Compile Include="Sql\Config\DirectoryMapping.cs" />
-    <Compile Include="Sql\Config\FileMapping.cs" />
-    <Compile Include="Sql\SqlDirectory.cs" />
-    <Compile Include="Sql\SqlFile.cs" />
-    <Compile Include="Sql\SqlFileSystemProvider.cs" />
-    <Compile Include="VirtualPath.cs" />
+    <Compile Include="Extensions\Assemblies.cs" />
+    <Compile Include="Extensions\Attributes.cs" />
+    <Compile Include="Extensions\Crypto.cs" />
+    <Compile Include="Extensions\Strings.cs" />
+    <Compile Include="Extensions\Versions.cs" />
+    <Compile Include="Helpers\ContractUtils.cs" />
+    <Compile Include="Helpers\PreconditionViolationException.cs" />
+    <Compile Include="Helpers\ReflectionHelper.cs" />
+    <Compile Include="Helpers\Serializer.cs" />
+    <Compile Include="Logging\Log.cs" />
+    <Compile Include="Logging\LogFileTraceListener.cs" />
+    <Compile Include="Logging\LogTraceListenerCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Sql\Schema.sql" />
-    <None Include="Sql\StoredProcs.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

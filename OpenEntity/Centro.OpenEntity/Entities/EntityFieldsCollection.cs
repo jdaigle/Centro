@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Collections;
-using Centro.OpenEntity.Extensions;
+using Centro.Core.Extensions;
 
 namespace Centro.OpenEntity.Entities
 {

@@ -5,7 +5,7 @@ using System.Text;
 using Centro.OpenEntity.DataProviders;
 using Centro.OpenEntity.Repository;
 using Centro.OpenEntity.Query;
-using Centro.OpenEntity.Extensions;
+using Centro.Core.Extensions;
 
 namespace Centro.VirtualFS.Sql
 {

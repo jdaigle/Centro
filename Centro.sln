@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Centro.MVC", "MVC\Centro.MV
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Centro.MVC.Specs", "MVC\Centro.MVC.Specs\Centro.MVC.Specs.csproj", "{F33FB413-54B4-4CAC-BB1A-572A4DB881F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Centro.NHibernateUtils", "NHibernateUtils\Centro.NHibernateUtils\Centro.NHibernateUtils.csproj", "{6182434F-696D-43A3-A423-18B0DBDE00F2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{F33FB413-54B4-4CAC-BB1A-572A4DB881F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F33FB413-54B4-4CAC-BB1A-572A4DB881F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F33FB413-54B4-4CAC-BB1A-572A4DB881F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6182434F-696D-43A3-A423-18B0DBDE00F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6182434F-696D-43A3-A423-18B0DBDE00F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6182434F-696D-43A3-A423-18B0DBDE00F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6182434F-696D-43A3-A423-18B0DBDE00F2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

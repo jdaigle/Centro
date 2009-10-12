@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="StructureMap, Version=2.5.2.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\StructureMap.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -48,6 +52,9 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="DomainModel\BaseEntity.cs" />
+    <Compile Include="DomainModel\DomainSignatureAttribute.cs" />
+    <Compile Include="DomainModel\IRepository.cs" />
     <Compile Include="Extensions\Assemblies.cs" />
     <Compile Include="Extensions\Attributes.cs" />
     <Compile Include="Extensions\Crypto.cs" />
@@ -63,6 +70,10 @@
     <Compile Include="Logging\LogFileTraceListener.cs" />
     <Compile Include="Logging\LogTraceListenerCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Validation\IValidatable.cs" />
+    <Compile Include="Validation\IValidator.cs" />
+    <Compile Include="Validation\ValidationError.cs" />
+    <Compile Include="DomainModel\InvalidModelException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

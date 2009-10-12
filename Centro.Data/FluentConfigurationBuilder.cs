@@ -3,6 +3,9 @@ using System.Reflection;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
+using NHibernate.Validator.Engine;
+using NHibernate.Validator.Cfg;
+using Centro.Data.Validation;
 
 namespace Centro.Data
 {
@@ -28,8 +31,20 @@ namespace Centro.Data
                             m.FluentMappings.AddFromAssembly(assembly);
                     })
                 .BuildSessionFactory();
-
             return factory;
+        }
+
+        public ValidatorEngine CreateValidatorEngine()
+        {
+            //Environment.SharedEngineProvider = new SharedValidatorProvider();
+            var nhvc = new NHibernate.Validator.Cfg.Loquacious.FluentConfiguration();            
+            nhvc.SetDefaultValidatorMode(ValidatorMode.UseAttribute);
+            //nhvc.IntegrateWithNHibernate.ApplyingDDLConstraints().And.RegisteringListeners();
+
+            var validatorEngine = new ValidatorEngine();
+            validatorEngine.Configure(nhvc);
+            //ValidatorInitializer.Initialize(Configuration, validatorEngine);
+            return validatorEngine;
         }
 
     }

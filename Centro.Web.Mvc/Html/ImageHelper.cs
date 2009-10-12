@@ -1,7 +1,7 @@
 ﻿using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace Centro.MVC.Html
+namespace Centro.Web.Mvc.Html
 {
     public static class ImageHelper
     {

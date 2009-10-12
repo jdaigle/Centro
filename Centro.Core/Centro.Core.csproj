@@ -45,6 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="Extensions\Assemblies.cs" />
     <Compile Include="Extensions\Attributes.cs" />
     <Compile Include="Extensions\Crypto.cs" />

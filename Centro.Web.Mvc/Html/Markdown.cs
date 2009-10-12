@@ -55,7 +55,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 
-namespace Centro.MVC.Html
+namespace Centro.Web.Mvc.Html
 {
     public static class MarkdownHelper
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Globalization;
 
-namespace Centro.MVC.Controllers
+namespace Centro.Web.Mvc.Controllers
 {
     public class ControllerTypeNotFoundException : HttpException
     {

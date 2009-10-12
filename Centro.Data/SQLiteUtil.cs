@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NHibernate;
 using NHibernate.Dialect;
 
-namespace Centro.NHibernateUtils
+namespace Centro.Data
 {
     public class SQLiteUtil
     {

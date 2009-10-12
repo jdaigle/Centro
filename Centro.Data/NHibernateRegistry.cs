@@ -6,7 +6,7 @@ using StructureMap;
 using StructureMap.Attributes;
 using StructureMap.Configuration.DSL;
 
-namespace Centro.NHibernateUtils
+namespace Centro.Data
 {
     public class NHibernateRegistry : Registry
     {

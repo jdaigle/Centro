@@ -8,8 +8,8 @@
     <ProjectGuid>{5EA6FDF7-AB40-4EEC-9FBF-51659645E3B0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Centro.MVC</RootNamespace>
-    <AssemblyName>Centro.MVC</AssemblyName>
+    <RootNamespace>Centro.Web.Mvc</RootNamespace>
+    <AssemblyName>Centro.Web.Mvc</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -60,6 +60,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="Controllers\ControllerTypeNotFoundException.cs" />
     <Compile Include="Controllers\StructureMapControllerFactory.cs" />
     <Compile Include="Html\ImageHelper.cs" />

@@ -8,8 +8,8 @@
     <ProjectGuid>{F33FB413-54B4-4CAC-BB1A-572A4DB881F4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Centro.MVC.Specs</RootNamespace>
-    <AssemblyName>Centro.MVC.Specs</AssemblyName>
+    <RootNamespace>Centro.Web.Mvc.Specs</RootNamespace>
+    <AssemblyName>Centro.Web.Mvc.Specs</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

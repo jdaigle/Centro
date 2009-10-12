@@ -4,7 +4,7 @@ using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
 
-namespace Centro.NHibernateUtils
+namespace Centro.Data
 {
     public class FluentConfigurationBuilder
     {

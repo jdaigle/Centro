@@ -3,7 +3,7 @@ using System.Reflection;
 using FluentNHibernate.Cfg.Db;
 using StructureMap.Attributes;
 
-namespace Centro.NHibernateUtils
+namespace Centro.Data
 {
     public class MSSqlBuilder
     {

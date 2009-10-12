@@ -8,8 +8,8 @@
     <ProjectGuid>{6182434F-696D-43A3-A423-18B0DBDE00F2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Centro.NHibernateUtils</RootNamespace>
-    <AssemblyName>Centro.NHibernateUtils</AssemblyName>
+    <RootNamespace>Centro.Data</RootNamespace>
+    <AssemblyName>Centro.Data</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -57,6 +57,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\SolutionInfo.cs">
+      <Link>Properties\SolutionInfo.cs</Link>
+    </Compile>
     <Compile Include="FluentConfigurationBuilder.cs" />
     <Compile Include="MSSqlBuilder.cs" />
     <Compile Include="NHibernateRegistry.cs" />

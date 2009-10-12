@@ -2,7 +2,7 @@
 using System.Web.Mvc;
 using StructureMap;
 
-namespace Centro.MVC.Controllers
+namespace Centro.Web.Mvc.Controllers
 {
     public class StructureMapControllerFactory : DefaultControllerFactory
     {

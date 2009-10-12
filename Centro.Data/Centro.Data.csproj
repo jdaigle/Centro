@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>9.0.30729</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{DC9936B7-E76F-46BA-AD61-98C77E56D5A6}</ProjectGuid>
+    <ProjectGuid>{6182434F-696D-43A3-A423-18B0DBDE00F2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Centro.VirtualFS.Specs</RootNamespace>
-    <AssemblyName>Centro.VirtualFS.Specs</AssemblyName>
+    <RootNamespace>Centro.NHibernateUtils</RootNamespace>
+    <AssemblyName>Centro.NHibernateUtils</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,17 +31,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Centro.Core, Version=0.1.3530.37086, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="FluentNHibernate, Version=1.0.0.593, Culture=neutral, PublicKeyToken=8aa435e3cb308880, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Core\Centro.Core\bin\Debug\Centro.Core.dll</HintPath>
+      <HintPath>..\lib\fluent-NHibernate\FluentNHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="Centro.OpenEntity, Version=0.1.3518.37482, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="NHibernate, Version=2.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\OpenEntity\Centro.OpenEntity\bin\Debug\Centro.OpenEntity.dll</HintPath>
+      <HintPath>..\lib\fluent-NHibernate\NHibernate.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=2.5.1.9189, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+    <Reference Include="StructureMap, Version=2.5.2.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\lib\nunit.framework.dll</HintPath>
+      <HintPath>..\lib\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -57,11 +57,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NTFS\DirectoryTests.cs" />
-    <Compile Include="NTFS\FileSystemProviderTests.cs" />
+    <Compile Include="FluentConfigurationBuilder.cs" />
+    <Compile Include="MSSqlBuilder.cs" />
+    <Compile Include="NHibernateRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sql\DirectoryTests.cs" />
-    <Compile Include="Sql\FileSystemProviderTests.cs" />
+    <Compile Include="SQLiteBuilder.cs" />
+    <Compile Include="SQLiteUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Centro.Core\Centro.Core.csproj">
+      <Project>{624C8D82-C664-4774-BF02-F85F8CD9BCC2}</Project>
+      <Name>Centro.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

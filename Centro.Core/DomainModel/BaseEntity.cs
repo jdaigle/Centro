@@ -87,12 +87,12 @@ namespace Centro.DomainModel
                 .Where(p => Attribute.IsDefined(p, typeof(DomainSignatureAttribute), true));
         }
 
-        public bool IsValid()
+        public virtual bool IsValid()
         {
             return Validator.IsValid(this);
         }
 
-        public IEnumerable<ValidationError> ValidationErrors()
+        public virtual IEnumerable<ValidationError> ValidationErrors()
         {
             return Validator.ValidationErrorsFor(this);
         }
@@ -101,7 +101,7 @@ namespace Centro.DomainModel
         /// Throws an InvalidModelException if the domain object is not valid.
         /// </summary>
         /// <exception cref="InvalidModelException">If the domain object is not valid.</exception>
-        public void Validate()
+        public virtual void Validate()
         {
             var validationErrors = ValidationErrors();
             if (validationErrors.Any())

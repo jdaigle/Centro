@@ -8,7 +8,7 @@ using System.Diagnostics;
 
 namespace Centro.Extensions
 {
-    public static class Assemblies
+    public static class AssemblyExtensions
     {
 
         /// <summary>
@@ -23,14 +23,14 @@ namespace Centro.Extensions
         public static string GetVersion(this Assembly assembly)
         {
             if (assembly == null)
-                assembly = typeof(Assemblies).Assembly;
+                assembly = typeof(AssemblyExtensions).Assembly;
             return assembly.GetName().Version.ToString();
         }
 
         public static string GetCompany(this Assembly assembly)
         {
             if (assembly == null)
-                assembly = typeof(Assemblies).Assembly;
+                assembly = typeof(AssemblyExtensions).Assembly;
             object[] attributes = assembly.GetCustomAttributes(typeof(AssemblyCompanyAttribute), false);
             if (attributes.Length == 0)
                 return string.Empty;
@@ -40,7 +40,7 @@ namespace Centro.Extensions
         public static string GetTrademark(this Assembly assembly)
         {
             if (assembly == null)
-                assembly = typeof(Assemblies).Assembly;
+                assembly = typeof(AssemblyExtensions).Assembly;
             object[] attributes = assembly.GetCustomAttributes(typeof(AssemblyTrademarkAttribute), false);
             if (attributes.Length > 0)
                 if (attributes[0] is AssemblyTrademarkAttribute)
@@ -51,7 +51,7 @@ namespace Centro.Extensions
         public static string GetDescription(this Assembly assembly)
         {
             if (assembly == null)
-                assembly = typeof(Assemblies).Assembly;
+                assembly = typeof(AssemblyExtensions).Assembly;
             object[] attributes = assembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), false);
             if (attributes.Length > 0)
                 if (attributes[0] is AssemblyDescriptionAttribute)
@@ -62,7 +62,7 @@ namespace Centro.Extensions
         public static string GetProduct(this Assembly assembly)
         {
             if (assembly == null)
-                assembly = typeof(Assemblies).Assembly;
+                assembly = typeof(AssemblyExtensions).Assembly;
             object[] attributes = assembly.GetCustomAttributes(typeof(AssemblyProductAttribute), false);
             if (attributes.Length > 0)
                 if (attributes[0] is AssemblyProductAttribute)
@@ -73,7 +73,7 @@ namespace Centro.Extensions
         public static string GetCopyright(this Assembly assembly)
         {
             if (assembly == null)
-                assembly = typeof(Assemblies).Assembly;
+                assembly = typeof(AssemblyExtensions).Assembly;
             object[] attributes = assembly.GetCustomAttributes(typeof(AssemblyCopyrightAttribute), false);
             if (attributes.Length > 0)
                 if (attributes[0] is AssemblyCopyrightAttribute)

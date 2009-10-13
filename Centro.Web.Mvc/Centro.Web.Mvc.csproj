@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NHibernate, Version=2.1.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\fluent-NHibernate\NHibernate.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap, Version=2.5.2.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\StructureMap.dll</HintPath>
@@ -63,6 +67,8 @@
     <Compile Include="..\SolutionInfo.cs">
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
+    <Compile Include="ActionFilters\RequiresSSLAttribute.cs" />
+    <Compile Include="ActionFilters\RequireTransactionAttribute.cs" />
     <Compile Include="Controllers\ControllerTypeNotFoundException.cs" />
     <Compile Include="Controllers\StructureMapControllerFactory.cs" />
     <Compile Include="Html\ImageHelper.cs" />

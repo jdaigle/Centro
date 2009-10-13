@@ -75,6 +75,7 @@
     <Compile Include="DomainModel\RepositoryBase.cs" />
     <Compile Include="SQLiteBuilder.cs" />
     <Compile Include="SQLiteUtil.cs" />
+    <Compile Include="UserTypes\EnumerationUserType.cs" />
     <Compile Include="Validation\StructureMapSharedEngineProvider.cs" />
     <Compile Include="Validation\Validator.cs" />
   </ItemGroup>

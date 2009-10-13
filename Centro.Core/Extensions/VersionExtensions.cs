@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Centro.Extensions
 {
-    public static class Versions
+    public static class VersionExtensions
     {
         public static readonly Version Empty = new Version(0, 0, 0, 0);
 

@@ -32,6 +32,5 @@ namespace Centro.Web.Mvc.Html
             builder.MergeAttributes(new RouteValueDictionary(htmlAttributes));
             return builder.ToString(TagRenderMode.SelfClosing);
         }
-
     }
 }

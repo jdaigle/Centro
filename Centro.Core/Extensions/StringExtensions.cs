@@ -5,7 +5,7 @@ using Centro.Helpers;
 
 namespace Centro.Extensions
 {
-    public static class Strings
+    public static class StringExtensions
     {
         /// <summary>
         /// Determines if a string "matches" another string in a case insensitive comparison."

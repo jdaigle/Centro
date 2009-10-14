@@ -76,6 +76,8 @@
     <Compile Include="SQLiteBuilder.cs" />
     <Compile Include="SQLiteUtil.cs" />
     <Compile Include="UserTypes\EnumerationUserType.cs" />
+    <Compile Include="Validation\Rules\UtcDateTimeAttribute.cs" />
+    <Compile Include="Validation\Rules\UtcDateTimeValidator.cs" />
     <Compile Include="Validation\StructureMapSharedEngineProvider.cs" />
     <Compile Include="Validation\Validator.cs" />
   </ItemGroup>

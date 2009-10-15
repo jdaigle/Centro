@@ -2,10 +2,7 @@
 
 namespace Centro.DomainModel
 {
-    public interface IRepository<TEntityType>
+    public interface IRepository
     {
-        TEntityType Save(TEntityType entity);
-        void Delete(TEntityType entity);
-        IQueryable<TEntityType> Linq();
     }
 }

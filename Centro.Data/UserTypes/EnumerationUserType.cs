@@ -18,7 +18,7 @@ namespace Centro.Data.UserTypes
 
         void IUserType.NullSafeSet(IDbCommand cmd, object value, int index)
         {
-            if (value == null)
+            if (value != null)
             {
                 var val = Convert.ToInt32((TEnum)value);
                 NHibernateUtil.Int32.NullSafeSet(cmd, val, index);

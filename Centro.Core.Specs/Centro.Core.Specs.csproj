@@ -57,6 +57,7 @@
     <Compile Include="Helpers\SerializerTests.cs" />
     <Compile Include="Inflector\Singularize.cs" />
     <Compile Include="Inflector\Pluralize.cs" />
+    <Compile Include="Inflector\TestInflector.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

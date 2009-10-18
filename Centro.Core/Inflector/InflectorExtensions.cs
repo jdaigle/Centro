@@ -47,5 +47,10 @@ namespace Centro.Inflector
         {
             return Inflections.Default.Ordinalize(word);
         }
+
+        public static string Pascalize(this string word)
+        {
+            return Inflections.Default.Pascalize(word);
+        }
     }
 }

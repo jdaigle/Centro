@@ -23,7 +23,6 @@ namespace Centro.Inflector
         private readonly IList<Rule> plurals = new List<Rule>();
         private readonly IList<Rule> singulars = new List<Rule>();
         private readonly IList<string> uncountables = new List<string>();
-        private readonly IList<Rule> humans = new List<Rule>();
 
         private Inflections()
         {
@@ -112,11 +111,6 @@ namespace Centro.Inflector
                 uncountables.Add(word.ToUpper());
         }
 
-        public void AddHuman(string regexPattern, string replacement)
-        {
-            humans.Add(new Rule(regexPattern, replacement));
-        }
-
         public void AddIrregular(string singular, string plural)
         {
             uncountables.Remove(singular);
@@ -129,14 +123,14 @@ namespace Centro.Inflector
             }
             else
             {
-                AddPlural("(" + singular.Substring(0,1).ToUpper() + ")" + singular.Substring(1) + "$", plural.Substring(0,1).ToUpper() + plural.Substring(1));
+                AddPlural("(" + singular.Substring(0, 1).ToUpper() + ")" + singular.Substring(1) + "$", plural.Substring(0, 1).ToUpper() + plural.Substring(1));
                 AddPlural("(" + singular.Substring(0, 1).ToLower() + ")" + singular.Substring(1) + "$", plural.Substring(0, 1).ToLower() + plural.Substring(1));
                 AddPlural("(" + plural.Substring(0, 1).ToUpper() + ")" + plural.Substring(1) + "$", plural.Substring(0, 1).ToUpper() + plural.Substring(1));
                 AddPlural("(" + plural.Substring(0, 1).ToLower() + ")" + plural.Substring(1) + "$", plural.Substring(0, 1).ToLower() + plural.Substring(1));
                 AddSingular("(" + plural.Substring(0, 1).ToUpper() + ")" + plural.Substring(1) + "$", singular.Substring(0, 1).ToUpper() + singular.Substring(1));
                 AddSingular("(" + plural.Substring(0, 1).ToLower() + ")" + plural.Substring(1) + "$", singular.Substring(0, 1).ToLower() + singular.Substring(1));
             }
-            
+
         }
 
         public string Pluralize(string word)
@@ -153,42 +147,58 @@ namespace Centro.Inflector
             return ApplyRules(singulars, word);
         }
 
+        public string Humanize(string word)
+        {
+            return Capitalize(word.Replace("_", " "));
+        }
+
         public string Capitalize(string word)
         {
             return word.Substring(0, 1).ToUpper() + word.Substring(1).ToLower();
         }
 
-        public string Camelize(string word, bool firstLetterInUppercase)
+        public string Camelize(string word, bool firstLetterIsUppercase)
         {
-            if (firstLetterInUppercase)
-                return word.Substitute("(^|_)(?<letter>.)", m => m.Groups["letter"].Value.ToUpper());
+            if (firstLetterIsUppercase)
+                return Pascalize(word);
+            //return word.Substitute("(^|_)(?<letter>.)", m => m.Groups["letter"].Value.ToUpper());
 
             var camelized = Camelize(word, true);
             return camelized.ToCharArray().First().ToString().ToLower() + camelized.Substring(1, camelized.Length - 1);
         }
 
+        public string Pascalize(string lowercaseAndUnderscoredWord)
+        {
+            return lowercaseAndUnderscoredWord.Substitute("(?:^|_)(.)", m => m.Groups[1].Value.ToUpper());
+        }
+
         public string Titleize(string word)
         {
-            return Humanize(Underscore(word)).Substitute("('?[a-z])(?<letter>.)", m => m.Groups["letter"].Value.ToUpper());
+            return Humanize(Underscore(word)).Substitute(@"\b([a-z])", m => m.Captures[0].Value.ToUpper());
+            //return Humanize(Underscore(word)).Substitute("('?[a-z])(?<letter>.)", m => m.Groups["letter"].Value.ToUpper());
+            //return Regex.Replace(Humanize(Underscore(word)), @"\b([a-z])",
+            //               delegate(Match match)
+            //               {
+            //                   return match.Captures[0].Value.ToUpper();
+            //               });
+        }
+
+        public string Uncapitalize(string word)
+        {
+            return word.Substring(0, 1).ToLower() + word.Substring(1);
         }
 
         public string Underscore(string word)
         {
-            return word.Substitute(@"([A-Z]+)([A-Z][a-z])", "_")
-                       .Substitute(@"([a-z\d])([A-Z])", "_")
-                       .Replace("-", "_")
+            return word.Substitute(@"([A-Z]+)([A-Z][a-z])", "$1_$2")
+                       .Substitute(@"([a-z\d])([A-Z])", "$1_$2")
+                       .Substitute(@"[-\s]", "_")
                        .ToLower();
         }
 
         public string Dasherize(string word)
         {
-            return word.Replace(' ', '-');
-        }
-
-        public string Humanize(string word)
-        {
-            var result = ApplyRules(humans, word);
-            return Capitalize(result.Replace("_id", "").Replace("_", ""));
+            return word.Replace(' ', '-').Replace('_', '-');
         }
 
         public string Ordinalize(string word)
@@ -196,7 +206,7 @@ namespace Centro.Inflector
             var number = 0;
             if (!int.TryParse(word, out number))
                 throw new ArgumentException("Word must be an integer", "word");
-            if ((new List<int> { 1, 2, 3 }).Contains(number % 100))
+            if ((new List<int> { 11, 12, 13 }).Contains(number % 100))
                 return number.ToString() + "th";
             else
                 switch (number % 10)
@@ -206,6 +216,26 @@ namespace Centro.Inflector
                     case 3: return number.ToString() + "rd";
                     default: return number.ToString() + "th";
                 }
+
+            //      int n = int.Parse(number);
+            //      int nMod100 = n%100;
+
+            //      if (nMod100 >= 11 && nMod100 <= 13)
+            //      {
+            //        return number + "th";
+            //      }
+
+            //      switch (n%10)
+            //      {
+            //        case 1:
+            //          return number + "st";
+            //        case 2:
+            //          return number + "nd";
+            //        case 3:
+            //          return number + "rd";
+            //        default:
+            //          return number + "th";
+            //      }
         }
 
         private string ApplyRules(IList<Rule> rules, string word)

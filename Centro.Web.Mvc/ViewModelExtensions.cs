@@ -16,7 +16,7 @@ namespace Centro.Web.Mvc
                 fixedPrefix += ".";
             foreach (var error in viewModel.ValidationErrors())
             {
-                var key = prefix + error.PropertyName;
+                var key = fixedPrefix + error.PropertyName;
                 modelState.AddModelError(key, error.ErrorMessage);
             }
         }

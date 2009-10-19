@@ -11,19 +11,29 @@ namespace Centro.Data
                                                         IEnumerable<Assembly> mappingAssemblies,
                                                         InstanceScope sessionInstanceScope)
         {
-            var configurer = MsSqlConfiguration.MsSql2005.ConnectionString(c => c.FromConnectionStringWithKey(connectionStringKey));
-            return new NHibernateRegistry(configurer, mappingAssemblies, sessionInstanceScope);
+            return CreateRegistry(connectionStringKey, mappingAssemblies, sessionInstanceScope, false);
+        }
 
+        public static NHibernateRegistry CreateRegistry(string connectionStringKey,
+                                                        IEnumerable<Assembly> mappingAssemblies,
+                                                        InstanceScope sessionInstanceScope, bool withValidation)
+        {
+            var configurer = MsSqlConfiguration.MsSql2005.ConnectionString(c => c.FromConnectionStringWithKey(connectionStringKey));
+            return new NHibernateRegistry(configurer, mappingAssemblies, sessionInstanceScope, withValidation);
         }
 
         public static NHibernateRegistry CreateRegistry(string sqlServerAddress, string username, string password, string database, IEnumerable<Assembly> mappingAssemblies, InstanceScope sessionInstanceScope)
+        {
+            return CreateRegistry(sqlServerAddress, username, password, database, mappingAssemblies, sessionInstanceScope, false);
+        }
+
+        public static NHibernateRegistry CreateRegistry(string sqlServerAddress, string username, string password, string database, IEnumerable<Assembly> mappingAssemblies, InstanceScope sessionInstanceScope, bool withValidation)
         {
             var configurer = MsSqlConfiguration.MsSql2005.ConnectionString(c => c.Server(sqlServerAddress)
                                                                                      .Username(username)
                                                                                      .Password(password)
                                                                                      .Database(database));
-            return new NHibernateRegistry(configurer, mappingAssemblies, sessionInstanceScope);
-
+            return new NHibernateRegistry(configurer, mappingAssemblies, sessionInstanceScope, withValidation);
         }
     }
 }

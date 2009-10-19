@@ -12,7 +12,7 @@ namespace Centro.Web.Mvc
         public static void Validate(this IValidatable viewModel, ModelStateDictionary modelState, string prefix)
         {
             var fixedPrefix = prefix ?? string.Empty;
-            if (!fixedPrefix.EndsWith("."))
+            if (!string.IsNullOrEmpty(fixedPrefix) && !fixedPrefix.EndsWith("."))
                 fixedPrefix += ".";
             foreach (var error in viewModel.ValidationErrors())
             {

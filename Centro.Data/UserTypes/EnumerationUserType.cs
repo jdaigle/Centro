@@ -10,7 +10,7 @@ namespace Centro.Data.UserTypes
     {
         object IUserType.NullSafeGet(IDataReader rs, string[] names, object owner)
         {
-            var val = NHibernateUtil.Byte.NullSafeGet(rs, names);
+            var val = NHibernateUtil.Int32.NullSafeGet(rs, names);
             if (val == null)
                 return null;
             return (TEnum)Enum.ToObject(typeof(TEnum), val);
@@ -24,7 +24,7 @@ namespace Centro.Data.UserTypes
                 NHibernateUtil.Int32.NullSafeSet(cmd, val, index);
             }
             else
-                NHibernateUtil.String.NullSafeSet(cmd, null, index);
+                NHibernateUtil.Int32.NullSafeSet(cmd, null, index);
         }
 
         SqlType[] IUserType.SqlTypes

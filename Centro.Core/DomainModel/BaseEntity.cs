@@ -87,14 +87,19 @@ namespace Centro.DomainModel
                 .Where(p => Attribute.IsDefined(p, typeof(DomainSignatureAttribute), true));
         }
 
+        public virtual IEnumerable<ValidationError> GetCustomValidationErrors()
+        {
+            return new List<ValidationError>();
+        }
+
         public virtual bool IsValid()
         {
-            return Validator.IsValid(this);
+            return Validator.IsValid(this) && !GetCustomValidationErrors().Any();
         }
 
         public virtual IEnumerable<ValidationError> ValidationErrors()
         {
-            return Validator.ValidationErrorsFor(this);
+            return Validator.ValidationErrorsFor(this).Concat(GetCustomValidationErrors());
         }
 
         /// <summary>

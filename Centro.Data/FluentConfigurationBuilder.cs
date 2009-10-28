@@ -29,6 +29,8 @@ namespace Centro.Data
                     {
                         foreach (var assembly in mappingAssemblies)
                             m.FluentMappings.AddFromAssembly(assembly);
+                        foreach (var assembly in mappingAssemblies)
+                            m.HbmMappings.AddFromAssembly(assembly);
                     })
                 .BuildSessionFactory();
             return factory;

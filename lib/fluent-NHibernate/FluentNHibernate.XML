@@ -175,6 +175,12 @@
             <param name="expression">Expression to get property from</param>
             <returns>many-to-many part</returns>
         </member>
+        <member name="M:FluentNHibernate.Mapping.JoinedSubClassPart`1.EntityName(System.String)">
+            <summary>
+            Specifies an entity-name.
+            </summary>
+            <remarks>See http://nhforge.org/blogs/nhibernate/archive/2008/10/21/entity-name-in-action-a-strongly-typed-entity.aspx</remarks>
+        </member>
         <member name="P:FluentNHibernate.Mapping.JoinedSubClassPart`1.Not">
             <summary>
             Inverts the next boolean
@@ -235,6 +241,34 @@
             Sets the SQL statement used in subselect fetching.
             </summary>
             <param name="subselectSql">Subselect SQL Query</param>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ClassMap`1.EntityName(System.String)">
+            <summary>
+            Specifies an entity-name.
+            </summary>
+            <remarks>See http://nhforge.org/blogs/nhibernate/archive/2008/10/21/entity-name-in-action-a-strongly-typed-entity.aspx</remarks>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ClassMap`1.ApplyFilter``1(System.String)">
+            <overloads>
+            Applies a named filter to this one-to-many.
+            </overloads>
+            <summary>
+            Applies a named filter to this one-to-many.
+            </summary>
+            <param name="condition">The condition to apply</param>
+            <typeparam name="TFilter">
+            The type of a <see cref="T:FluentNHibernate.Mapping.FilterDefinition"/> implementation
+            defining the filter to apply.
+            </typeparam>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ClassMap`1.ApplyFilter``1">
+            <summary>
+            Applies a named filter to this one-to-many.
+            </summary>
+            <typeparam name="TFilter">
+            The type of a <see cref="T:FluentNHibernate.Mapping.FilterDefinition"/> implementation
+            defining the filter to apply.
+            </typeparam>
         </member>
         <member name="P:FluentNHibernate.Mapping.ClassMap`1.Cache">
             <summary>
@@ -390,6 +424,12 @@
             Sets whether this subclass is lazy loaded
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.SubClassPart`1.EntityName(System.String)">
+            <summary>
+            Specifies an entity-name.
+            </summary>
+            <remarks>See http://nhforge.org/blogs/nhibernate/archive/2008/10/21/entity-name-in-action-a-strongly-typed-entity.aspx</remarks>
         </member>
         <member name="P:FluentNHibernate.Mapping.SubClassPart`1.Not">
             <summary>
@@ -786,6 +826,11 @@
             <param name="collection">Main collection</param>
             <returns>Many-to-many table name</returns>
         </member>
+        <member name="T:FluentNHibernate.Mapping.FilterPart">
+            <summary>
+            Maps to the Filter element in NH 2.0
+            </summary>
+        </member>
         <member name="M:FluentNHibernate.SeparateSubclassVisitor.SortByDistanceFrom(System.Type,System.Collections.Generic.IEnumerable{FluentNHibernate.Mapping.Providers.IIndeterminateSubclassMappingProvider})">
             <summary>
             Takes a type that represents the level in the class/subclass-hiearchy that we're starting from, the parent,
@@ -1102,6 +1147,235 @@
             Oracle Data Provider (Oracle.DataAccess) library specifying the Oracle 10g dialect. 
             The Oracle.DataAccess library must be available to the calling application/library. 
             </summary>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxDRDAConnectionStringBuilder.Authentication(System.String)">
+            <summary>
+            The type of authentication to be used. Acceptable values:
+            <list type="bullet">
+            <item>
+                SERVER
+            </item>
+            <item>
+                SERVER_ENCRYPT
+            </item>
+            <item>
+                DATA_ENCRYPT
+            </item>
+            <item>
+                KERBEROS
+            </item>
+            <item>
+                GSSPLUGIN
+            </item>
+            </list>
+            </summary>
+            <param name="authentication"></param>
+            <returns>IfxDRDAConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxDRDAConnectionStringBuilder.Database(System.String)">
+            <summary>
+            The name of the database within the server instance.
+            </summary>
+            <param name="database"></param>
+            <returns>IfxSQLIConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxDRDAConnectionStringBuilder.HostVarParameter(System.String)">
+            <summary>
+            <list type="bullet">
+            <item>
+                <term>true</term>
+                <description> - host variable (:param) support enabled.</description>
+            </item>
+            <item>
+                <term>false (default)</term>
+                <description> - host variable support disabled.</description>
+            </item>
+            </list>
+            </summary>
+            <param name="hostVarParameter"></param>
+            <returns>IfxSQLIConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxDRDAConnectionStringBuilder.IsolationLevel(System.String)">
+            <summary>
+            Isolation level for the connection. Possible values:
+            <list type="bullet">
+            <item>
+                ReadCommitted
+            </item>
+            <item>
+                ReadUncommitted
+            </item>
+            <item>
+                RepeatableRead
+            </item>
+            <item>
+                Serializable
+            </item>
+            <item>
+                Transaction
+            </item>
+            </list>
+            This keyword is only supported for applications participating in a
+            distributed transaction.
+            </summary>
+            <param name="isolationLevel"></param>
+            <returns>IfxDRDAConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxDRDAConnectionStringBuilder.MaxPoolSize(System.String)">
+            <summary>
+            The maximum number of connections allowed in the pool.
+            </summary>
+            <param name="maxPoolSize"></param>
+            <returns>IfxDRDAConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxDRDAConnectionStringBuilder.MinPoolSize(System.String)">
+            <summary>
+            The minimum number of connections allowed in the pool. Default value 0.
+            </summary>
+            <param name="minPoolSize"></param>
+            <returns>IfxDRDAConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxDRDAConnectionStringBuilder.Password(System.String)">
+            <summary>
+            The password associated with the User ID.
+            </summary>
+            <param name="password"></param>
+            <returns>IfxDRDAConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxDRDAConnectionStringBuilder.Pooling(System.String)">
+            <summary>
+            When set to true, the IfxConnection object is drawn from
+            the appropriate pool, or if necessary, it is created and added
+            to the appropriate pool. Default value 'true'.
+            </summary>
+            <param name="pooling"></param>
+            <returns>IfxDRDAConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxDRDAConnectionStringBuilder.Server(System.String)">
+            <summary>
+            Server name with optional port number for direct connection using either
+            IPv4 notation (<![CDATA[<server name/ip address>[:<port>]]]>) or IPv6 notation.
+            </summary>
+            <param name="server"></param>
+            <returns>IfxDRDAConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxDRDAConnectionStringBuilder.Username(System.String)">
+            <summary>
+            The login account.
+            </summary>
+            <param name="username"></param>
+            <returns>IfxDRDAConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxDRDAConnectionStringBuilder.OtherOptions(System.String)">
+            <summary>
+            Other options: Connection Lifetime, Connection Reset, Connection Timeout, CurrentSchema, Enlist,
+            Interrupt, Persist Security Info, ResultArrayAsReturnValue, Security, TrustedContextSystemUserID,
+            TrustedContextSystemPassword
+            </summary>
+            <param name="otherOptions"></param>
+            <returns>IfxDRDAConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxSQLIConnectionStringBuilder.ClientLocale(System.String)">
+            <summary>
+            Client locale, default value is en_us.CP1252 (Windows)
+            </summary>
+            <param name="clientLocale"></param>
+            <returns>IfxSQLIConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxSQLIConnectionStringBuilder.Database(System.String)">
+            <summary>
+            The name of the database within the server instance.
+            </summary>
+            <param name="database"></param>
+            <returns>IfxSQLIConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxSQLIConnectionStringBuilder.DatabaseLocale(System.String)">
+            <summary>
+            The language locale of the database. Default value is en_US.8859-1
+            </summary>
+            <param name="databaseLocale"></param>
+            <returns>IfxSQLIConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxSQLIConnectionStringBuilder.Delimident(System.Boolean)">
+            <summary>
+            When set to true or y for yes, any string within double
+            quotes (") is treated as an identifier, and any string within
+            single quotes (') is treated as a string literal. Default value 'y'.
+            </summary>
+            <param name="delimident"></param>
+            <returns>IfxSQLIConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxSQLIConnectionStringBuilder.Host(System.String)">
+            <summary>
+            The name or IP address of the machine on which the
+            Informix server is running. Required.
+            </summary>
+            <param name="host"></param>
+            <returns>IfxSQLIConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxSQLIConnectionStringBuilder.MaxPoolSize(System.String)">
+            <summary>
+            The maximum number of connections allowed in the pool. Default value 100.
+            </summary>
+            <param name="maxPoolSize"></param>
+            <returns>IfxSQLIConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxSQLIConnectionStringBuilder.MinPoolSize(System.String)">
+            <summary>
+            The minimum number of connections allowed in the pool. Default value 0.
+            </summary>
+            <param name="minPoolSize"></param>
+            <returns>IfxSQLIConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxSQLIConnectionStringBuilder.Password(System.String)">
+            <summary>
+            The password associated with the User ID. Required if the
+            client machine or user account is not trusted by the host.
+            Prohibited if a User ID is not given.
+            </summary>
+            <param name="password"></param>
+            <returns>IfxSQLIConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxSQLIConnectionStringBuilder.Pooling(System.String)">
+            <summary>
+            When set to true, the IfxConnection object is drawn from
+            the appropriate pool, or if necessary, it is created and added
+            to the appropriate pool. Default value 'true'.
+            </summary>
+            <param name="pooling"></param>
+            <returns>IfxSQLIConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxSQLIConnectionStringBuilder.Server(System.String)">
+            <summary>
+            The name or alias of the instance of the Informix server to
+            which to connect. Required.
+            </summary>
+            <param name="server"></param>
+            <returns>IfxSQLIConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxSQLIConnectionStringBuilder.Service(System.String)">
+            <summary>
+            The service name or port number through which the server
+            is listening for connection requests.
+            </summary>
+            <param name="service"></param>
+            <returns>IfxSQLIConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxSQLIConnectionStringBuilder.Username(System.String)">
+            <summary>
+            The login account. Required, unless the client machine is
+            trusted by the host machine.
+            </summary>
+            <param name="username"></param>
+            <returns>IfxSQLIConnectionStringBuilder object</returns>
+        </member>
+        <member name="M:FluentNHibernate.Cfg.Db.IfxSQLIConnectionStringBuilder.OtherOptions(System.String)">
+            <summary>
+            Other options like: Connection Lifetime, Enlist, Exclusive, Optimize OpenFetchClose,
+            Fetch Buffer Size, Persist Security Info, Protocol, Single Threaded, Skip Parsing
+            </summary>
+            <param name="otherOptions"></param>
+            <returns>IfxSQLIConnectionStringBuilder object</returns>
         </member>
         <member name="T:FluentNHibernate.Cfg.FluentConfiguration">
             <summary>
@@ -1725,6 +1999,28 @@
             <summary>
             Sets a custom collection type
             </summary>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ToManyBase`3.ApplyFilter``1(System.String)">
+            <overloads>
+            Applies a named filter to this one-to-many.
+            </overloads>
+            <summary>
+            Applies a named filter to this one-to-many.
+            </summary>
+            <param name="condition">The condition to apply</param>
+            <typeparam name="TFilter">
+            The type of a <see cref="T:FluentNHibernate.Mapping.FilterDefinition"/> implementation
+            defining the filter to apply.
+            </typeparam>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.ToManyBase`3.ApplyFilter``1">
+            <summary>
+            Applies a named filter to this one-to-many.
+            </summary>
+            <typeparam name="TFilter">
+            The type of a <see cref="T:FluentNHibernate.Mapping.FilterDefinition"/> implementation
+            defining the filter to apply.
+            </typeparam>
         </member>
         <member name="P:FluentNHibernate.Mapping.ToManyBase`3.Cache">
             <summary>

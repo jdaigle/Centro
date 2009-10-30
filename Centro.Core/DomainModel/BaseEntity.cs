@@ -7,6 +7,7 @@ using StructureMap;
 
 namespace Centro.DomainModel
 {
+    [Serializable]
     public class BaseEntity : IValidatable
     {
         [ThreadStatic]

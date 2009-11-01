@@ -12,7 +12,7 @@ namespace Centro.Helpers
         /// <summary>
         /// Converts an object of a generic type to an XML string.
         /// </summary>
-        public static string ConvertToXml<TObject>(this object objectToConvert)
+        public static string ConvertToXml<TObject>(this TObject objectToConvert)
         {
             XmlSerializer xmlserializer = new XmlSerializer(typeof(TObject));
             StringWriter writer = new StringWriter();

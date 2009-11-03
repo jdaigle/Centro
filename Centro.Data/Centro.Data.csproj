@@ -70,7 +70,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DomainModel\BaseRepository.cs" />
     <Compile Include="SQLiteBuilder.cs" />
-    <Compile Include="SQLiteUtil.cs" />
+    <Compile Include="SqlSchemaUtil.cs" />
     <Compile Include="UserTypes\EnumerationUserType.cs" />
     <Compile Include="Validation\Rules\UtcDateTimeAttribute.cs" />
     <Compile Include="Validation\Rules\UtcDateTimeValidator.cs" />

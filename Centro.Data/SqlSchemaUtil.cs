@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NHibernate;
 using NHibernate.Dialect;
 
 namespace Centro.Data
 {
-    public class SQLiteUtil
+    public class SqlSchemaUtil
     {
         public static void GenerateSchema(NHibernate.Cfg.Configuration cfg, ISession session)
         {
@@ -16,24 +15,7 @@ namespace Centro.Data
             ExecuteSqlScripts(scripts, session);
         }
 
-        public static void InitializeData(Action SetupTestDataAction, ISession session)
-        {
-            try
-            {
-                session.FlushMode = FlushMode.Commit;
-                session.BeginTransaction();
-                SetupTestDataAction();
-                session.Transaction.Commit();
-            }
-            catch (Exception)
-            {
-                if (session != null)
-                    session.Transaction.Rollback();
-                throw;
-            }
-        }
-
-        private static void ExecuteSqlScripts(IEnumerable<string> scripts, ISession session)
+        public static void ExecuteSqlScripts(IEnumerable<string> scripts, ISession session)
         {
             foreach (var script in scripts)
             {

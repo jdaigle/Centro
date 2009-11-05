@@ -11,7 +11,6 @@ namespace Centro.Web.Mvc.ActionFilters
             var theSession = ObjectFactory.GetInstance<ISession>();
             if (!theSession.Transaction.IsActive)
             {
-                theSession.FlushMode = FlushMode.Commit;
                 theSession.BeginTransaction();
             }
         }

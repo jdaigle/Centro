@@ -4,7 +4,7 @@ using Centro.Validation;
 
 namespace Centro.DomainModel
 {
-    public class InvalidModelException : Exception
+    public class InvalidModelException : DomainModelException
     {
         public InvalidModelException(IEnumerable<ValidationError> validationErrors)
             : this(validationErrors, null)

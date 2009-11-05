@@ -56,8 +56,8 @@
       <Link>Properties\SolutionInfo.cs</Link>
     </Compile>
     <Compile Include="DomainModel\BaseEntity.cs" />
+    <Compile Include="DomainModel\DomainModelException.cs" />
     <Compile Include="DomainModel\DomainSignatureAttribute.cs" />
-    <Compile Include="DomainModel\IRepository.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
     <Compile Include="Extensions\Attributes.cs" />
     <Compile Include="Extensions\Crypto.cs" />

@@ -23,7 +23,7 @@ namespace Centro.DomainModel
 
             return compareTo != null &&
                    GetType().Equals(compareTo.GetTypeUnproxied()) &&
-                   HasSameObjectSignatureAs(compareTo);
+                   HasSameDomainSignatureAs(compareTo);
         }
 
         public override int GetHashCode()
@@ -45,7 +45,7 @@ namespace Centro.DomainModel
             }
         }
 
-        public virtual bool HasSameObjectSignatureAs(BaseEntity compareTo)
+        public virtual bool HasSameDomainSignatureAs(BaseEntity compareTo)
         {
             var signatureProperties = GetSignatureProperties();
 

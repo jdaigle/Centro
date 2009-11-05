@@ -1,9 +1,8 @@
-﻿using Centro.DomainModel;
-using NHibernate;
+﻿using NHibernate;
 
 namespace Centro.Data.DomainModel
 {
-    public abstract class BaseRepository : IRepository
+    public abstract class BaseRepository
     {
         protected readonly ISession Session;
 

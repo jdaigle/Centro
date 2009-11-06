@@ -64,6 +64,8 @@ namespace Centro.Data.UserTypes
 
         bool IUserType.Equals(object x, object y)
         {
+            if (object.ReferenceEquals(x, y))
+                return true;
             if ((x != null) && (y != null))
                 return x.Equals(y);
             return false;

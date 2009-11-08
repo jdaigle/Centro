@@ -95,6 +95,15 @@
             <param name="columnName">The column name in the database to use for this key, or null to use the property name</param>
             <returns>The composite identity part fluent interface</returns>
         </member>
+        <member name="M:FluentNHibernate.Mapping.CompositeIdentityPart`1.KeyReference(System.Linq.Expressions.Expression{System.Func{`0,System.Object}},System.String,System.Action{FluentNHibernate.Mapping.KeyManyToOnePart})">
+            <summary>
+            Defines a reference to be used as a many-to-one key for this composite-id with an explicit column name.
+            </summary>
+            <param name="expression">A member access lambda expression for the property</param>
+            <param name="columnName">The column name in the database to use for this key, or null to use the property name</param>
+            <param name="customMapping">A lambda expression specifying additional settings for the key reference</param>
+            <returns>The composite identity part fluent interface</returns>
+        </member>
         <member name="P:FluentNHibernate.Mapping.CompositeIdentityPart`1.Access">
             <summary>
             Set the access and naming strategy for this identity.
@@ -436,11 +445,12 @@
             Inverts the next boolean
             </summary>
         </member>
-        <member name="T:FluentNHibernate.Conventions.IHibernateMappingConvention">
+        <member name="T:FluentNHibernate.Conventions.AttributeCollectionConvention`1">
             <summary>
-            Convention for the hibernate-mapping container for a class, this can be used to
-            set some class-wide settings such as lazy-load and access strategies.
+            Base class for attribute based conventions. Create a subclass of this to supply your own
+            attribute based conventions.
             </summary>
+            <typeparam name="T">Attribute identifier</typeparam>
         </member>
         <member name="T:FluentNHibernate.Conventions.IConvention`2">
             <summary>
@@ -457,6 +467,26 @@
         <member name="M:FluentNHibernate.Conventions.IConvention`2.Apply(`1)">
             <summary>
             Apply changes to the target
+            </summary>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.IConventionAcceptance`1.Accept(FluentNHibernate.Conventions.AcceptanceCriteria.IAcceptanceCriteria{`0})">
+            <summary>
+            Whether this convention will be applied to the target.
+            </summary>
+            <param name="criteria">Instace that could be supplied</param>
+            <returns>Apply on this target?</returns>
+        </member>
+        <member name="M:FluentNHibernate.Conventions.AttributeCollectionConvention`1.Apply(`0,FluentNHibernate.Conventions.Instances.ICollectionInstance)">
+            <summary>
+            Apply changes to a property with an attribute matching T.
+            </summary>
+            <param name="attribute">Instance of attribute found on property.</param>
+            <param name="instance">Property with attribute</param>
+        </member>
+        <member name="T:FluentNHibernate.Conventions.IHibernateMappingConvention">
+            <summary>
+            Convention for the hibernate-mapping container for a class, this can be used to
+            set some class-wide settings such as lazy-load and access strategies.
             </summary>
         </member>
         <member name="T:FluentNHibernate.Conventions.IReferenceConvention">
@@ -501,13 +531,6 @@
             Convention for dynamic components. Implement this member to apply changes
             to dynamic components.
             </summary>
-        </member>
-        <member name="M:FluentNHibernate.Conventions.IConventionAcceptance`1.Accept(FluentNHibernate.Conventions.AcceptanceCriteria.IAcceptanceCriteria{`0})">
-            <summary>
-            Whether this convention will be applied to the target.
-            </summary>
-            <param name="criteria">Instace that could be supplied</param>
-            <returns>Apply on this target?</returns>
         </member>
         <member name="P:FluentNHibernate.Conventions.Inspections.IInspector.StringIdentifierForModel">
             <summary>
@@ -826,9 +849,24 @@
             <param name="collection">Main collection</param>
             <returns>Many-to-many table name</returns>
         </member>
+        <member name="P:FluentNHibernate.Mapping.ColumnPart.Not">
+            <summary>
+            Inverts the next boolean
+            </summary>
+        </member>
         <member name="T:FluentNHibernate.Mapping.FilterPart">
             <summary>
             Maps to the Filter element in NH 2.0
+            </summary>
+        </member>
+        <member name="P:FluentNHibernate.Mapping.KeyManyToOnePart.Not">
+            <summary>
+            Inverts the next boolean
+            </summary>
+        </member>
+        <member name="P:FluentNHibernate.Mapping.KeyManyToOnePart.Access">
+            <summary>
+            Defines how NHibernate will access the object for persisting/hydrating (Defaults to Property)
             </summary>
         </member>
         <member name="M:FluentNHibernate.SeparateSubclassVisitor.SortByDistanceFrom(System.Type,System.Collections.Generic.IEnumerable{FluentNHibernate.Mapping.Providers.IIndeterminateSubclassMappingProvider})">
@@ -837,10 +875,34 @@
             this can be a class or subclass; also takes a list of subclass providers. The providers are then iterated
             and added to a dictionary key'd by the types "distance" from the parentType; distance being the number of levels
             between parentType and the subclass-type.
+            
+            By default if the Parent type is an interface the level will always be zero. At this time there is no check for
+            hierarchical interface inheritance.
             </summary>
             <param name="parentType">Starting point, parent type.</param>
-            <param name="providers">List of subclasses</param>
+            <param name="subProviders">List of subclasses</param>
             <returns>Dictionary key'd by the distance from the parentType.</returns>
+        </member>
+        <member name="M:FluentNHibernate.SeparateSubclassVisitor.DistanceFromParentInterface(System.Type,System.Type,System.Int32@)">
+            <summary>
+            The evalType starts out as the original subclass. The class hiearchy is only
+            walked if the subclass inherits from a class that is included in the subclassProviders.
+            </summary>
+            <param name="parentType"></param>
+            <param name="evalType"></param>
+            <param name="level"></param>
+            <returns></returns>
+        </member>
+        <member name="M:FluentNHibernate.SeparateSubclassVisitor.DistanceFromParentBase(System.Type,System.Type,System.Int32@)">
+            <summary>
+            The evalType is always one class higher in the hiearchy starting from the original subclass. The class 
+            hiearchy is walked until the IsTopLevel (base class is Object) is met. The level is only incremented if 
+            the subclass inherits from a class that is also in the subclassProviders.
+            </summary>
+            <param name="parentType"></param>
+            <param name="evalType"></param>
+            <param name="level"></param>
+            <returns></returns>
         </member>
         <member name="M:FluentNHibernate.Mapping.GeneratorBuilder.Identity">
             <summary>
@@ -2405,6 +2467,14 @@
             <summary>
             Inverts the next boolean
             </summary>
+        </member>
+        <member name="M:FluentNHibernate.Mapping.OneToManyPart`1.PropertyRef(System.String)">
+            <summary>
+            This method is used to set a different key column in this table to be used for joins.
+            The output is set as the property-ref attribute in the "key" subelement of the collection
+            </summary>
+            <param name="propertyRef">The name of the column in this table which is linked to the foreign key</param>
+            <returns>OneToManyPart</returns>
         </member>
         <member name="M:FluentNHibernate.Mapping.OneToManyPart`1.OrderBy(System.String)">
             <summary>

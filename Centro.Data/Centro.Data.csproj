@@ -70,9 +70,7 @@
     </Compile>
     <Compile Include="FluentConfigurationBuilder.cs" />
     <Compile Include="MSSqlBuilder.cs" />
-    <Compile Include="NHibernateRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DomainModel\BaseRepository.cs" />
     <Compile Include="SQLiteBuilder.cs" />
     <Compile Include="SqlSchemaUtil.cs" />
     <Compile Include="UserTypes\EnumerationUserType.cs" />

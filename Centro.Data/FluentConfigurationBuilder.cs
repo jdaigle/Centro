@@ -2,28 +2,17 @@
 using System.Reflection;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
-using NHibernate;
 using NHibernate.Validator.Engine;
-using NHibernate.Validator.Cfg;
-using Centro.Data.Validation;
 
 namespace Centro.Data
 {
     public class FluentConfigurationBuilder
     {
-        public FluentConfigurationBuilder(IPersistenceConfigurer databaseConfigurer, IEnumerable<Assembly> mappingAssemblies)
+        public static FluentConfiguration CreateFluentConfiguration(IPersistenceConfigurer databaseConfigurer, IEnumerable<Assembly> mappingAssemblies, ref NHibernate.Cfg.Configuration configuration)
         {
-            SessionFactory = CreateSessionFactory(databaseConfigurer, mappingAssemblies);
-        }
-
-        public NHibernate.Cfg.Configuration Configuration { get; private set; }
-        public ISessionFactory SessionFactory { get; private set; }
-
-        private ISessionFactory CreateSessionFactory(IPersistenceConfigurer databaseConfigurer, IEnumerable<Assembly> mappingAssemblies)
-        {
-            Configuration = new NHibernate.Cfg.Configuration();
-
-            var factory = Fluently.Configure(Configuration)
+            if (configuration == null)
+                configuration = new NHibernate.Cfg.Configuration();
+            return Fluently.Configure(configuration)
                 .Database(databaseConfigurer)
                 .Mappings(m =>
                     {
@@ -31,15 +20,13 @@ namespace Centro.Data
                             m.FluentMappings.AddFromAssembly(assembly);
                         foreach (var assembly in mappingAssemblies)
                             m.HbmMappings.AddFromAssembly(assembly);
-                    })
-                .BuildSessionFactory();
-            return factory;
+                    });
         }
 
-        public ValidatorEngine CreateValidatorEngine()
+        public static ValidatorEngine CreateValidatorEngine()
         {
             //Environment.SharedEngineProvider = new SharedValidatorProvider();
-            var nhvc = new NHibernate.Validator.Cfg.Loquacious.FluentConfiguration();            
+            var nhvc = new NHibernate.Validator.Cfg.Loquacious.FluentConfiguration();
             nhvc.SetDefaultValidatorMode(ValidatorMode.UseAttribute);
             //nhvc.IntegrateWithNHibernate.ApplyingDDLConstraints().And.RegisteringListeners();
 

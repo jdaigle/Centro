@@ -1,39 +1,45 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
+using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
-using StructureMap.Attributes;
 
 namespace Centro.Data
 {
     public class MSSqlBuilder
     {
-        public static NHibernateRegistry CreateRegistry(string connectionStringKey,
-                                                        IEnumerable<Assembly> mappingAssemblies,
-                                                        InstanceScope sessionInstanceScope)
+        public static FluentConfiguration CreateConfiguration(string connectionStringKey,
+                                                              IEnumerable<Assembly> mappingAssemblies,
+                                                              ref NHibernate.Cfg.Configuration configuration)
         {
-            return CreateRegistry(connectionStringKey, mappingAssemblies, sessionInstanceScope, false);
+            return CreateConfiguration(connectionStringKey, mappingAssemblies, ref configuration, false);
         }
 
-        public static NHibernateRegistry CreateRegistry(string connectionStringKey,
-                                                        IEnumerable<Assembly> mappingAssemblies,
-                                                        InstanceScope sessionInstanceScope, bool withValidation)
+        public static FluentConfiguration CreateConfiguration(string connectionStringKey,
+                                                              IEnumerable<Assembly> mappingAssemblies,
+                                                              ref NHibernate.Cfg.Configuration configuration, bool withValidation)
         {
             var configurer = MsSqlConfiguration.MsSql2005.ConnectionString(c => c.FromConnectionStringWithKey(connectionStringKey));
-            return new NHibernateRegistry(configurer, mappingAssemblies, sessionInstanceScope, withValidation);
+            var config = FluentConfigurationBuilder.CreateFluentConfiguration(configurer, mappingAssemblies, ref configuration);
+            if (withValidation)
+                FluentConfigurationBuilder.CreateValidatorEngine();
+            return config;
         }
 
-        public static NHibernateRegistry CreateRegistry(string sqlServerAddress, string username, string password, string database, IEnumerable<Assembly> mappingAssemblies, InstanceScope sessionInstanceScope)
+        public static FluentConfiguration CreateConfiguration(string sqlServerAddress, string username, string password, string database, IEnumerable<Assembly> mappingAssemblies, ref NHibernate.Cfg.Configuration configuration)
         {
-            return CreateRegistry(sqlServerAddress, username, password, database, mappingAssemblies, sessionInstanceScope, false);
+            return CreateConfiguration(sqlServerAddress, username, password, database, mappingAssemblies, ref configuration, false);
         }
 
-        public static NHibernateRegistry CreateRegistry(string sqlServerAddress, string username, string password, string database, IEnumerable<Assembly> mappingAssemblies, InstanceScope sessionInstanceScope, bool withValidation)
+        public static FluentConfiguration CreateConfiguration(string sqlServerAddress, string username, string password, string database, IEnumerable<Assembly> mappingAssemblies, ref NHibernate.Cfg.Configuration configuration, bool withValidation)
         {
             var configurer = MsSqlConfiguration.MsSql2005.ConnectionString(c => c.Server(sqlServerAddress)
                                                                                      .Username(username)
                                                                                      .Password(password)
                                                                                      .Database(database));
-            return new NHibernateRegistry(configurer, mappingAssemblies, sessionInstanceScope, withValidation);
+            var config = FluentConfigurationBuilder.CreateFluentConfiguration(configurer, mappingAssemblies, ref configuration);
+            if (withValidation)
+                FluentConfigurationBuilder.CreateValidatorEngine();
+            return config;
         }
     }
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Centro.Validation;
-using StructureMap;
 
 namespace Centro.DomainModel
 {
@@ -95,11 +94,13 @@ namespace Centro.DomainModel
 
         public virtual bool IsValid()
         {
+            SharedValidator.Default.AssertValidatorNotNull();
             return Validator.IsValid(this) && !GetCustomValidationErrors().Any();
         }
 
         public virtual IEnumerable<ValidationError> ValidationErrors()
         {
+            SharedValidator.Default.AssertValidatorNotNull();
             return Validator.ValidationErrorsFor(this).Concat(GetCustomValidationErrors());
         }
 
@@ -114,6 +115,6 @@ namespace Centro.DomainModel
                 throw new InvalidModelException(validationErrors);
         }
 
-        private IValidator Validator { get { return ObjectFactory.GetInstance<IValidator>(); } }
+        private IValidator Validator { get { return SharedValidator.Default.Validator; } }
     }
 }

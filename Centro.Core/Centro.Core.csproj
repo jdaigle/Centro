@@ -31,11 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="StructureMap, Version=2.5.2.0, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\StructureMap.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -78,6 +73,7 @@
     <Compile Include="Validation\DataAnnotationsValidator.cs" />
     <Compile Include="Validation\IValidatable.cs" />
     <Compile Include="Validation\IValidator.cs" />
+    <Compile Include="Validation\SharedValidator.cs" />
     <Compile Include="Validation\ValidationError.cs" />
     <Compile Include="DomainModel\InvalidModelException.cs" />
   </ItemGroup>

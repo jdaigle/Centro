@@ -8,10 +8,9 @@ namespace Centro.Data
 {
     public class FluentConfigurationBuilder
     {
-        public static FluentConfiguration CreateFluentConfiguration(IPersistenceConfigurer databaseConfigurer, IEnumerable<Assembly> mappingAssemblies, ref NHibernate.Cfg.Configuration configuration)
+        public static FluentConfiguration CreateFluentConfiguration(IPersistenceConfigurer databaseConfigurer, IEnumerable<Assembly> mappingAssemblies)
         {
-            if (configuration == null)
-                configuration = new NHibernate.Cfg.Configuration();
+            var configuration = new NHibernate.Cfg.Configuration();
             return Fluently.Configure(configuration)
                 .Database(databaseConfigurer)
                 .Mappings(m =>

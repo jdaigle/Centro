@@ -20,7 +20,8 @@ namespace NorthwindTests
             if (sessionFactory == null)
             {
                 var configurer = MsSqlConfiguration.MsSql2005.ConnectionString(c => c.Server(@".\SQLEXPRESS").Database("Northwind").TrustedConnection());
-                var configuration = FluentConfigurationBuilder.CreateFluentConfiguration(configurer, new List<Assembly> { typeof(TestBase).Assembly }, ref nhibernateConfiguration);
+                var configuration = FluentConfigurationBuilder.CreateFluentConfiguration(configurer, new List<Assembly> { typeof(TestBase).Assembly });
+                nhibernateConfiguration = configuration.BuildConfiguration();
                 sessionFactory = configuration.BuildSessionFactory();
             }
             return sessionFactory.OpenSession();
